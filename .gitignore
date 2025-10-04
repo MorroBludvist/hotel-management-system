@@ -1,0 +1,12 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+# Compiled files
+*.class
+out/
+target/
+# Database
+*.db
+# Libraries
+lib/
+*.jar

@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    url: jdbc:sqlite:hotel.db
+    driver-class-name: org.sqlite.JDBC
+  security:
+    user:
+      name: admin
+      password: hotel123
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+logging:
+  level:
+    com.hotel.server: INFO
