@@ -1,3 +1,5 @@
+package com.hotel.client.model;
+
 public class Room {
     private int roomNumber;
     private String roomType;
@@ -10,6 +12,17 @@ public class Room {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.status = status;
+    }
+
+    //TODO: оставить один конструктор
+    public Room(int roomNumber, String roomType, String status, String clientPassport,
+                String checkInDate, String checkOutDate) {
+        this.roomNumber = roomNumber;
+        this.roomType = roomType;
+        this.status = status;
+        this.clientPassport = clientPassport;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
     }
 
     // Геттеры

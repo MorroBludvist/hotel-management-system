@@ -1,3 +1,5 @@
+package com.hotel.client.service;
+
 import javax.swing.*;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -6,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.ArrayList;
 import java.util.List;
+import com.hotel.client.model.*;
 
 public class DatabaseManager {
     private static final String BASE_URL = "http://localhost:8080/api";
@@ -112,6 +115,7 @@ public class DatabaseManager {
             System.out.println("🔧 Начинаем парсинг JSON клиентов...");
 
             // Убираем внешние скобки
+            System.out.println(json);
             String cleanJson = json.trim();
             if (cleanJson.startsWith("[") && cleanJson.endsWith("]")) {
                 cleanJson = cleanJson.substring(1, cleanJson.length() - 1).trim();
@@ -579,8 +583,10 @@ public class DatabaseManager {
             String checkInDate = extractStringValue(jsonObject, "checkInDate");
             String checkOutDate = extractStringValue(jsonObject, "checkOutDate");
 
+            //TODO: вернуть старый конструктор
             if (roomNumber != null && roomType != null) {
-                Room room = new Room(roomNumber, roomType, status != null ? status : "free");
+                Room room = new Room(roomNumber, roomType, status != null ? status : "free",
+                        clientPassport, checkInDate, checkOutDate);
                 // Дополнительные поля если нужны
                 return room;
             }

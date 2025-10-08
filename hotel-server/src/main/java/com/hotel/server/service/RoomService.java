@@ -38,6 +38,9 @@ public class RoomService {
 
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class,
                 roomNumber, checkInDate, checkOutDate);
+        System.out.println(roomNumber);
+        System.out.println(checkInDate);
+        System.out.println(checkOutDate);
         return count == 0;
     }
 

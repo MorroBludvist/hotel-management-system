@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Hotel Management System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .endpoint {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #3498db;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .method.get { background: #27ae60; }
+        .method.post { background: #f39c12; }
+        .method.put { background: #3498db; }
+        .method.delete { background: #e74c3c; }
+
+        .url {
+            font-family: 'Courier New', monospace;
+            background: #2c3e50;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .description {
+            color: #7f8c8d;
+            margin: 10px 0;
+        }
+
+        .example {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #95a5a6;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📚 Документация API</h1>
+        <p>Hotel Management System - REST API Endpoints</p>
+        <p>Обновлено: <span th:text="${currentTime}">-</span></p>
+    </div>
+
+    <div class="content">
+        <!-- Клиенты -->
+        <h2>👥 Клиенты</h2>
+
+        <div class="endpoint">
+            <div class="method get">GET</div>
+            <strong>Получить всех клиентов</strong>
+            <div class="url">http://localhost:8080/api/clients</div>
+            <div class="description">Возвращает список всех активных клиентов в формате JSON</div>
+            <div class="example">
+                // Response:
+                [
+                {
+                "firstName": "Иван",
+                "lastName": "Иванов",
+                "passportNumber": "1234567890",
+                "phoneNumber": "+79123456789",
+                "email": "ivan@mail.ru",
+                "checkInDate": "2024-01-15",
+                "checkOutDate": "2024-01-20",
+                "roomNumber": 101,
+                "roomType": "STANDARD"
+                }
+                ]
+            </div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method post">POST</div>
+            <strong>Добавить клиента</strong>
+            <div class="url">http://localhost:8080/api/clients</div>
+            <div class="description">Добавляет нового клиента в систему</div>
+            <div class="example">
+                // Request Body:
+                {
+                "firstName": "Мария",
+                "lastName": "Петрова",
+                "passportNumber": "9876543210",
+                "phoneNumber": "+79187654321",
+                "email": "maria@mail.ru",
+                "checkInDate": "2024-01-16",
+                "checkOutDate": "2024-01-22",
+                "roomNumber": 102,
+                "roomType": "DELUXE"
+                }
+
+                // Response:
+                {
+                "success": true,
+                "message": "Клиент успешно добавлен"
+                }
+            </div>
+        </div>
+
+        <!-- Сотрудники -->
+        <h2>👨‍💼 Сотрудники</h2>
+
+        <div class="endpoint">
+            <div class="method get">GET</div>
+            <strong>Получить всех сотрудников</strong>
+            <div class="url">http://localhost:8080/api/staff</div>
+            <div class="description">Возвращает список всех активных сотрудников</div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method post">POST</div>
+            <strong>Добавить сотрудника</strong>
+            <div class="url">http://localhost:8080/api/staff</div>
+            <div class="description">Добавляет нового сотрудника в систему</div>
+            <div class="example">
+                // Request Body:
+                {
+                "passportNumber": "5555555555",
+                "firstName": "Анна",
+                "lastName": "Сидорова",
+                "position": "Менеджер",
+                "phoneNumber": "+79155555555",
+                "email": "anna@hotel.ru",
+                "hireDate": "2024-01-01",
+                "salary": 50000.0,
+                "department": "Администрация"
+                }
+            </div>
+        </div>
+
+        <!-- Номера -->
+        <h2>🏠 Номера</h2>
+
+        <div class="endpoint">
+            <div class="method get">GET</div>
+            <strong>Получить все номера</strong>
+            <div class="url">http://localhost:8080/api/rooms</div>
+            <div class="description">Возвращает список всех номеров отеля</div>
+        </div>
+
+        <div class="endpoint">
+            <div class="method get">GET</div>
+            <strong>Получить свободные номера</strong>
+            <div class="url">http://localhost:8080/api/rooms/free</div>
+            <div class="description">Возвращает список свободных номеров</div>
+        </div>
+
+        <!-- Аутентификация -->
+        <h2>🔐 Аутентификация</h2>
+        <div class="description">
+            Все запросы к API требуют Basic Authentication:<br>
+            <strong>Username:</strong> admin<br>
+            <strong>Password:</strong> hotel123
+        </div>
+
+        <a href="/" class="back-btn">← Назад к панели управления</a>
+    </div>
+</div>
+</body>
+</html>

@@ -12,7 +12,7 @@ import java.util.Map;
  * REST контроллер для управления персоналом отеля.
  */
 @RestController
-@RequestMapping("/staff")
+@RequestMapping("/api/staff")
 public class StaffController {
 
     private final StaffService staffService;

@@ -1,3 +1,5 @@
+package com.hotel.client.view;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -10,6 +12,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import com.hotel.client.service.DatabaseManager;
+import com.hotel.client.model.*;
 
 /**
  * Главное окно панели администратора отеля с управлением датой
@@ -410,15 +414,5 @@ public class HotelAdminDashboard extends JFrame {
         panel.add(advanceDateButton);
 
         return panel;
-    }
-
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        SwingUtilities.invokeLater(HotelAdminDashboard::new);
     }
 }

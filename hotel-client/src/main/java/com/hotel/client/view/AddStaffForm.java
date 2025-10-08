@@ -1,7 +1,11 @@
+package com.hotel.client.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.hotel.client.service.DatabaseManager;
+import com.hotel.client.model.Staff;
 
 /**
  * Форма для добавления сотрудника с паспортом как первичным ключом

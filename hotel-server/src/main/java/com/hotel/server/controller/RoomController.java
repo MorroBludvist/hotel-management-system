@@ -12,7 +12,7 @@ import java.util.Map;
  * REST контроллер для управления номерами отеля.
  */
 @RestController
-@RequestMapping("/rooms")
+@RequestMapping("/api/rooms")
 public class RoomController {
 
     private final RoomService roomService;
@@ -54,6 +54,7 @@ public class RoomController {
     @PostMapping("/check-availability")
     public ResponseEntity<Map<String, Object>> checkRoomAvailability(
             @RequestBody Map<String, String> request) {
+        System.out.println("Trying to check availability");
         try {
             Integer roomNumber = Integer.parseInt(request.get("roomNumber"));
             String checkInDate = request.get("checkInDate");

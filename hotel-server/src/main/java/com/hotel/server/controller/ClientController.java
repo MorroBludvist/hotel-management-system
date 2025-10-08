@@ -13,7 +13,7 @@ import java.util.Map;
  * REST контроллер для управления клиентами отеля.
  */
 @RestController //Чтобы все возвращали json вместо html
-@RequestMapping("/clients") //Адрес страницы
+@RequestMapping("/api/clients") //Адрес страницы
 public class ClientController {
     private final ClientService clientService;
 

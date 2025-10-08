@@ -1,3 +1,5 @@
+package com.hotel.client.view;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -5,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.hotel.client.service.DatabaseManager;
+import com.hotel.client.model.*;
 
 /**
  * Форма для просмотра списка номеров

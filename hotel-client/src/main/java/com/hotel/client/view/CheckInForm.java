@@ -1,3 +1,5 @@
+package com.hotel.client.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.hotel.client.service.DatabaseManager;
+import com.hotel.client.model.*;
 
 /**
  * Форма для заселения клиента с валидацией дат и номеров
