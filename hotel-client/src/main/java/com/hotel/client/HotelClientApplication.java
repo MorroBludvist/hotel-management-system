@@ -8,10 +8,11 @@ import javax.swing.*;
  * Главный класс клиентского приложения
  */
 public class HotelClientApplication {
-    public static void main(String[] args) {
+    static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
+            //TODO: заменить логированием с TRACE
             e.printStackTrace();
         }
 

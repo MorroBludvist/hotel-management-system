@@ -4,6 +4,9 @@ import com.hotel.client.model.Staff;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class StaffService {
     private final ApiService apiService;
 

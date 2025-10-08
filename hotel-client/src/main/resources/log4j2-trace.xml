@@ -1,0 +1,14 @@
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5level %c - %msg%n"/>
+            <!--PatternLayout pattern="%d{HH:mm:ss} %-5level [%t] %c{1}.%M - %msg%n"/-->
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.hotel.client" level="TRACE"/>
+        <Root level="TRACE">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

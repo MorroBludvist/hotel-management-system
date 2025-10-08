@@ -1,5 +1,6 @@
 package com.hotel.server.config;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -9,40 +10,47 @@ import org.springframework.jdbc.datasource.init.ScriptUtils;
 import javax.sql.DataSource;
 import java.sql.Connection;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 @Component
-public class DataInitializer implements CommandLineRunner {
+public class DataInitializer {
 
     private final JdbcTemplate jdbcTemplate;
-    private final DataSource dataSource;
+    private static final Logger logger = LogManager.getLogger(DataInitializer.class);
 
-    public DataInitializer(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public DataInitializer(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.dataSource = dataSource;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        // Проверяем существование таблицы rooms
-        Integer tableExists = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='rooms'",
-                Integer.class
-        );
+    @PostConstruct //вызов метода после инициализации подключения
+    public void initialize() {
+        try {
+            // Проверяем, есть ли уже комнаты
+            Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM rooms", Integer.class);
+            System.out.println("DATA INITIALIZER IS WORKS!!!");
+            if (count != null && count == 0) {
+                logger.info("Инициализация комнат в базе данных...");
 
-        if (tableExists == null || tableExists == 0) {
-            System.out.println("🔄 Инициализация БД из schema.sql...");
-            initializeDatabase();
-        } else {
-            System.out.println("✅ БД уже инициализирована");
-        }
-    }
+                String sql = """
+                    INSERT INTO rooms (room_number, room_type) VALUES
+                    (101, 'Эконом'), (102, 'Эконом'), (103, 'Эконом'), (104, 'Эконом'), (105, 'Эконом'),
+                    (106, 'Эконом'), (107, 'Эконом'), (108, 'Эконом'), (109, 'Эконом'), (110, 'Эконом'),
+                    (201, 'Стандарт'), (202, 'Стандарт'), (203, 'Стандарт'), (204, 'Стандарт'), (205, 'Стандарт'),
+                    (206, 'Стандарт'), (207, 'Стандарт'), (208, 'Стандарт'), (209, 'Стандарт'), (210, 'Стандарт'),
+                    (211, 'Стандарт'), (212, 'Стандарт'), (213, 'Стандарт'), (214, 'Стандарт'), (215, 'Стандарт'),
+                    (216, 'Стандарт'), (217, 'Стандарт'), (218, 'Стандарт'), (219, 'Стандарт'), (220, 'Стандарт'),
+                    (301, 'Бизнес'), (302, 'Бизнес'), (303, 'Бизнес'), (304, 'Бизнес'),
+                    (305, 'Бизнес'), (306, 'Бизнес'), (307, 'Бизнес'),
+                    (401, 'Люкс'), (402, 'Люкс'), (403, 'Люкс')
+                    """;
 
-    private void initializeDatabase() {
-        try (Connection connection = dataSource.getConnection()) {
-            // Выполняем скрипт из schema.sql
-            ScriptUtils.executeSqlScript(connection, new ClassPathResource("schema.sql"));
-            System.out.println("✅ База данных успешно инициализирована из schema.sql");
+                jdbcTemplate.update(sql);
+                logger.info("Комнаты успешно инициализированы");
+            } else {
+                logger.info("Комнаты уже существуют в базе данных ({} записей)", count);
+            }
         } catch (Exception e) {
-            System.err.println("❌ Ошибка инициализации БД: " + e.getMessage());
+            logger.error("Ошибка при инициализации базы данных: {}", e.getMessage());
         }
     }
 }

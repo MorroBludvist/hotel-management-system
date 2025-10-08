@@ -10,10 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import com.hotel.client.model.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class DatabaseManager {
     private static final String BASE_URL = "http://localhost:8080/api";
     private static final String USERNAME = "admin";
     private static final String PASSWORD = "hotel123";
+    private static final Logger logger = LogManager.getLogger(DatabaseManager.class);
 
     private static DatabaseManager instance;
 
@@ -173,7 +177,8 @@ public class DatabaseManager {
 
             // Проверяем обязательные поля
             if (firstName == null || lastName == null || passportNumber == null) {
-                System.out.println("⚠️ Отсутствуют обязательные поля");
+                logger.debug("Отсутствуют обязательные поля");
+                //System.out.println("⚠️ Отсутствуют обязательные поля");
                 return null;
             }
 
@@ -400,7 +405,9 @@ public class DatabaseManager {
             );
 
             String response = executeRequest("/clients", "POST", jsonBody);
-            return response != null && response.contains("\"success\":true");
+            boolean success = response != null && response.contains("\"success\":true");
+            System.out.println("✅ Результат добавления клиента: " + success);
+            return success;
 
         } catch (Exception e) {
             System.err.println("❌ Ошибка добавления клиента: " + e.getMessage());
@@ -428,6 +435,7 @@ public class DatabaseManager {
                     escapeJson(staff.getDepartment())
             );
 
+            logger.debug("Отправляем сотрудника BRUH: {}", jsonBody);
             System.out.println("📨 Отправляем сотрудника: " + jsonBody);
             String response = executeRequest("/staff", "POST", jsonBody);
             boolean success = response != null && response.contains("\"success\":true");

@@ -7,7 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import com.hotel.client.model.Client;
+import com.hotel.client.service.ClientService;
 import com.hotel.client.service.DatabaseManager;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Форма для просмотра списка клиентов.
@@ -17,10 +21,12 @@ public class ClientsListForm extends JDialog {
     private JButton refreshButton;
     private JButton closeButton;
     private DatabaseManager dbManager;
+    private ClientService clientService;
 
     public ClientsListForm(JFrame parent) {
         super(parent, "Список клиентов", true);
         this.dbManager = DatabaseManager.getInstance();
+        this.clientService = ClientService.getInstanse();
         initializeComponents();
         setupLayout();
         setupListeners();
@@ -93,12 +99,7 @@ public class ClientsListForm extends JDialog {
     }
 
     private void setupListeners() {
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadClientsData();
-            }
-        });
+        refreshButton.addActionListener(e -> loadClientsData());
 
         closeButton.addActionListener(new ActionListener() {
             @Override

@@ -8,7 +8,18 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ApiService {
+    private static ApiService instance;
+
+    public static ApiService getInstance() {
+        if (instance == null) {
+            instance = new ApiService();
+        }
+        return instance;
+    }
 
     public String executeRequest(String endpoint, String method, String jsonBody) {
         HttpURLConnection connection = null;
@@ -83,5 +94,63 @@ public class ApiService {
                 .replace("\n", "\\n")
                 .replace("\r", "\\r")
                 .replace("\t", "\\t");
+    }
+
+    public String extractStringValue(String json, String key) {
+        try {
+            String search = "\"" + key + "\":\"";
+            int start = json.indexOf(search);
+            if (start == -1) return null;
+
+            start += search.length();
+            int end = json.indexOf("\"", start);
+            if (end == -1) return null;
+
+            return json.substring(start, end);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Извлекает целочисленное значение
+     */
+    public Integer extractIntegerValue(String json, String key) {
+        try {
+            String search = "\"" + key + "\":";
+            int start = json.indexOf(search);
+            if (start == -1) return null;
+
+            start += search.length();
+            int end = json.indexOf(",", start);
+            if (end == -1) end = json.indexOf("}", start);
+            if (end == -1) return null;
+
+            String value = json.substring(start, end).trim();
+            return Integer.parseInt(value);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Извлекает дробное значение
+     */
+    public Double extractDoubleValue(String json, String key) {
+        try {
+            String search = "\"" + key + "\":";
+            int start = json.indexOf(search);
+            if (start == -1) return null;
+
+            start += search.length();
+            int end = json.indexOf(",", start);
+            if (end == -1) end = json.indexOf("}", start);
+            if (end == -1) return null;
+
+            String value = json.substring(start, end).trim();
+            return Double.parseDouble(value);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

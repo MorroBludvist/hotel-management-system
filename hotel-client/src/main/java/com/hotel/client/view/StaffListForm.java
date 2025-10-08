@@ -9,6 +9,9 @@ import java.util.List;
 import com.hotel.client.service.DatabaseManager;
 import com.hotel.client.model.Staff;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Форма для просмотра списка сотрудников.
  */

@@ -11,10 +11,10 @@ spring:
       password: hotel123
   sql:
     init:
-      mode: always
+      mode: never
       #schema-locations: classpath:schema.sql
 
 logging:
   level:
-    com.hotel.server: DEBUG
-    org.springframework.web: DEBUG
+    com.hotel.server: FATAL
+    org.springframework.web: FATAL

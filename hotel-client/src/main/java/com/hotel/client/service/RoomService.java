@@ -4,6 +4,9 @@ import com.hotel.client.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class RoomService {
     private final ApiService apiService;
 
@@ -70,5 +73,37 @@ public class RoomService {
         List<Room> rooms = new ArrayList<>();
         // TODO: Перенести логику парсинга из DatabaseManager
         return rooms;
+    }
+
+    public List<Room> getAllRooms() {
+        try {
+            String response = executeRequest("/rooms", "GET", null);
+            if (response != null && response.startsWith("[")) {
+                return parseJsonToRooms(response);
+            } else {
+                System.out.println("❌ Сервер вернул некорректный ответ для номеров");
+                return new ArrayList<>();
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Ошибка получения номеров: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * Получает свободные номера
+     */
+    public List<Room> getFreeRooms() {
+        try {
+            String response = executeRequest("/rooms/free", "GET", null);
+            if (response != null && response.startsWith("[")) {
+                return parseJsonToRooms(response);
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (Exception e) {
+            System.err.println("❌ Ошибка получения свободных номеров: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

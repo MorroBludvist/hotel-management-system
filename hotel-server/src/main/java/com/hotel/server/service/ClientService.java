@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @Service
 public class ClientService {
     private final JdbcTemplate jdbcTemplate;
+    private static final Logger logger = LogManager.getLogger(ClientService.class);
 
     public ClientService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -42,6 +46,17 @@ public class ClientService {
 
     private RowMapper<Client> clientRowMapper() {
         return (rs, rowNum) -> {
+            logger.trace("Обработка ResultSet для строки #{}, данные:", rowNum);
+            logger.trace("first_name: {}", rs.getString("first_name"));
+            logger.trace("last_name: {}", rs.getString("last_name"));
+            logger.trace("passport_number: {}", rs.getString("passport_number"));
+            logger.trace("phone_number: {}", rs.getString("phone_number"));
+            logger.trace("email: {}", rs.getString("email"));
+            logger.trace("check_in_date: {}", rs.getString("check_in_date"));
+            logger.trace("check_out_date: {}", rs.getString("check_out_date"));
+            logger.trace("room_number: {}", rs.getInt("room_number"));
+            logger.trace("room_type: {}", rs.getString("room_type"));
+
             Client client = new Client();
             client.setFirstName(rs.getString("first_name"));
             client.setLastName(rs.getString("last_name"));

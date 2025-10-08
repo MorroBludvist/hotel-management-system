@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 import com.hotel.client.service.DatabaseManager;
 import com.hotel.client.model.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Форма для заселения клиента с валидацией дат и номеров
  */
@@ -155,11 +158,8 @@ public class CheckInForm extends JDialog {
 
     private void setupListeners() {
         roomTypeComboBox.addActionListener(e -> loadAvailableRooms());
-
         checkAvailabilityButton.addActionListener(e -> checkRoomAvailability());
-
         saveButton.addActionListener(e -> saveClient());
-
         cancelButton.addActionListener(e -> dispose());
     }
 

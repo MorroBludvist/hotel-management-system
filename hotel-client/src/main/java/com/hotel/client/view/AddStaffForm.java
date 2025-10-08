@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import com.hotel.client.service.DatabaseManager;
 import com.hotel.client.model.Staff;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Форма для добавления сотрудника с паспортом как первичным ключом
  */
@@ -23,7 +26,7 @@ public class AddStaffForm extends JDialog {
     private JButton saveButton;
     private JButton cancelButton;
 
-    private DatabaseManager dbManager;
+    private final DatabaseManager dbManager;
 
     public AddStaffForm(JFrame parent) {
         super(parent, "Добавление сотрудника", true);
@@ -133,19 +136,8 @@ public class AddStaffForm extends JDialog {
     }
 
     private void setupListeners() {
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveStaff();
-            }
-        });
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        saveButton.addActionListener(e -> saveStaff());
+        cancelButton.addActionListener(e -> dispose());
     }
 
     private void saveStaff() {
@@ -175,9 +167,9 @@ public class AddStaffForm extends JDialog {
         try {
             // Создаем объект сотрудника С ПАСПОРТОМ
             Staff staff = new Staff(
+                    passport,
                     firstNameField.getText().trim(),
                     lastNameField.getText().trim(),
-                    passport,  // ← передаем паспорт как первичный ключ
                     positionField.getText().trim(),
                     phoneField.getText().trim(),
                     emailField.getText().trim(),

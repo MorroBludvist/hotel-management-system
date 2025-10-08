@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 import com.hotel.client.service.DatabaseManager;
 import com.hotel.client.model.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Главное окно панели администратора отеля с управлением датой
  */
