@@ -7,7 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.hotel.client.service.DatabaseManager;
+
+import com.hotel.client.service.*;
 import com.hotel.client.model.*;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,11 +22,13 @@ public class RoomsListForm extends JDialog {
     private JButton refreshButton;
     private JButton closeButton;
     private JComboBox<String> filterComboBox;
-    private DatabaseManager dbManager;
+    private ApiService apiService;
+    private RoomService roomService;
 
     public RoomsListForm(JFrame parent) {
         super(parent, "Список номеров отеля", true);
-        this.dbManager = DatabaseManager.getInstance();
+        this.apiService = ApiService.getInstance();
+        this.roomService = new RoomService(apiService);
         initializeComponents();
         setupLayout();
         setupListeners();
@@ -142,7 +145,7 @@ public class RoomsListForm extends JDialog {
             refreshButton.setEnabled(false);
 
             // Получаем данные с сервера
-            List<Room> allRooms = dbManager.getAllRooms();
+            List<Room> allRooms = roomService.getAllRooms();
 
             // Обновляем таблицу
             updateRoomsTable(allRooms);
@@ -212,43 +215,29 @@ public class RoomsListForm extends JDialog {
     private void applyFilter() {
         try {
             String filter = (String) filterComboBox.getSelectedItem();
-            List<Room> allRooms = dbManager.getAllRooms();
-            List<Room> filteredRooms;
-
-            switch (filter) {
-                case "Свободные":
-                    filteredRooms = allRooms.stream()
-                            .filter(room -> "free".equals(room.getStatus()))
-                            .collect(Collectors.toList());
-                    break;
-                case "Занятые":
-                    filteredRooms = allRooms.stream()
-                            .filter(room -> "occupied".equals(room.getStatus()))
-                            .collect(Collectors.toList());
-                    break;
-                case "Эконом":
-                    filteredRooms = allRooms.stream()
-                            .filter(room -> "Эконом".equals(room.getRoomType()))
-                            .collect(Collectors.toList());
-                    break;
-                case "Стандарт":
-                    filteredRooms = allRooms.stream()
-                            .filter(room -> "Стандарт".equals(room.getRoomType()))
-                            .collect(Collectors.toList());
-                    break;
-                case "Бизнес":
-                    filteredRooms = allRooms.stream()
-                            .filter(room -> "Бизнес".equals(room.getRoomType()))
-                            .collect(Collectors.toList());
-                    break;
-                case "Люкс":
-                    filteredRooms = allRooms.stream()
-                            .filter(room -> "Люкс".equals(room.getRoomType()))
-                            .collect(Collectors.toList());
-                    break;
-                default:
-                    filteredRooms = allRooms;
-            }
+            List<Room> allRooms = roomService.getAllRooms();
+            assert filter != null;
+            List<Room> filteredRooms = switch (filter) {
+                case "Свободные" -> allRooms.stream()
+                        .filter(room -> "free".equals(room.getStatus()))
+                        .collect(Collectors.toList());
+                case "Занятые" -> allRooms.stream()
+                        .filter(room -> "occupied".equals(room.getStatus()))
+                        .collect(Collectors.toList());
+                case "Эконом" -> allRooms.stream()
+                        .filter(room -> "Эконом".equals(room.getRoomType()))
+                        .collect(Collectors.toList());
+                case "Стандарт" -> allRooms.stream()
+                        .filter(room -> "Стандарт".equals(room.getRoomType()))
+                        .collect(Collectors.toList());
+                case "Бизнес" -> allRooms.stream()
+                        .filter(room -> "Бизнес".equals(room.getRoomType()))
+                        .collect(Collectors.toList());
+                case "Люкс" -> allRooms.stream()
+                        .filter(room -> "Люкс".equals(room.getRoomType()))
+                        .collect(Collectors.toList());
+                default -> allRooms;
+            };
 
             updateRoomsTable(filteredRooms);
 

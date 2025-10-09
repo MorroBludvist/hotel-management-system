@@ -6,9 +6,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import com.hotel.client.service.DatabaseManager;
+
+import com.hotel.client.service.ApiService;
 import com.hotel.client.model.Staff;
 
+import com.hotel.client.service.StaffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,11 +21,13 @@ public class StaffListForm extends JDialog {
     private JTable staffTable;
     private JButton refreshButton;
     private JButton closeButton;
-    private DatabaseManager dbManager;
+    private ApiService apiService;
+    private StaffService staffService;
 
     public StaffListForm(JFrame parent) {
         super(parent, "Список сотрудников", true);
-        this.dbManager = DatabaseManager.getInstance();
+        this.apiService = ApiService.getInstance();
+        this.staffService = new StaffService(apiService);
         initializeComponents();
         setupLayout();
         setupListeners();
@@ -67,18 +71,7 @@ public class StaffListForm extends JDialog {
         setLayout(new BorderLayout());
 
         // Заголовок
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JLabel titleLabel = new JLabel("Список сотрудников отеля");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titleLabel.setForeground(new Color(210, 105, 30));
-
-        headerPanel.add(titleLabel, BorderLayout.WEST);
-
-        JLabel countLabel = new JLabel("Всего сотрудников: 0");
-        countLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        headerPanel.add(countLabel, BorderLayout.EAST);
+        JPanel headerPanel = getJPanel();
 
         add(headerPanel, BorderLayout.NORTH);
 
@@ -93,6 +86,22 @@ public class StaffListForm extends JDialog {
         buttonPanel.add(refreshButton);
         buttonPanel.add(closeButton);
         add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private JPanel getJPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel titleLabel = new JLabel("Список сотрудников отеля");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setForeground(new Color(210, 105, 30));
+
+        headerPanel.add(titleLabel, BorderLayout.WEST);
+
+        JLabel countLabel = new JLabel("Всего сотрудников: 0");
+        countLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        headerPanel.add(countLabel, BorderLayout.EAST);
+        return headerPanel;
     }
 
     private void setupListeners() {
@@ -116,7 +125,7 @@ public class StaffListForm extends JDialog {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             refreshButton.setEnabled(false);
 
-            List<Staff> staffList = dbManager.getAllStaff();
+            List<Staff> staffList = staffService.getAllStaff();
 
             DefaultTableModel model = (DefaultTableModel) staffTable.getModel();
             model.setRowCount(0);

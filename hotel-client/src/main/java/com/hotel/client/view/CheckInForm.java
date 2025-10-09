@@ -8,9 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import com.hotel.client.service.DatabaseManager;
 import com.hotel.client.model.*;
 
+import com.hotel.client.service.ApiService;
+import com.hotel.client.service.ClientService;
+import com.hotel.client.service.RoomService;
+import com.hotel.client.service.StaffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,13 +35,18 @@ public class CheckInForm extends JDialog {
     private JButton cancelButton;
     private JLabel availabilityLabel;
 
-    private DatabaseManager dbManager;
+    private ApiService apiService;
+    private ClientService clientService;
+    private RoomService roomService;
+
     private String currentDate;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public CheckInForm(JFrame parent, String currentDate) {
         super(parent, "Заселение клиента", true);
-        this.dbManager = DatabaseManager.getInstance();
+        apiService = ApiService.getInstance();
+        this.clientService = new ClientService(apiService);
+        this.roomService = new RoomService(apiService);
         this.currentDate = currentDate;
         initializeComponents();
         setupLayout();
@@ -166,7 +174,7 @@ public class CheckInForm extends JDialog {
     private void loadAvailableRooms() {
         try {
             String roomType = (String) roomTypeComboBox.getSelectedItem();
-            List<Room> freeRooms = dbManager.getFreeRooms();
+            List<Room> freeRooms = roomService.getFreeRooms();
 
             // Фильтруем по типу
             List<Room> filteredRooms = freeRooms.stream()
@@ -210,7 +218,7 @@ public class CheckInForm extends JDialog {
                 return;
             }
 
-            boolean available = dbManager.isRoomAvailable(roomNumber, checkInDate, checkOutDate);
+            boolean available = roomService.isRoomAvailable(roomNumber, checkInDate, checkOutDate);
 
             if (available) {
                 availabilityLabel.setText("✅ Номер доступен в указанные даты");
@@ -305,7 +313,7 @@ public class CheckInForm extends JDialog {
             );
 
             // Пытаемся отправить на сервер
-            if (dbManager.addClient(client)) {
+            if (clientService.addClient(client)) {
                 JOptionPane.showMessageDialog(this,
                         "✅ Клиент успешно заселен!\n\n" +
                                 "Номер: " + client.getRoomNumber() + "\n" +

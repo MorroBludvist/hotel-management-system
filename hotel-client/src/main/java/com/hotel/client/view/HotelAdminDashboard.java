@@ -12,7 +12,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import com.hotel.client.service.DatabaseManager;
+
+import com.hotel.client.service.*;
 import com.hotel.client.model.*;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,14 +23,22 @@ import org.apache.logging.log4j.Logger;
  * Главное окно панели администратора отеля с управлением датой
  */
 public class HotelAdminDashboard extends JFrame {
-    private DatabaseManager dbManager;
+    //private DatabaseManager dbManager;
     private JLabel currentDateLabel;
     private Date currentDate;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    private ApiService apiService;
+    private ClientService clientService;
+    private RoomService roomService;
+    private StaffService staffService;
+
     public HotelAdminDashboard() {
-        // Инициализируем менеджер базы данных
-        dbManager = DatabaseManager.getInstance();
+        //Инициализация сервисов для отправки и обработки запросов
+        apiService = ApiService.getInstance();
+        this.clientService = new ClientService(apiService);
+        this.roomService = new RoomService(apiService);
+        this.staffService = new StaffService(apiService);
 
         // Устанавливаем текущую дату
         currentDate = new Date();
@@ -112,7 +121,7 @@ public class HotelAdminDashboard extends JFrame {
             String newDate = dateFormat.format(currentDate);
 
             // Обновляем дату на сервере и проверяем занятость номеров
-            boolean success = dbManager.advanceDate(newDate);
+            boolean success = apiService.advanceDate(newDate);
 
             if (success) {
                 currentDateLabel.setText("Сегодня: " + newDate);
@@ -209,8 +218,8 @@ public class HotelAdminDashboard extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Получаем актуальные данные о номерах
-        List<Room> allRooms = dbManager.getAllRooms();
-        List<Room> freeRooms = dbManager.getFreeRooms();
+        List<Room> allRooms = roomService.getAllRooms();
+        List<Room> freeRooms = roomService.getFreeRooms();
         List<Room> occupiedRooms = allRooms.stream()
                 .filter(room -> "occupied".equals(room.getStatus()))
                 .collect(Collectors.toList());
@@ -252,7 +261,7 @@ public class HotelAdminDashboard extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Статистика по типам номеров
-        List<Room> allRooms = dbManager.getAllRooms();
+        List<Room> allRooms = roomService.getAllRooms();
 
         long economyRooms = allRooms.stream().filter(r -> "Эконом".equals(r.getRoomType())).count();
         long standardRooms = allRooms.stream().filter(r -> "Стандарт".equals(r.getRoomType())).count();
@@ -372,7 +381,7 @@ public class HotelAdminDashboard extends JFrame {
     }
 
     private void checkServerConnection() {
-        boolean serverAvailable = dbManager.isServerAvailable();
+        boolean serverAvailable = apiService.isServerAvailable();
         if (!serverAvailable) {
             JOptionPane.showMessageDialog(this,
                     "Сервер недоступен!\n\nУбедитесь что:\n" +

@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import com.hotel.client.model.Client;
+import com.hotel.client.service.ApiService;
 import com.hotel.client.service.ClientService;
-import com.hotel.client.service.DatabaseManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,13 +20,14 @@ public class ClientsListForm extends JDialog {
     private JTable clientsTable;
     private JButton refreshButton;
     private JButton closeButton;
-    private DatabaseManager dbManager;
+    private ApiService apiService;
     private ClientService clientService;
+
 
     public ClientsListForm(JFrame parent) {
         super(parent, "Список клиентов", true);
-        this.dbManager = DatabaseManager.getInstance();
-        this.clientService = ClientService.getInstanse();
+        this.apiService = ApiService.getInstance();
+        this.clientService = new ClientService(apiService);
         initializeComponents();
         setupLayout();
         setupListeners();
@@ -100,23 +101,17 @@ public class ClientsListForm extends JDialog {
 
     private void setupListeners() {
         refreshButton.addActionListener(e -> loadClientsData());
-
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        closeButton.addActionListener(e -> dispose());
     }
 
     private void loadClientsData() {
         try {
-            // Показываем индикатор загрузки
+            //TODO: починить индикатор загрузки
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             refreshButton.setEnabled(false);
 
             // Получаем данные с сервера
-            List<Client> clients = dbManager.getAllClients();
+            List<Client> clients = clientService.getAllClients();
 
             // Очищаем таблицу
             DefaultTableModel model = (DefaultTableModel) clientsTable.getModel();

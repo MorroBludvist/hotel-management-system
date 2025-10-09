@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import com.hotel.client.service.DatabaseManager;
+
+import com.hotel.client.service.ApiService;
 import com.hotel.client.model.Staff;
 
+import com.hotel.client.service.StaffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  * Форма для добавления сотрудника с паспортом как первичным ключом
  */
 public class AddStaffForm extends JDialog {
-    private JTextField passportField;  // ← ДОБАВЛЯЕМ поле паспорта
+    private JTextField passportField;
     private JTextField firstNameField;
     private JTextField lastNameField;
     private JTextField positionField;
@@ -26,21 +28,22 @@ public class AddStaffForm extends JDialog {
     private JButton saveButton;
     private JButton cancelButton;
 
-    private final DatabaseManager dbManager;
+    private ApiService apiService;
+    private StaffService staffService;
 
     public AddStaffForm(JFrame parent) {
         super(parent, "Добавление сотрудника", true);
-        this.dbManager = DatabaseManager.getInstance();
+        this.apiService = ApiService.getInstance();
+        this.staffService = new StaffService(apiService);
         initializeComponents();
         setupLayout();
         setupListeners();
         pack();
         setLocationRelativeTo(parent);
-        setSize(500, 500);  // ↑ Увеличиваем высоту для нового поля
+        setSize(500, 500);  //Увеличиваем высоту для нового поля
     }
 
     private void initializeComponents() {
-        // ДОБАВЛЯЕМ поле паспорта
         passportField = new JTextField(20);
         firstNameField = new JTextField(20);
         lastNameField = new JTextField(20);
@@ -179,7 +182,7 @@ public class AddStaffForm extends JDialog {
             );
 
             // Пытаемся отправить на сервер
-            if (dbManager.addStaff(staff)) {
+            if (staffService.addStaff(staff)) {
                 JOptionPane.showMessageDialog(this,
                         "✅ Сотрудник успешно добавлен!\n\n" +
                                 "Паспорт: " + passport + "\n" +

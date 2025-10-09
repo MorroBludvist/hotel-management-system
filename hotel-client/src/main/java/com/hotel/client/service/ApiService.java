@@ -11,6 +11,7 @@ import java.util.Base64;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+//TODO: залогировать
 public class ApiService {
     private static ApiService instance;
 
@@ -21,6 +22,9 @@ public class ApiService {
         return instance;
     }
 
+    /**
+     * Отправление запроса на сервер
+     */
     public String executeRequest(String endpoint, String method, String jsonBody) {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
@@ -87,6 +91,9 @@ public class ApiService {
         return null;
     }
 
+    /**
+     * Обработка строки для устранения лишних символов
+     */
     public String escapeJson(String input) {
         if (input == null) return "";
         return input.replace("\\", "\\\\")
@@ -96,6 +103,9 @@ public class ApiService {
                 .replace("\t", "\\t");
     }
 
+    /**
+     * Извлечение целочисленное значение
+     */
     public String extractStringValue(String json, String key) {
         try {
             String search = "\"" + key + "\":\"";
@@ -113,7 +123,7 @@ public class ApiService {
     }
 
     /**
-     * Извлекает целочисленное значение
+     * Извлечение целочисленное значение
      */
     public Integer extractIntegerValue(String json, String key) {
         try {
@@ -134,7 +144,7 @@ public class ApiService {
     }
 
     /**
-     * Извлекает дробное значение
+     * Извлечение дробное значение
      */
     public Double extractDoubleValue(String json, String key) {
         try {
@@ -151,6 +161,32 @@ public class ApiService {
             return Double.parseDouble(value);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    /**
+     * Обновляет дату и проверяет занятость
+     */
+    public boolean advanceDate(String currentDate) {
+        try {
+            String jsonBody = String.format("{\"currentDate\":\"%s\"}", currentDate);
+            String response = executeRequest("/rooms/advance-date", "POST", jsonBody);
+            return response != null && response.contains("\"success\":true");
+        } catch (Exception e) {
+            System.err.println("❌ Ошибка обновления даты: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Проверяет доступность сервера
+     */
+    public boolean isServerAvailable() {
+        try {
+            String response = executeRequest("/clients", "GET", null);
+            return response != null;
+        } catch (Exception e) {
+            return false;
         }
     }
 }
