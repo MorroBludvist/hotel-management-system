@@ -4,8 +4,12 @@ import com.hotel.client.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class RoomService {
     private final ApiService apiService;
+    private static final Logger logger = LogManager.getLogger(RoomService.class);
 
     public RoomService(ApiService apiService) {
         this.apiService = apiService;

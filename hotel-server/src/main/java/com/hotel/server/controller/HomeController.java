@@ -23,6 +23,7 @@ public class HomeController {
     /**
      * Страница информации о API
      */
+    //TODO: api-info должна стать отдельной страницей
     @GetMapping("/api-info")
     public String apiInfo() {
         return "index";

@@ -4,9 +4,9 @@
 # Compiled files
 *.class
 out/
+logs/
+test/
 target/
 # Database
 *.db
-# Libraries
 lib/
-*.jar

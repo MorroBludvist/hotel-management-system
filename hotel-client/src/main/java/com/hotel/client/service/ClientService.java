@@ -7,8 +7,11 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class ClientService {
     private final ApiService apiService;
+    private static final Logger logger = LogManager.getLogger(ClientService.class);
 
     public ClientService(ApiService apiService) {
         this.apiService = apiService;

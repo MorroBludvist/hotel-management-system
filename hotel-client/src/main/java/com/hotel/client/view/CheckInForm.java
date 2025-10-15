@@ -39,6 +39,8 @@ public class CheckInForm extends JDialog {
     private ClientService clientService;
     private RoomService roomService;
 
+    private static final Logger logger = LogManager.getLogger(CheckInForm.class);
+
     private String currentDate;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 

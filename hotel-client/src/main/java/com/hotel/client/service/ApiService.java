@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 //TODO: залогировать
 public class ApiService {
     private static ApiService instance;
+    private static final Logger logger = LogManager.getLogger(ApiService.class);
 
     public static ApiService getInstance() {
         if (instance == null) {

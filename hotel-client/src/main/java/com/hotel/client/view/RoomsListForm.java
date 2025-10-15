@@ -25,6 +25,8 @@ public class RoomsListForm extends JDialog {
     private ApiService apiService;
     private RoomService roomService;
 
+    private static final Logger logger = LogManager.getLogger(RoomsListForm.class);
+
     public RoomsListForm(JFrame parent) {
         super(parent, "Список номеров отеля", true);
         this.apiService = ApiService.getInstance();

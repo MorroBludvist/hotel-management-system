@@ -23,6 +23,8 @@ public class ClientsListForm extends JDialog {
     private ApiService apiService;
     private ClientService clientService;
 
+    private static final Logger logger = LogManager.getLogger(ClientsListForm.class);
+
 
     public ClientsListForm(JFrame parent) {
         super(parent, "Список клиентов", true);

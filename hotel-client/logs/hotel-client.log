@@ -7,3 +7,12 @@
 2025-10-08 23:50:33.825 [AWT-EventQueue-0] DEBUG com.hotel.client.service.DatabaseManager - Отправляем сотрудника BRUH: {"passportNumber":"a","firstName":"1234567777","lastName":"a","position":"a","phoneNumber":"a","email":"a","hireDate":"2025-10-08","salary":212122,00,"department":"Администрация"}
 2025-10-08 23:50:38.290 [AWT-EventQueue-0] DEBUG com.hotel.client.service.DatabaseManager - Отправляем сотрудника BRUH: {"passportNumber":"a","firstName":"1234567777","lastName":"a","position":"a","phoneNumber":"a","email":"a","hireDate":"2025-10-08","salary":212122,00,"department":"Администрация"}
 2025-10-08 23:50:41.096 [AWT-EventQueue-0] DEBUG com.hotel.client.service.DatabaseManager - Отправляем сотрудника BRUH: {"passportNumber":"a","firstName":"1234567777","lastName":"a","position":"a","phoneNumber":"a","email":"a","hireDate":"2025-10-08","salary":212122,00,"department":"Уборка"}
+2025-10-15 13:07:45.680 [AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+2025-10-15 13:07:45.710 [AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 2
+2025-10-15 13:07:45.711 [AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 2
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 2
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 2
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 2
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 2

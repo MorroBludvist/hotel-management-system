@@ -24,6 +24,8 @@ public class StaffListForm extends JDialog {
     private ApiService apiService;
     private StaffService staffService;
 
+    private static final Logger logger = LogManager.getLogger(StaffListForm.class);
+
     public StaffListForm(JFrame parent) {
         super(parent, "Список сотрудников", true);
         this.apiService = ApiService.getInstance();

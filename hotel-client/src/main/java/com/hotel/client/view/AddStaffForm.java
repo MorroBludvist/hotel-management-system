@@ -31,6 +31,8 @@ public class AddStaffForm extends JDialog {
     private ApiService apiService;
     private StaffService staffService;
 
+    private static final Logger logger = LogManager.getLogger(AddStaffForm.class);
+
     public AddStaffForm(JFrame parent) {
         super(parent, "Добавление сотрудника", true);
         this.apiService = ApiService.getInstance();

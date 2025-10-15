@@ -16,5 +16,8 @@ spring:
 
 logging:
   level:
-    com.hotel.server: FATAL
-    org.springframework.web: FATAL
+    com.hotel.server: DEBUG           # Твои классы
+    org.springframework.web: DEBUG    # HTTP запросы
+    org.springframework.security: DEBUG # Авторизация
+  pattern:
+    console "%d{HH:mm:ss} %-5level [%c{1}] - %msg%n"

@@ -23,7 +23,6 @@ import org.apache.logging.log4j.Logger;
  * Главное окно панели администратора отеля с управлением датой
  */
 public class HotelAdminDashboard extends JFrame {
-    //private DatabaseManager dbManager;
     private JLabel currentDateLabel;
     private Date currentDate;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -32,6 +31,8 @@ public class HotelAdminDashboard extends JFrame {
     private ClientService clientService;
     private RoomService roomService;
     private StaffService staffService;
+
+    private static final Logger logger = LogManager.getLogger(HotelAdminDashboard.class);
 
     public HotelAdminDashboard() {
         //Инициализация сервисов для отправки и обработки запросов
