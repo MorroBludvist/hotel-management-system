@@ -1,16 +1,12 @@
 package com.hotel.client.view;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import com.hotel.client.service.*;
@@ -31,6 +27,7 @@ public class HotelAdminDashboard extends JFrame {
     private ClientService clientService;
     private RoomService roomService;
     private StaffService staffService;
+    //private UIThemeManager uiThemeManager;
 
     private static final Logger logger = LogManager.getLogger(HotelAdminDashboard.class);
 
@@ -48,6 +45,7 @@ public class HotelAdminDashboard extends JFrame {
         checkServerConnection();
 
         // Основные настройки окна
+        //uiThemeManager = new UIThemeManager();
         setTitle("Панель администратора отеля - Управление номерами");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1100, 750);
@@ -63,20 +61,20 @@ public class HotelAdminDashboard extends JFrame {
 
     private void createHeader() {
         JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(new Color(240, 240, 240));
+        headerPanel.setBackground(new Color(44, 62, 80)); // Темный фон
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         // Левая часть - название и дата
         JPanel leftHeader = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftHeader.setOpaque(false);
 
-        JLabel appTitle = new JLabel("Панель администратора отеля");
-        appTitle.setFont(new Font("Arial", Font.BOLD, 18));
+        JLabel appTitle = new JLabel("🏨 Панель администратора отеля");
+        appTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        appTitle.setForeground(Color.WHITE);
 
-        // Метка с текущей датой
-        currentDateLabel = new JLabel("Сегодня: " + dateFormat.format(currentDate));
-        currentDateLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        currentDateLabel.setForeground(new Color(0, 100, 0));
+        currentDateLabel = new JLabel("📅 Сегодня: " + dateFormat.format(currentDate));
+        currentDateLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        currentDateLabel.setForeground(new Color(152, 251, 152)); // Светло-зеленый
 
         leftHeader.add(appTitle);
         leftHeader.add(Box.createHorizontalStrut(20));
@@ -86,15 +84,13 @@ public class HotelAdminDashboard extends JFrame {
         JPanel rightHeader = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightHeader.setOpaque(false);
 
-        JLabel userLabel = new JLabel("Администратор: Игорь Секирин");
+        JLabel userLabel = new JLabel("👤 Администратор: Игорь Секирин");
+        userLabel.setForeground(Color.WHITE);
 
-        // Кнопка продления даты
-        JButton advanceDateButton = new JButton("Следующий день");
-        advanceDateButton.setBackground(new Color(70, 130, 180));
-        advanceDateButton.setForeground(Color.WHITE);
+        JButton advanceDateButton = createHeaderButton("⏭ Следующий день", new Color(46, 204, 113));
+        JButton logoutButton = createHeaderButton("🚪 Выход", new Color(231, 76, 60));
+
         advanceDateButton.addActionListener(e -> advanceDate());
-
-        JButton logoutButton = new JButton("Выход");
         logoutButton.addActionListener(e -> System.exit(0));
 
         rightHeader.add(userLabel);
@@ -107,6 +103,29 @@ public class HotelAdminDashboard extends JFrame {
         headerPanel.add(rightHeader, BorderLayout.EAST);
 
         add(headerPanel, BorderLayout.NORTH);
+    }
+
+    private JButton createHeaderButton(String text, Color color) {
+        JButton button = new JButton(text);
+        button.setBackground(color);
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        button.setBorderPainted(false);
+        button.setOpaque(true);
+
+        // Эффекты при наведении
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(color.brighter());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(color);
+            }
+        });
+
+        return button;
     }
 
     /**
@@ -149,28 +168,23 @@ public class HotelAdminDashboard extends JFrame {
     private void createNavigation() {
         JPanel navPanel = new JPanel();
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
-        navPanel.setBackground(new Color(245, 245, 245));
+        navPanel.setBackground(new Color(52, 73, 94)); // Темный фон для контраста
+
         navPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        navPanel.setPreferredSize(new Dimension(200, 0));
+        navPanel.setPreferredSize(new Dimension(220, 0));
 
-        Font navFont = new Font("Arial", Font.PLAIN, 14);
-        Dimension navButtonSize = new Dimension(180, 40);
+        // Создаем кнопки с применением стилей
+        JButton viewClientsButton = createStyledButton("👥 Список клиентов", "nav-button");
+        JButton viewStaffButton = createStyledButton("👨‍💼 Список сотрудников", "nav-button");
+        JButton viewRoomsButton = createStyledButton("🏨 Список номеров", "nav-button");
 
-        JButton homeButton = createNavButton("Главная", navFont, navButtonSize);
-        JButton clientsButton = createNavButton("Клиенты", navFont, navButtonSize);
-        JButton viewClientsButton = createNavButton("Список клиентов", navFont, navButtonSize);
-        JButton staffButton = createNavButton("Персонал", navFont, navButtonSize);
-        JButton viewStaffButton = createNavButton("Список сотрудников", navFont, navButtonSize);
-        JButton roomsButton = createNavButton("Номера", navFont, navButtonSize);
-        JButton viewRoomsButton = createNavButton("Список номеров", navFont, navButtonSize);
-        JButton reportsButton = createNavButton("Отчеты", navFont, navButtonSize);
+        JButton generateReportButton = createStyledButton("📊 Сгенерировать отчет", "nav-button");
+        JButton clearAllDataButton = createStyledButton("🗑 Очистить всю БД", "danger-button");
+        JButton clearClientsButton = createStyledButton("Очистить клиентов", "danger-button");
+        JButton clearStaffButton = createStyledButton("Очистить сотрудников", "danger-button");
+        JButton clearRoomsButton = createStyledButton("Очистить номера", "danger-button");
 
-        // Добавляем обработчики для новых кнопок
-        viewRoomsButton.addActionListener(e -> {
-            RoomsListForm roomsListForm = new RoomsListForm(this);
-            roomsListForm.setVisible(true);
-        });
-
+        // Обработчики событий...
         viewClientsButton.addActionListener(e -> {
             ClientsListForm clientsListForm = new ClientsListForm(this);
             clientsListForm.setVisible(true);
@@ -181,21 +195,88 @@ public class HotelAdminDashboard extends JFrame {
             staffListForm.setVisible(true);
         });
 
-        navPanel.add(homeButton);
-        navPanel.add(Box.createVerticalStrut(10));
-        navPanel.add(clientsButton);
+        viewRoomsButton.addActionListener(e -> {
+            RoomsListForm roomsListForm = new RoomsListForm(this);
+            roomsListForm.setVisible(true);
+        });
+
+        generateReportButton.addActionListener(e -> generateReport());
+        clearAllDataButton.addActionListener(e -> clearAllData());
+        clearClientsButton.addActionListener(e -> clearClientsData());
+        clearStaffButton.addActionListener(e -> clearStaffData());
+        clearRoomsButton.addActionListener(e -> clearRoomsData());
+
+        // Добавляем компоненты
+        navPanel.add(createSectionLabel("Управление данными"));
+        navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(viewClientsButton);
-        navPanel.add(Box.createVerticalStrut(10));
-        navPanel.add(staffButton);
+        navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(viewStaffButton);
-        navPanel.add(Box.createVerticalStrut(10));
-        navPanel.add(roomsButton);
+        navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(viewRoomsButton);
-        navPanel.add(Box.createVerticalStrut(10));
-        navPanel.add(reportsButton);
+
+        navPanel.add(Box.createVerticalStrut(15));
+        navPanel.add(createSectionLabel("Отчеты"));
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(generateReportButton);
+
+        navPanel.add(Box.createVerticalStrut(15));
+        navPanel.add(createSectionLabel("Очистка данных"));
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(clearClientsButton);
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(clearStaffButton);
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(clearRoomsButton);
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(clearAllDataButton);
+
         navPanel.add(Box.createVerticalGlue());
 
         add(navPanel, BorderLayout.WEST);
+    }
+
+    private JButton createStyledButton(String text, String styleClass) {
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Рисуем скругленный фон
+                if (getModel().isPressed()) {
+                    g2.setColor(getBackground().darker());
+                } else if (getModel().isRollover()) {
+                    g2.setColor(getBackground().brighter());
+                } else {
+                    g2.setColor(getBackground());
+                }
+
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2.dispose();
+
+                super.paintComponent(g);
+            }
+        };
+
+        button.setMaximumSize(new Dimension(200, 40));
+        button.setPreferredSize(new Dimension(200, 40));
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setOpaque(false);
+
+        return button;
+    }
+
+    private JLabel createSectionLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        label.setForeground(new Color(52, 73, 94));
+        label.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
+        label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        return label;
     }
 
     private void createMainContent() {
@@ -328,14 +409,16 @@ public class HotelAdminDashboard extends JFrame {
 
     private JPanel createWidgetPanel(String title) {
         JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(Color.GRAY, 1),
+
+        TitledBorder border = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(52, 152, 219), 2),
                 title,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
-                new Font("Arial", Font.BOLD, 12)
-        ));
-        panel.setBackground(Color.WHITE);
+                new Font("Segoe UI", Font.BOLD, 12),
+                new Color(44, 62, 80)
+        );
+        panel.setBorder(border);
         return panel;
     }
 
@@ -427,5 +510,170 @@ public class HotelAdminDashboard extends JFrame {
         panel.add(advanceDateButton);
 
         return panel;
+    }
+
+    //TODO: функция для генерации XML отчета (заглушка)
+    private void generateReport() {
+        try {
+            // Генерация отчета
+            String report = "Отчет по отелю\n" +
+                    "Дата: " + new Date() + "\n" +
+                    "Клиентов: " + clientService.getAllClients().size() + "\n" +
+                    "Сотрудников: " + staffService.getAllStaff().size() + "\n" +
+                    "Номеров: " + roomService.getAllRooms().size();
+
+            JOptionPane.showMessageDialog(this, report, "Отчет", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ошибка генерации отчета: " + e.getMessage(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void clearAllData() {
+        int result = JOptionPane.showConfirmDialog(this,
+                "Вы уверены что хотите очистить ВСЕ данные?\nЭто действие нельзя отменить!",
+                "Подтверждение очистки", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+        if (result == JOptionPane.YES_OPTION) {
+            boolean success1 = roomService.clearRoomsData();
+            boolean success2 = staffService.clearStaffData();
+            boolean success3 = clientService.clearClientData();
+
+            if (success1 && success2 && success3) {
+                JOptionPane.showMessageDialog(this, "Все данные успешно удалены!");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Ошибка полной очистки данных!");
+        }
+    }
+
+    private void clearClientsData() {
+        int result = JOptionPane.showConfirmDialog(this,
+                "Очистить всех клиентов?",
+                "Подтверждение", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            boolean success = clientService.clearClientData();
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Ошибка очистки данных клиентов!");
+        }
+    }
+
+    private void clearStaffData() {
+        int result = JOptionPane.showConfirmDialog(this,
+                "Очистить всех сотрудников?",
+                "Подтверждение", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            boolean success = staffService.clearStaffData();
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Данные о сотрудниках удалены!");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Ошибка очистки данных сотрудников!");
+        }
+    }
+
+    private void clearRoomsData() {
+        if (false) {
+            int result = JOptionPane.showConfirmDialog(this,
+                    "Очистить все номера?",
+                    "Подтверждение", JOptionPane.YES_NO_OPTION);
+
+            if (result == JOptionPane.YES_OPTION) {
+                boolean success = roomService.clearRoomsData();
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
+                    return;
+                }
+                JOptionPane.showMessageDialog(this, "Ошибка очистки данных!");
+
+            }
+        }
+        showStyledDialog();
+    }
+
+    private void showStyledDialog() {
+        JDialog dialog = new JDialog((Frame) null, "Красивый диалог", true);
+        dialog.setLayout(new BorderLayout());
+
+        // Панель с градиентом
+        JPanel gradientPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                GradientPaint gradient = new GradientPaint(
+                        0, 0, new Color(74, 144, 226),
+                        getWidth(), getHeight(), new Color(142, 45, 226)
+                );
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        gradientPanel.setLayout(new BorderLayout(10, 10));
+        gradientPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        // Стилизованные компоненты
+        JLabel label = new JLabel("Очистить все номера?", JLabel.CENTER);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        label.setForeground(Color.WHITE);
+
+        // Стилизованные кнопки
+        JButton yesButton = createGradientButton("Да", new Color(46, 204, 113));
+        JButton noButton = createGradientButton("Нет", new Color(231, 76, 60));
+
+        yesButton.addActionListener(e -> {
+            dialog.dispose();
+            // Действие при подтверждении
+        });
+
+        noButton.addActionListener(e -> dialog.dispose());
+
+        // Компоновка
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(yesButton);
+        buttonPanel.add(noButton);
+
+        gradientPanel.add(label, BorderLayout.CENTER);
+        gradientPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        dialog.add(gradientPanel);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
+
+    private JButton createGradientButton(String text, Color color) {
+        return new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gradient = new GradientPaint(
+                        0, 0, color.brighter(),
+                        0, getHeight(), color.darker()
+                );
+                g2.setPaint(gradient);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
+
+                g2.setColor(Color.WHITE);
+                g2.setFont(getFont().deriveFont(Font.BOLD));
+                FontMetrics fm = g2.getFontMetrics();
+                int x = (getWidth() - fm.stringWidth(getText())) / 2;
+                int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
+                g2.drawString(getText(), x, y);
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(80, 35);
+            }
+        };
     }
 }

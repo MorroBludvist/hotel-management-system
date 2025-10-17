@@ -1,47 +1,55 @@
 package com.hotel.client.service;
 
 import com.hotel.client.model.Staff;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StaffService {
-    private final ApiService apiService;
     private static final Logger logger = LogManager.getLogger(StaffService.class);
+
+    private final ApiService apiService;
 
     public StaffService(ApiService apiService) {
         this.apiService = apiService;
+        logger.debug("StaffService инициализирован");
     }
 
     public List<Staff> getAllStaff() {
+        logger.info("🔄 Получаем список всех сотрудников");
         try {
             String response = apiService.executeRequest("/staff", "GET", null);
             if (response != null && response.startsWith("[")) {
-                return parseJsonToStaff(response);
+                List<Staff> staffList = parseJsonToStaff(response);
+                logger.info("✅ Успешно загружено {} сотрудников", staffList.size());
+                return staffList;
             } else {
-                System.out.println("❌ Сервер вернул некорректный ответ: " + response);
+                logger.error("❌ Сервер вернул некорректный ответ: {}", response);
                 return new ArrayList<>();
             }
         } catch (Exception e) {
-            System.err.println("❌ Ошибка получения сотрудников: " + e.getMessage());
+            logger.error("❌ Ошибка получения сотрудников: {}", e.getMessage(), e);
             return new ArrayList<>();
         }
     }
 
     public boolean addStaff(Staff staff) {
+        logger.info("👤 Добавляем сотрудника: {} {} (паспорт: {})",
+                staff.getFirstName(), staff.getLastName(), staff.getPassportNumber());
+
         try {
-            // ВАЛИДАЦИЯ salary
+            // Валидация salary
             if (Double.isNaN(staff.getSalary()) || Double.isInfinite(staff.getSalary())) {
-                System.err.println("❌ Неверное значение salary: " + staff.getSalary());
+                logger.error("❌ Неверное значение salary: {}", staff.getSalary());
                 return false;
             }
 
             String jsonBody = String.format(
                     "{\"passportNumber\":\"%s\",\"firstName\":\"%s\",\"lastName\":\"%s\",\"position\":\"%s\"," +
                             "\"phoneNumber\":\"%s\",\"email\":\"%s\",\"hireDate\":\"%s\"," +
-                            "\"salary\":%s,\"department\":\"%s\"}",  // изменено %.2f на %s
+                            "\"salary\":%s,\"department\":\"%s\"}",
                     apiService.escapeJson(staff.getPassportNumber()),
                     apiService.escapeJson(staff.getFirstName()),
                     apiService.escapeJson(staff.getLastName()),
@@ -49,63 +57,27 @@ public class StaffService {
                     apiService.escapeJson(staff.getPhoneNumber()),
                     apiService.escapeJson(staff.getEmail()),
                     apiService.escapeJson(staff.getHireDate()),
-                    staff.getSalary(),  // ← Теперь без форматирования
+                    staff.getSalary(),  // Без форматирования для избежания проблем с локалью
                     apiService.escapeJson(staff.getDepartment())
             );
 
-            System.out.println("🔍 ОТПРАВЛЯЕМЫЙ JSON: " + jsonBody); //убрать
-
+            logger.debug("📨 JSON для отправки: {}", jsonBody);
             String response = apiService.executeRequest("/staff", "POST", jsonBody);
-            System.out.println("📥 ОТВЕТ СЕРВЕРА: " + response);
 
-            return response != null && response.contains("\"success\":true");
+            boolean success = response != null && response.contains("\"success\":true");
 
-        } catch (Exception e) {
-            System.err.println("❌ Ошибка: " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * Парсим один объект сотрудника
-     */
-    private Staff parseStaffObject(String jsonObject) {
-        try {
-            //logger.trace("🔍 Парсим объект: {}", jsonObject);
-
-            String passportNumber = apiService.extractStringValue(jsonObject, "passportNumber");
-            String firstName = apiService.extractStringValue(jsonObject, "firstName");
-            String lastName = apiService.extractStringValue(jsonObject, "lastName");
-            String position = apiService.extractStringValue(jsonObject, "position");
-            String phoneNumber = apiService.extractStringValue(jsonObject, "phoneNumber");
-            String email = apiService.extractStringValue(jsonObject, "email");
-            String hireDate = apiService.extractStringValue(jsonObject, "hireDate");
-            Double salary = apiService.extractDoubleValue(jsonObject, "salary");
-            String department = apiService.extractStringValue(jsonObject, "department");
-
-            //logger.debug("📊 Распаршены поля: {} {}, паспорт: {}, зарплата: {}",
-                    //firstName, lastName, passportNumber, salary);
-
-            // Проверяем обязательные поля
-            if (firstName == null || lastName == null || passportNumber == null) {
-                //logger.warn("⚠️ Отсутствуют обязательные поля в объекте: {}", jsonObject);
-                return null;
+            if (success) {
+                logger.info("✅ Сотрудник {} {} успешно добавлен",
+                        staff.getFirstName(), staff.getLastName());
+            } else {
+                logger.warn("⚠️ Не удалось добавить сотрудника. Ответ сервера: {}", response);
             }
 
-            Staff staff = new Staff(
-                    firstName, lastName, passportNumber, position, phoneNumber, email,
-                    hireDate, salary != null ? salary : 0.0,
-                    department != null ? department : "Не указан"
-            );
-
-            //logger.debug("✅ Создан сотрудник: {} {}, паспорт: {}",
-                    //firstName, lastName, passportNumber);
-            return staff;
+            return success;
 
         } catch (Exception e) {
-            //logger.error("❌ Ошибка парсинга объекта сотрудника: {}", e.getMessage(), e);
-            return null;
+            logger.error("❌ Ошибка добавления сотрудника: {}", e.getMessage(), e);
+            return false;
         }
     }
 
@@ -119,9 +91,7 @@ public class StaffService {
 
         try {
             logger.debug("🔧 Начинаем парсинг JSON сотрудников...");
-            logger.trace("📄 Исходный JSON: {}", json);
 
-            // Убираем внешние скобки
             String cleanJson = json.trim();
             if (cleanJson.startsWith("[") && cleanJson.endsWith("]")) {
                 cleanJson = cleanJson.substring(1, cleanJson.length() - 1).trim();
@@ -132,14 +102,12 @@ public class StaffService {
                 return staffList;
             }
 
-            // Разделяем на объекты
             String[] objects = cleanJson.split("\\},\\s*\\{");
             logger.debug("📋 Найдено объектов: {}", objects.length);
 
             for (int i = 0; i < objects.length; i++) {
                 String obj = objects[i].trim();
 
-                // Восстанавливаем фигурные скобки
                 if (i == 0 && !obj.startsWith("{")) obj = "{" + obj;
                 if (i == objects.length - 1 && !obj.endsWith("}")) obj = obj + "}";
                 if (i > 0 && i < objects.length - 1) {
@@ -160,5 +128,47 @@ public class StaffService {
             logger.error("❌ Ошибка парсинга сотрудников: {}", e.getMessage(), e);
             return new ArrayList<>();
         }
+    }
+
+    private Staff parseStaffObject(String jsonObject) {
+        try {
+            String passportNumber = apiService.extractStringValue(jsonObject, "passportNumber");
+            String firstName = apiService.extractStringValue(jsonObject, "firstName");
+            String lastName = apiService.extractStringValue(jsonObject, "lastName");
+            String position = apiService.extractStringValue(jsonObject, "position");
+            String phoneNumber = apiService.extractStringValue(jsonObject, "phoneNumber");
+            String email = apiService.extractStringValue(jsonObject, "email");
+            String hireDate = apiService.extractStringValue(jsonObject, "hireDate");
+            Double salary = apiService.extractDoubleValue(jsonObject, "salary");
+            String department = apiService.extractStringValue(jsonObject, "department");
+
+            logger.debug("📊 Распаршены поля: {} {}, паспорт: {}, зарплата: {}",
+                    firstName, lastName, passportNumber, salary);
+
+            if (firstName == null || lastName == null || passportNumber == null) {
+                logger.warn("⚠️ Отсутствуют обязательные поля в объекте: {}", jsonObject);
+                return null;
+            }
+
+            Staff staff = new Staff(
+                    firstName, lastName, passportNumber, position, phoneNumber, email,
+                    hireDate, salary != null ? salary : 0.0,
+                    department != null ? department : "Не указан"
+            );
+
+            logger.debug("✅ Создан сотрудник: {} {}, паспорт: {}",
+                    firstName, lastName, passportNumber);
+            return staff;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка парсинга объекта сотрудника: {}", e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public boolean clearStaffData() {
+        logger.debug("Очистка базы данных сотрудников");
+        boolean success = false;
+        return success;
     }
 }

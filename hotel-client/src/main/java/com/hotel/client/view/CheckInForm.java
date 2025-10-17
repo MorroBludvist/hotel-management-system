@@ -1,26 +1,27 @@
 package com.hotel.client.view;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import com.hotel.client.model.*;
-
 import com.hotel.client.service.ApiService;
+import com.hotel.client.model.Client;
+import com.hotel.client.model.Room;
 import com.hotel.client.service.ClientService;
 import com.hotel.client.service.RoomService;
-import com.hotel.client.service.StaffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 /**
- * Форма для заселения клиента с валидацией дат и номеров
+ * Форма для заселения клиента с градиентным дизайном и скроллингом
  */
-public class CheckInForm extends JDialog {
+public class CheckInForm extends BaseAddForm {
+    private static final Logger logger = LogManager.getLogger(CheckInForm.class);
+
     private JTextField passportField;
     private JTextField firstNameField;
     private JTextField lastNameField;
@@ -31,146 +32,241 @@ public class CheckInForm extends JDialog {
     private JComboBox<Integer> roomNumberComboBox;
     private JComboBox<String> roomTypeComboBox;
     private JButton checkAvailabilityButton;
-    private JButton saveButton;
-    private JButton cancelButton;
     private JLabel availabilityLabel;
 
     private ApiService apiService;
     private ClientService clientService;
     private RoomService roomService;
 
-    private static final Logger logger = LogManager.getLogger(CheckInForm.class);
-
     private String currentDate;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public CheckInForm(JFrame parent, String currentDate) {
-        super(parent, "Заселение клиента", true);
-        apiService = ApiService.getInstance();
+        super(parent, "Заселение клиента", 500, 600); // Уменьшил высоту
+        this.apiService = ApiService.getInstance();
         this.clientService = new ClientService(apiService);
         this.roomService = new RoomService(apiService);
         this.currentDate = currentDate;
+
         initializeComponents();
-        setupLayout();
+        setupBaseLayout("Заселение клиента",
+                new Color(41, 128, 185),
+                new Color(52, 152, 219));
         setupListeners();
         loadAvailableRooms();
-        pack();
-        setLocationRelativeTo(parent);
-        setSize(500, 550);
     }
 
-    private void initializeComponents() {
-        passportField = new JTextField(20);
-        firstNameField = new JTextField(20);
-        lastNameField = new JTextField(20);
-        phoneField = new JTextField(20);
-        emailField = new JTextField(20);
+    @Override
+    protected void initializeComponents() {
+        initializeBaseComponents();
+
+        passportField = createStyledTextField();
+        firstNameField = createStyledTextField();
+        lastNameField = createStyledTextField();
+        phoneField = createStyledTextField();
+        emailField = createStyledTextField();
+        checkInDateField = createStyledTextField();
+        checkOutDateField = createStyledTextField();
 
         // Устанавливаем текущую дату как дату заезда
-        checkInDateField = new JTextField(currentDate, 20);
-        checkOutDateField = new JTextField(20);
+        checkInDateField.setText(currentDate);
 
-        // Комбобоксы для номеров и типов
-        roomTypeComboBox = new JComboBox<>(new String[]{"Эконом", "Стандарт", "Бизнес", "Люкс"});
-        roomNumberComboBox = new JComboBox<>();
+        roomTypeComboBox = createStyledComboBox(new String[]{"Эконом", "Стандарт", "Бизнес", "Люкс"});
+        roomNumberComboBox = createStyledComboBox();
 
-        checkAvailabilityButton = new JButton("Проверить доступность");
-        checkAvailabilityButton.setBackground(new Color(255, 165, 0));
-        checkAvailabilityButton.setForeground(Color.WHITE);
+        checkAvailabilityButton = createGradientButton("Проверить доступность",
+                new Color(52, 152, 219), new Color(41, 128, 185));
 
-        saveButton = new JButton("Заселить");
-        saveButton.setBackground(new Color(70, 130, 180));
-        saveButton.setForeground(Color.WHITE);
-
-        cancelButton = new JButton("Отмена");
-
-        availabilityLabel = new JLabel("Выберите номер и даты для проверки");
-        availabilityLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        availabilityLabel = new JLabel("Выберите номер и даты для проверки доступности");
+        availabilityLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        availabilityLabel.setForeground(new Color(100, 100, 100));
 
         // Устанавливаем подсказки
+        passportField.setToolTipText("Серия и номер паспорта (10 цифр)");
         checkInDateField.setToolTipText("Дата заезда (не может быть раньше сегодняшней)");
         checkOutDateField.setToolTipText("Дата выезда (должна быть после даты заезда)");
-        passportField.setToolTipText("Серия и номер паспорта (10 цифр)");
     }
 
-    private void setupLayout() {
-        setLayout(new BorderLayout());
-
-        JPanel fieldsPanel = new JPanel(new GridBagLayout());
-        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    @Override
+    protected JPanel createFieldsPanel() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.weightx = 1.0;
 
-        // Заголовок
-        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
-        JLabel titleLabel = new JLabel("Информация о клиенте");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titleLabel.setForeground(new Color(70, 130, 180));
-        fieldsPanel.add(titleLabel, gbc);
+        int row = 0;
 
-        gbc.gridy = 1; gbc.gridwidth = 2;
-        fieldsPanel.add(Box.createVerticalStrut(10), gbc);
+        // Информация о клиенте
+        gbc.gridx = 0; gbc.gridy = row++; gbc.gridwidth = 2;
+        JLabel clientLabel = new JLabel("Информация о клиенте");
+        clientLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        clientLabel.setForeground(new Color(52, 73, 94));
+        panel.add(clientLabel, gbc);
 
-        // Поля формы
         gbc.gridwidth = 1;
-        gbc.gridy = 2; gbc.gridx = 0;
-        fieldsPanel.add(new JLabel("Паспорт*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(passportField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Паспорт *"), gbc);
+        gbc.gridx = 1;
+        panel.add(passportField, gbc);
 
-        gbc.gridy = 3; gbc.gridx = 0;
-        fieldsPanel.add(new JLabel("Имя*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(firstNameField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Имя *"), gbc);
+        gbc.gridx = 1;
+        panel.add(firstNameField, gbc);
 
-        gbc.gridy = 4; gbc.gridx = 0; fieldsPanel.add(new JLabel("Фамилия*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(lastNameField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Фамилия *"), gbc);
+        gbc.gridx = 1;
+        panel.add(lastNameField, gbc);
 
-        gbc.gridy = 5; gbc.gridx = 0; fieldsPanel.add(new JLabel("Телефон:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(phoneField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Телефон"), gbc);
+        gbc.gridx = 1;
+        panel.add(phoneField, gbc);
 
-        gbc.gridy = 6; gbc.gridx = 0; fieldsPanel.add(new JLabel("Email:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(emailField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Email"), gbc);
+        gbc.gridx = 1;
+        panel.add(emailField, gbc);
 
-        gbc.gridy = 7; gbc.gridx = 0; fieldsPanel.add(new JLabel("Дата заезда*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(checkInDateField, gbc);
+        // Разделитель
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        panel.add(createSeparator(), gbc);
 
-        gbc.gridy = 8; gbc.gridx = 0; fieldsPanel.add(new JLabel("Дата выезда*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(checkOutDateField, gbc);
+        // Даты проживания
+        gbc.gridy = row++; gbc.gridwidth = 2;
+        JLabel datesLabel = new JLabel("Даты проживания");
+        datesLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        datesLabel.setForeground(new Color(52, 73, 94));
+        panel.add(datesLabel, gbc);
 
-        gbc.gridy = 9; gbc.gridx = 0; fieldsPanel.add(new JLabel("Тип номера*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(roomTypeComboBox, gbc);
+        gbc.gridwidth = 1;
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Дата заезда *"), gbc);
+        gbc.gridx = 1;
+        panel.add(checkInDateField, gbc);
 
-        gbc.gridy = 10; gbc.gridx = 0; fieldsPanel.add(new JLabel("Номер*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(roomNumberComboBox, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Дата выезда *"), gbc);
+        gbc.gridx = 1;
+        panel.add(checkOutDateField, gbc);
 
-        gbc.gridy = 11; gbc.gridx = 0; gbc.gridwidth = 2;
-        fieldsPanel.add(checkAvailabilityButton, gbc);
+        // Разделитель
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        panel.add(createSeparator(), gbc);
 
-        gbc.gridy = 12; gbc.gridx = 0; gbc.gridwidth = 2;
-        fieldsPanel.add(availabilityLabel, gbc);
+        // Выбор номера
+        gbc.gridy = row++; gbc.gridwidth = 2;
+        JLabel roomLabel = new JLabel("Выбор номера");
+        roomLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        roomLabel.setForeground(new Color(52, 73, 94));
+        panel.add(roomLabel, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Тип номера *"), gbc);
+        gbc.gridx = 1;
+        panel.add(roomTypeComboBox, gbc);
+
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Номер *"), gbc);
+        gbc.gridx = 1;
+        panel.add(roomNumberComboBox, gbc);
+
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        panel.add(checkAvailabilityButton, gbc);
+
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        panel.add(availabilityLabel, gbc);
 
         // Подпись обязательных полей
-        gbc.gridy = 13; gbc.gridx = 0; gbc.gridwidth = 2;
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
         JLabel requiredLabel = new JLabel("* - обязательные поля");
-        requiredLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-        requiredLabel.setForeground(Color.GRAY);
-        fieldsPanel.add(requiredLabel, gbc);
+        requiredLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
+        requiredLabel.setForeground(new Color(150, 150, 150));
+        panel.add(requiredLabel, gbc);
 
-        add(fieldsPanel, BorderLayout.CENTER);
+        // Пустое пространство внизу
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        gbc.weighty = 1.0;
+        panel.add(Box.createGlue(), gbc);
 
-        // Панель с кнопками
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
-        buttonPanel.add(saveButton);
-        buttonPanel.add(cancelButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        return panel;
     }
 
-    private void setupListeners() {
+    @Override
+    protected void setupListeners() {
         roomTypeComboBox.addActionListener(e -> loadAvailableRooms());
         checkAvailabilityButton.addActionListener(e -> checkRoomAvailability());
-        saveButton.addActionListener(e -> saveClient());
+        saveButton.addActionListener(e -> {
+            if (validateForm()) {
+                saveData();
+            }
+        });
         cancelButton.addActionListener(e -> dispose());
+    }
+
+    @Override
+    protected boolean validateForm() {
+        List<JTextField> requiredFields = new ArrayList<>();
+        requiredFields.add(passportField);
+        requiredFields.add(firstNameField);
+        requiredFields.add(lastNameField);
+        requiredFields.add(checkInDateField);
+        requiredFields.add(checkOutDateField);
+
+        if (!validateRequiredFields(requiredFields.toArray(new JTextField[0]))) {
+            return false;
+        }
+
+        if (roomNumberComboBox.getSelectedItem() == null) {
+            showError("Пожалуйста, выберите номер");
+            return false;
+        }
+
+        if (!validatePassport(passportField.getText().trim())) {
+            return false;
+        }
+
+        String checkInDate = checkInDateField.getText().trim();
+        String checkOutDate = checkOutDateField.getText().trim();
+        return validateDates(checkInDate, checkOutDate);
+    }
+
+    @Override
+    protected void saveData() {
+        try {
+            Client client = new Client(
+                    firstNameField.getText().trim(),
+                    lastNameField.getText().trim(),
+                    passportField.getText().trim(),
+                    phoneField.getText().trim(),
+                    emailField.getText().trim(),
+                    checkInDateField.getText().trim(),
+                    checkOutDateField.getText().trim(),
+                    (Integer) roomNumberComboBox.getSelectedItem(),
+                    (String) roomTypeComboBox.getSelectedItem()
+            );
+
+            if (clientService.addClient(client)) {
+                showSuccess("Клиент успешно заселен!\n\n" +
+                        "Номер: " + client.getRoomNumber() + "\n" +
+                        "С " + client.getCheckInDate() + " по " + client.getCheckOutDate());
+                dispose();
+            } else {
+                showError("Ошибка при заселении клиента\n\n" +
+                        "Возможные причины:\n" +
+                        "• Клиент с таким паспортом уже существует\n" +
+                        "• Номер стал занят\n" +
+                        "• Сервер недоступен");
+            }
+        } catch (Exception e) {
+            logger.error("Ошибка сохранения клиента: {}", e.getMessage());
+            showError("Неожиданная ошибка: " + e.getMessage());
+        }
     }
 
     private void loadAvailableRooms() {
@@ -178,7 +274,6 @@ public class CheckInForm extends JDialog {
             String roomType = (String) roomTypeComboBox.getSelectedItem();
             List<Room> freeRooms = roomService.getFreeRooms();
 
-            // Фильтруем по типу
             List<Room> filteredRooms = freeRooms.stream()
                     .filter(room -> roomType.equals(room.getRoomType()))
                     .collect(Collectors.toList());
@@ -189,25 +284,23 @@ public class CheckInForm extends JDialog {
             }
 
             if (filteredRooms.isEmpty()) {
-                availabilityLabel.setText("❌ Нет свободных номеров выбранного типа");
-                availabilityLabel.setForeground(Color.RED);
+                availabilityLabel.setText("Нет свободных номеров выбранного типа");
+                availabilityLabel.setForeground(new Color(231, 76, 60));
             } else {
-                availabilityLabel.setText("✅ Доступно номеров: " + filteredRooms.size());
-                availabilityLabel.setForeground(new Color(0, 100, 0));
+                availabilityLabel.setText("Доступно номеров: " + filteredRooms.size());
+                availabilityLabel.setForeground(new Color(39, 174, 96));
             }
 
         } catch (Exception e) {
-            availabilityLabel.setText("❌ Ошибка загрузки номеров");
-            availabilityLabel.setForeground(Color.RED);
+            availabilityLabel.setText("Ошибка загрузки номеров");
+            availabilityLabel.setForeground(new Color(231, 76, 60));
         }
     }
 
     private void checkRoomAvailability() {
         try {
             if (roomNumberComboBox.getSelectedItem() == null) {
-                JOptionPane.showMessageDialog(this,
-                        "❌ Сначала выберите номер",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                showError("Сначала выберите номер");
                 return;
             }
 
@@ -215,7 +308,6 @@ public class CheckInForm extends JDialog {
             String checkInDate = checkInDateField.getText().trim();
             String checkOutDate = checkOutDateField.getText().trim();
 
-            // Валидация дат
             if (!validateDates(checkInDate, checkOutDate)) {
                 return;
             }
@@ -223,118 +315,40 @@ public class CheckInForm extends JDialog {
             boolean available = roomService.isRoomAvailable(roomNumber, checkInDate, checkOutDate);
 
             if (available) {
-                availabilityLabel.setText("✅ Номер доступен в указанные даты");
-                availabilityLabel.setForeground(new Color(0, 100, 0));
+                availabilityLabel.setText("Номер доступен в указанные даты");
+                availabilityLabel.setForeground(new Color(39, 174, 96));
             } else {
-                availabilityLabel.setText("❌ Номер занят в указанные даты");
-                availabilityLabel.setForeground(Color.RED);
+                availabilityLabel.setText("Номер занят в указанные даты");
+                availabilityLabel.setForeground(new Color(231, 76, 60));
             }
 
         } catch (Exception e) {
-            availabilityLabel.setText("❌ Ошибка проверки доступности");
-            availabilityLabel.setForeground(Color.RED);
+            availabilityLabel.setText("Ошибка проверки доступности");
+            availabilityLabel.setForeground(new Color(231, 76, 60));
         }
     }
 
     private boolean validateDates(String checkInDate, String checkOutDate) {
         try {
-            // Проверяем формат дат
             Date checkIn = dateFormat.parse(checkInDate);
             Date checkOut = dateFormat.parse(checkOutDate);
             Date today = dateFormat.parse(currentDate);
 
-            // Дата заезда не может быть раньше сегодняшней
             if (checkIn.before(today)) {
-                JOptionPane.showMessageDialog(this,
-                        "❌ Дата заезда не может быть раньше сегодняшней (" + currentDate + ")",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                showError("Дата заезда не может быть раньше сегодняшней (" + currentDate + ")");
                 return false;
             }
 
-            // Дата выезда должна быть после даты заезда
             if (!checkOut.after(checkIn)) {
-                JOptionPane.showMessageDialog(this,
-                        "❌ Дата выезда должна быть после даты заезда",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                showError("Дата выезда должна быть после даты заезда");
                 return false;
             }
 
             return true;
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Неверный формат даты. Используйте ГГГГ-ММ-ДД",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            showError("Неверный формат даты. Используйте ГГГГ-ММ-ДД");
             return false;
-        }
-    }
-
-    private void saveClient() {
-        // Валидация обязательных полей
-        if (passportField.getText().trim().isEmpty() ||
-                firstNameField.getText().trim().isEmpty() ||
-                lastNameField.getText().trim().isEmpty() ||
-                checkInDateField.getText().trim().isEmpty() ||
-                checkOutDateField.getText().trim().isEmpty() ||
-                roomNumberComboBox.getSelectedItem() == null) {
-
-            JOptionPane.showMessageDialog(this,
-                    "Пожалуйста, заполните все обязательные поля (отмечены *)",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Валидация паспорта
-        String passport = passportField.getText().trim();
-        if (!passport.matches("\\d{10}")) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Паспорт должен содержать ровно 10 цифр",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Валидация дат
-        String checkInDate = checkInDateField.getText().trim();
-        String checkOutDate = checkOutDateField.getText().trim();
-        if (!validateDates(checkInDate, checkOutDate)) {
-            return;
-        }
-
-        try {
-            // Создаем объект клиента
-            Client client = new Client(
-                    firstNameField.getText().trim(),
-                    lastNameField.getText().trim(),
-                    passport,
-                    phoneField.getText().trim(),
-                    emailField.getText().trim(),
-                    checkInDate,
-                    checkOutDate,
-                    (Integer) roomNumberComboBox.getSelectedItem(),
-                    (String) roomTypeComboBox.getSelectedItem()
-            );
-
-            // Пытаемся отправить на сервер
-            if (clientService.addClient(client)) {
-                JOptionPane.showMessageDialog(this,
-                        "✅ Клиент успешно заселен!\n\n" +
-                                "Номер: " + client.getRoomNumber() + "\n" +
-                                "С " + checkInDate + " по " + checkOutDate,
-                        "Успех", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "❌ Ошибка при заселении клиента\n\n" +
-                                "Возможные причины:\n" +
-                                "• Клиент с таким паспортом уже существует\n" +
-                                "• Номер стал занят в указанные даты\n" +
-                                "• Сервер недоступен",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Неожиданная ошибка: " + e.getMessage(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

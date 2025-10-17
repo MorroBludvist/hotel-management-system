@@ -1,48 +1,42 @@
 package com.hotel.client.view;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
 import com.hotel.client.service.ApiService;
 import com.hotel.client.model.Staff;
-
 import com.hotel.client.service.StaffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.List;
+
 /**
- * Форма для просмотра списка сотрудников.
+ * Форма для просмотра списка сотрудников с градиентным дизайном
  */
-public class StaffListForm extends JDialog {
-    private JTable staffTable;
-    private JButton refreshButton;
-    private JButton closeButton;
+public class StaffListForm extends BaseTableForm {
+    private static final Logger logger = LogManager.getLogger(StaffListForm.class);
+
     private ApiService apiService;
     private StaffService staffService;
 
-    private static final Logger logger = LogManager.getLogger(StaffListForm.class);
-
     public StaffListForm(JFrame parent) {
-        super(parent, "Список сотрудников", true);
+        super(parent, "Список сотрудников", 1300, 700);
         this.apiService = ApiService.getInstance();
         this.staffService = new StaffService(apiService);
+
         initializeComponents();
-        setupLayout();
-        setupListeners();
-        loadStaffData();
-        pack();
-        setLocationRelativeTo(parent);
-        setSize(900, 500);
+        setupBaseLayout("Список сотрудников отеля",
+                new Color(230, 126, 34),
+                new Color(211, 84, 0));
+        setupBaseListeners();
+        loadData();
     }
 
-    private void initializeComponents() {
-        // Создаем модель таблицы
+    @Override
+    protected void initializeTable() {
         String[] columns = {"Паспорт", "Имя", "Фамилия", "Должность", "Телефон", "Email",
-                "Дата найма", "Зарплата", "Отдел"};
+                "Дата найма", "Зарплата", "Отдел", "Статус"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -50,136 +44,98 @@ public class StaffListForm extends JDialog {
             }
         };
 
-        staffTable = new JTable(model);
-        staffTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        staffTable.getTableHeader().setReorderingAllowed(false);
+        table = new JTable(model);
+        applyTableStyles();
 
-        // Настраиваем отображение таблицы
-        staffTable.setRowHeight(25);
-        staffTable.getColumnModel().getColumn(0).setPreferredWidth(50);   // ID
-        staffTable.getColumnModel().getColumn(1).setPreferredWidth(80);   // Имя
-        staffTable.getColumnModel().getColumn(2).setPreferredWidth(100);  // Фамилия
-        staffTable.getColumnModel().getColumn(3).setPreferredWidth(120);  // Должность
-        staffTable.getColumnModel().getColumn(7).setPreferredWidth(80);   // Зарплата
+        // Настройка ширины колонок
+        int[] columnWidths = {120, 90, 110, 130, 120, 180, 100, 110, 100, 80};
+        for (int i = 0; i < columnWidths.length; i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(columnWidths[i]);
+        }
 
-        refreshButton = new JButton("Обновить");
-        refreshButton.setBackground(new Color(210, 105, 30));
-        refreshButton.setForeground(Color.WHITE);
-
-        closeButton = new JButton("Закрыть");
+        // Специальный рендерер для сотрудников
+        table.setDefaultRenderer(Object.class, new StaffCellRenderer());
     }
 
-    private void setupLayout() {
-        setLayout(new BorderLayout());
-
-        // Заголовок
-        JPanel headerPanel = getJPanel();
-
-        add(headerPanel, BorderLayout.NORTH);
-
-        // Таблица с прокруткой
-        JScrollPane scrollPane = new JScrollPane(staffTable);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Панель кнопок
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        buttonPanel.add(refreshButton);
-        buttonPanel.add(closeButton);
-        add(buttonPanel, BorderLayout.SOUTH);
-    }
-
-    private JPanel getJPanel() {
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JLabel titleLabel = new JLabel("Список сотрудников отеля");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titleLabel.setForeground(new Color(210, 105, 30));
-
-        headerPanel.add(titleLabel, BorderLayout.WEST);
-
-        JLabel countLabel = new JLabel("Всего сотрудников: 0");
-        countLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        headerPanel.add(countLabel, BorderLayout.EAST);
-        return headerPanel;
-    }
-
-    private void setupListeners() {
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadStaffData();
-            }
-        });
-
-        closeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
-    }
-
-    private void loadStaffData() {
+    @Override
+    protected void loadData() {
         try {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             refreshButton.setEnabled(false);
 
             List<Staff> staffList = staffService.getAllStaff();
-
-            DefaultTableModel model = (DefaultTableModel) staffTable.getModel();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setRowCount(0);
 
             for (Staff staff : staffList) {
                 model.addRow(new Object[]{
-                        staff.getPassportNumber(),  // ← показываем паспорт вместо ID
+                        staff.getPassportNumber(),
                         staff.getFirstName(),
                         staff.getLastName(),
                         staff.getPosition(),
-                        staff.getPhoneNumber(),
+                        formatPhoneNumber(staff.getPhoneNumber()),
                         staff.getEmail(),
                         staff.getHireDate(),
-                        String.format("%.2f руб.", staff.getSalary()),
-                        staff.getDepartment()
+                        String.format("%,d руб.", (int) staff.getSalary()),
+                        staff.getDepartment(),
+                        "Активен"
                 });
             }
 
-            updateStaffCount(staffList.size());
+            updateCountLabel(staffList.size());
 
             if (staffList.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                        "Нет данных о сотрудниках.\n\n" +
-                                "Возможные причины:\n" +
-                                "• Сервер недоступен\n" +
-                                "• Нет сотрудников в базе данных\n" +
-                                "• Ошибка соединения",
-                        "Информация", JOptionPane.INFORMATION_MESSAGE);
+                showEmptyDataMessage();
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Ошибка загрузки данных: " + e.getMessage(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            logger.error("Ошибка загрузки данных сотрудников: {}", e.getMessage());
+            showLoadingError("Ошибка загрузки данных: " + e.getMessage());
         } finally {
             setCursor(Cursor.getDefaultCursor());
             refreshButton.setEnabled(true);
         }
     }
 
-    private void updateStaffCount(int count) {
-        Component[] components = ((JPanel)getContentPane().getComponent(0)).getComponents();
-        for (Component comp : components) {
-            if (comp instanceof JPanel) {
-                Component[] headerComps = ((JPanel)comp).getComponents();
-                for (Component headerComp : headerComps) {
-                    if (headerComp instanceof JLabel && headerComp != ((JPanel)comp).getComponent(0)) {
-                        ((JLabel)headerComp).setText("Всего сотрудников: " + count);
-                        return;
+    @Override
+    protected void setupAdditionalComponents() {
+        // Дополнительные компоненты не требуются
+    }
+
+    private String formatPhoneNumber(String phone) {
+        if (phone == null || phone.isEmpty()) return "Не указан";
+        return phone.replaceFirst("(\\d{1})(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "+$1 ($2) $3-$4-$5");
+    }
+
+    // Специальный рендерер для ячеек сотрудников
+    private static class StaffCellRenderer extends GradientCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                                                       boolean isSelected, boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            // Особые стили для статусов
+            if (column == 9 && value != null) {
+                String status = value.toString();
+                if (!isSelected) {
+                    if (status.equals("Активен")) {
+                        setBackground(new Color(230, 255, 230));
+                        setForeground(new Color(39, 174, 96));
+                    } else {
+                        setBackground(new Color(255, 230, 230));
+                        setForeground(new Color(231, 76, 60));
                     }
                 }
             }
+
+            // Выравнивание для зарплаты
+            if (column == 7) {
+                setHorizontalAlignment(JLabel.RIGHT);
+            } else {
+                setHorizontalAlignment(JLabel.LEFT);
+            }
+
+            return this;
         }
     }
 }

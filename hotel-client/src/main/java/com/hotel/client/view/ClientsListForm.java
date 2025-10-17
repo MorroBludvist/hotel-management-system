@@ -1,176 +1,148 @@
 package com.hotel.client.view;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-import com.hotel.client.model.Client;
 import com.hotel.client.service.ApiService;
+import com.hotel.client.model.Client;
 import com.hotel.client.service.ClientService;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.List;
+
 /**
- * Форма для просмотра списка клиентов.
+ * Форма для просмотра списка клиентов с градиентным дизайном
  */
-public class ClientsListForm extends JDialog {
-    private JTable clientsTable;
-    private JButton refreshButton;
-    private JButton closeButton;
+public class ClientsListForm extends BaseTableForm {
+    private static final Logger logger = LogManager.getLogger(ClientsListForm.class);
+
     private ApiService apiService;
     private ClientService clientService;
 
-    private static final Logger logger = LogManager.getLogger(ClientsListForm.class);
-
-
     public ClientsListForm(JFrame parent) {
-        super(parent, "Список клиентов", true);
+        super(parent, "Список клиентов", 1200, 700);
         this.apiService = ApiService.getInstance();
         this.clientService = new ClientService(apiService);
+
         initializeComponents();
-        setupLayout();
-        setupListeners();
-        loadClientsData();
-        pack();
-        setLocationRelativeTo(parent);
-        setSize(800, 500);
+        setupBaseLayout("Список клиентов отеля",
+                new Color(41, 128, 185),
+                new Color(52, 152, 219));
+        setupBaseListeners();
+        loadData();
     }
 
-    private void initializeComponents() {
-        // Создаем модель таблицы
+    @Override
+    protected void initializeTable() {
         String[] columns = {"Паспорт", "Имя", "Фамилия", "Телефон", "Email",
-                "Заезд", "Выезд", "Номер", "Тип номера"};
+                "Дата заезда", "Дата выезда", "Номер", "Тип номера", "Статус"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Запрещаем редактирование
+                return false;
             }
         };
 
-        clientsTable = new JTable(model);
-        clientsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        clientsTable.getTableHeader().setReorderingAllowed(false);
+        table = new JTable(model);
+        applyTableStyles();
 
-        // Настраиваем отображение таблицы
-        clientsTable.setRowHeight(25);
-        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(50);  // ID
-        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(80);  // Имя
-        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(100); // Фамилия
-        clientsTable.getColumnModel().getColumn(3).setPreferredWidth(100); // Паспорт
-        clientsTable.getColumnModel().getColumn(4).setPreferredWidth(120); // Телефон
+        // Настройка ширины колонок
+        int[] columnWidths = {120, 100, 120, 130, 180, 110, 110, 80, 100, 90};
+        for (int i = 0; i < columnWidths.length; i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(columnWidths[i]);
+        }
 
-        refreshButton = new JButton("Обновить");
-        refreshButton.setBackground(new Color(70, 130, 180));
-        refreshButton.setForeground(Color.WHITE);
-
-        closeButton = new JButton("Закрыть");
+        // Специальный рендерер для статусов клиентов
+        table.setDefaultRenderer(Object.class, new ClientCellRenderer());
     }
 
-    private void setupLayout() {
-        setLayout(new BorderLayout());
-
-        // Заголовок
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JLabel titleLabel = new JLabel("Список клиентов отеля");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titleLabel.setForeground(new Color(70, 130, 180));
-
-        headerPanel.add(titleLabel, BorderLayout.WEST);
-
-        JLabel countLabel = new JLabel("Всего клиентов: 0");
-        countLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        headerPanel.add(countLabel, BorderLayout.EAST);
-
-        add(headerPanel, BorderLayout.NORTH);
-
-        // Таблица с прокруткой
-        JScrollPane scrollPane = new JScrollPane(clientsTable);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Панель кнопок
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        buttonPanel.add(refreshButton);
-        buttonPanel.add(closeButton);
-        add(buttonPanel, BorderLayout.SOUTH);
-    }
-
-    private void setupListeners() {
-        refreshButton.addActionListener(e -> loadClientsData());
-        closeButton.addActionListener(e -> dispose());
-    }
-
-    private void loadClientsData() {
+    @Override
+    protected void loadData() {
         try {
-            //TODO: починить индикатор загрузки
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             refreshButton.setEnabled(false);
 
-            // Получаем данные с сервера
             List<Client> clients = clientService.getAllClients();
-
-            // Очищаем таблицу
-            DefaultTableModel model = (DefaultTableModel) clientsTable.getModel();
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setRowCount(0);
 
-            // Заполняем таблицу данными
             for (Client client : clients) {
+                String status = getClientStatus(client);
                 model.addRow(new Object[]{
                         client.getPassportNumber(),
                         client.getFirstName(),
                         client.getLastName(),
-                        client.getPhoneNumber(),
+                        formatPhoneNumber(client.getPhoneNumber()),
                         client.getEmail(),
                         client.getCheckInDate(),
                         client.getCheckOutDate(),
                         client.getRoomNumber(),
-                        client.getRoomType()
+                        client.getRoomType(),
+                        status
                 });
             }
 
-            // Обновляем счетчик
-            updateClientCount(clients.size());
+            updateCountLabel(clients.size());
 
             if (clients.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                        "Нет данных о клиентах.\n\n" +
-                                "Возможные причины:\n" +
-                                "• Сервер недоступен\n" +
-                                "• Нет клиентов в базе данных\n" +
-                                "• Ошибка соединения",
-                        "Информация", JOptionPane.INFORMATION_MESSAGE);
+                showEmptyDataMessage();
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Ошибка загрузки данных: " + e.getMessage(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            logger.error("Ошибка загрузки данных клиентов: {}", e.getMessage());
+            showLoadingError("Ошибка загрузки данных: " + e.getMessage());
         } finally {
-            // Восстанавливаем курсор
             setCursor(Cursor.getDefaultCursor());
             refreshButton.setEnabled(true);
         }
     }
 
-    private void updateClientCount(int count) {
-        // Находим и обновляем label с количеством
-        Component[] components = ((JPanel)getContentPane().getComponent(0)).getComponents();
-        for (Component comp : components) {
-            if (comp instanceof JPanel) {
-                Component[] headerComps = ((JPanel)comp).getComponents();
-                for (Component headerComp : headerComps) {
-                    if (headerComp instanceof JLabel && headerComp != ((JPanel)comp).getComponent(0)) {
-                        ((JLabel)headerComp).setText("Всего клиентов: " + count);
-                        return;
+    @Override
+    protected void setupAdditionalComponents() {
+        // Дополнительные компоненты не требуются
+    }
+
+    private String getClientStatus(Client client) {
+        if (client.getCheckInDate() == null || client.getCheckInDate().isEmpty()) {
+            return "Не заселен";
+        } else if (client.getCheckOutDate() == null || client.getCheckOutDate().isEmpty()) {
+            return "Проживает";
+        } else {
+            return "Выселен";
+        }
+    }
+
+    private String formatPhoneNumber(String phone) {
+        if (phone == null || phone.isEmpty()) return "Не указан";
+        return phone.replaceFirst("(\\d{1})(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "+$1 ($2) $3-$4-$5");
+    }
+
+    // Специальный рендерер для ячеек клиентов
+    private static class ClientCellRenderer extends GradientCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                                                       boolean isSelected, boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            // Особые стили для статусов
+            if (column == 9 && value != null) {
+                String status = value.toString();
+                if (!isSelected) {
+                    if (status.equals("Проживает")) {
+                        setBackground(new Color(230, 255, 230));
+                        setForeground(new Color(39, 174, 96));
+                    } else if (status.equals("Не заселен")) {
+                        setBackground(new Color(255, 243, 205));
+                        setForeground(new Color(255, 193, 7));
+                    } else if (status.equals("Выселен")) {
+                        setBackground(new Color(255, 230, 230));
+                        setForeground(new Color(231, 76, 60));
                     }
                 }
             }
+
+            return this;
         }
     }
 }

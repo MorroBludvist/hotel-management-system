@@ -1,21 +1,22 @@
 package com.hotel.client.view;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import com.hotel.client.service.ApiService;
 import com.hotel.client.model.Staff;
-
 import com.hotel.client.service.StaffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Форма для добавления сотрудника с паспортом как первичным ключом
+ * Форма для добавления сотрудника с градиентным дизайном и скроллингом
  */
-public class AddStaffForm extends JDialog {
+public class AddStaffForm extends BaseAddForm {
+    private static final Logger logger = LogManager.getLogger(AddStaffForm.class);
+
     private JTextField passportField;
     private JTextField firstNameField;
     private JTextField lastNameField;
@@ -25,44 +26,37 @@ public class AddStaffForm extends JDialog {
     private JTextField hireDateField;
     private JTextField salaryField;
     private JComboBox<String> departmentComboBox;
-    private JButton saveButton;
-    private JButton cancelButton;
 
     private ApiService apiService;
     private StaffService staffService;
 
-    private static final Logger logger = LogManager.getLogger(AddStaffForm.class);
-
     public AddStaffForm(JFrame parent) {
-        super(parent, "Добавление сотрудника", true);
+        super(parent, "Добавление сотрудника", 500, 550); // Уменьшил высоту, т.к. теперь есть скролл
         this.apiService = ApiService.getInstance();
         this.staffService = new StaffService(apiService);
+
         initializeComponents();
-        setupLayout();
+        setupBaseLayout("Добавление сотрудника",
+                new Color(230, 126, 34),
+                new Color(211, 84, 0));
         setupListeners();
-        pack();
-        setLocationRelativeTo(parent);
-        setSize(500, 500);  //Увеличиваем высоту для нового поля
     }
 
-    private void initializeComponents() {
-        passportField = new JTextField(20);
-        firstNameField = new JTextField(20);
-        lastNameField = new JTextField(20);
-        positionField = new JTextField(20);
-        phoneField = new JTextField(20);
-        emailField = new JTextField(20);
-        hireDateField = new JTextField(20);
-        salaryField = new JTextField(20);
+    @Override
+    protected void initializeComponents() {
+        initializeBaseComponents();
+
+        passportField = createStyledTextField();
+        firstNameField = createStyledTextField();
+        lastNameField = createStyledTextField();
+        positionField = createStyledTextField();
+        phoneField = createStyledTextField();
+        emailField = createStyledTextField();
+        hireDateField = createStyledTextField();
+        salaryField = createStyledTextField();
 
         String[] departments = {"Администрация", "Обслуживание", "Кухня", "Уборка", "Безопасность", "IT"};
-        departmentComboBox = new JComboBox<>(departments);
-
-        saveButton = new JButton("Добавить сотрудника");
-        saveButton.setBackground(new Color(210, 105, 30));
-        saveButton.setForeground(Color.WHITE);
-
-        cancelButton = new JButton("Отмена");
+        departmentComboBox = createStyledComboBox(departments);
 
         // Устанавливаем подсказки
         passportField.setToolTipText("Серия и номер паспорта (10 цифр)");
@@ -71,110 +65,156 @@ public class AddStaffForm extends JDialog {
         positionField.setToolTipText("Например: Администратор, Горничная, Повар");
     }
 
-    private void setupLayout() {
-        setLayout(new BorderLayout());
-
-        // Основная панель с полями
-        JPanel fieldsPanel = new JPanel(new GridBagLayout());
-        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    @Override
+    protected JPanel createFieldsPanel() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.weightx = 1.0;
 
-        // Заголовок
-        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
-        JLabel titleLabel = new JLabel("Информация о сотруднике");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titleLabel.setForeground(new Color(210, 105, 30));
-        fieldsPanel.add(titleLabel, gbc);
+        int row = 0;
 
-        // Пустая строка для отступа
-        gbc.gridy = 1; gbc.gridwidth = 2;
-        fieldsPanel.add(Box.createVerticalStrut(10), gbc);
+        // Заголовок раздела
+        gbc.gridx = 0; gbc.gridy = row++; gbc.gridwidth = 2;
+        JLabel sectionLabel = new JLabel("Основная информация");
+        sectionLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        sectionLabel.setForeground(new Color(52, 73, 94));
+        panel.add(sectionLabel, gbc);
 
-        // Поля формы - ДОБАВЛЯЕМ поле паспорта
         gbc.gridwidth = 1;
-        gbc.gridy = 2; gbc.gridx = 0;
-        fieldsPanel.add(new JLabel("Паспорт*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(passportField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Паспорт *"), gbc);
+        gbc.gridx = 1;
+        panel.add(passportField, gbc);
 
-        gbc.gridy = 3; gbc.gridx = 0;
-        fieldsPanel.add(new JLabel("Имя*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(firstNameField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Имя *"), gbc);
+        gbc.gridx = 1;
+        panel.add(firstNameField, gbc);
 
-        gbc.gridy = 4; gbc.gridx = 0; fieldsPanel.add(new JLabel("Фамилия*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(lastNameField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Фамилия *"), gbc);
+        gbc.gridx = 1;
+        panel.add(lastNameField, gbc);
 
-        gbc.gridy = 5; gbc.gridx = 0; fieldsPanel.add(new JLabel("Должность*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(positionField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Должность *"), gbc);
+        gbc.gridx = 1;
+        panel.add(positionField, gbc);
 
-        gbc.gridy = 6; gbc.gridx = 0; fieldsPanel.add(new JLabel("Телефон:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(phoneField, gbc);
+        // Разделитель
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        panel.add(createSeparator(), gbc);
 
-        gbc.gridy = 7; gbc.gridx = 0; fieldsPanel.add(new JLabel("Email:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(emailField, gbc);
+        // Контактная информация
+        gbc.gridy = row++; gbc.gridwidth = 2;
+        JLabel contactLabel = new JLabel("Контактная информация");
+        contactLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        contactLabel.setForeground(new Color(52, 73, 94));
+        panel.add(contactLabel, gbc);
 
-        gbc.gridy = 8; gbc.gridx = 0; fieldsPanel.add(new JLabel("Дата найма*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(hireDateField, gbc);
+        gbc.gridwidth = 1;
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Телефон"), gbc);
+        gbc.gridx = 1;
+        panel.add(phoneField, gbc);
 
-        gbc.gridy = 9; gbc.gridx = 0; fieldsPanel.add(new JLabel("Зарплата*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(salaryField, gbc);
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Email"), gbc);
+        gbc.gridx = 1;
+        panel.add(emailField, gbc);
 
-        gbc.gridy = 10; gbc.gridx = 0; fieldsPanel.add(new JLabel("Отдел*:"), gbc);
-        gbc.gridx = 1; fieldsPanel.add(departmentComboBox, gbc);
+        // Разделитель
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        panel.add(createSeparator(), gbc);
+
+        // Рабочая информация
+        gbc.gridy = row++; gbc.gridwidth = 2;
+        JLabel workLabel = new JLabel("Рабочая информация");
+        workLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        workLabel.setForeground(new Color(52, 73, 94));
+        panel.add(workLabel, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Дата найма *"), gbc);
+        gbc.gridx = 1;
+        panel.add(hireDateField, gbc);
+
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Зарплата *"), gbc);
+        gbc.gridx = 1;
+        panel.add(salaryField, gbc);
+
+        gbc.gridy = row++; gbc.gridx = 0;
+        panel.add(createStyledLabel("Отдел *"), gbc);
+        gbc.gridx = 1;
+        panel.add(departmentComboBox, gbc);
 
         // Подпись обязательных полей
-        gbc.gridy = 11; gbc.gridx = 0; gbc.gridwidth = 2;
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
         JLabel requiredLabel = new JLabel("* - обязательные поля");
-        requiredLabel.setFont(new Font("Arial", Font.ITALIC, 10));
-        requiredLabel.setForeground(Color.GRAY);
-        fieldsPanel.add(requiredLabel, gbc);
+        requiredLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
+        requiredLabel.setForeground(new Color(150, 150, 150));
+        panel.add(requiredLabel, gbc);
 
-        add(fieldsPanel, BorderLayout.CENTER);
+        // Пустое пространство внизу
+        gbc.gridy = row++; gbc.gridx = 0; gbc.gridwidth = 2;
+        gbc.weighty = 1.0;
+        panel.add(Box.createGlue(), gbc);
 
-        // Панель с кнопками
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
-        buttonPanel.add(saveButton);
-        buttonPanel.add(cancelButton);
-        add(buttonPanel, BorderLayout.SOUTH);
+        return panel;
     }
 
-    private void setupListeners() {
-        saveButton.addActionListener(e -> saveStaff());
+    @Override
+    protected void setupListeners() {
+        saveButton.addActionListener(e -> {
+            if (validateForm()) {
+                saveData();
+            }
+        });
+
         cancelButton.addActionListener(e -> dispose());
     }
 
-    private void saveStaff() {
-        // Валидация обязательных полей - ДОБАВЛЯЕМ паспорт
-        if (passportField.getText().trim().isEmpty() ||
-                firstNameField.getText().trim().isEmpty() ||
-                lastNameField.getText().trim().isEmpty() ||
-                positionField.getText().trim().isEmpty() ||
-                hireDateField.getText().trim().isEmpty() ||
-                salaryField.getText().trim().isEmpty()) {
+    @Override
+    protected boolean validateForm() {
+        List<JTextField> requiredFields = new ArrayList<>();
+        requiredFields.add(passportField);
+        requiredFields.add(firstNameField);
+        requiredFields.add(lastNameField);
+        requiredFields.add(positionField);
+        requiredFields.add(hireDateField);
+        requiredFields.add(salaryField);
 
-            JOptionPane.showMessageDialog(this,
-                    "Пожалуйста, заполните все обязательные поля (отмечены *)",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-            return;
+        if (!validateRequiredFields(requiredFields.toArray(new JTextField[0]))) {
+            return false;
         }
 
-        // Валидация паспорта (должен быть 10 цифр)
-        String passport = passportField.getText().trim();
-        if (!passport.matches("\\d{10}")) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Паспорт должен содержать ровно 10 цифр",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-            return;
+        if (!validatePassport(passportField.getText().trim())) {
+            return false;
         }
 
         try {
-            // Создаем объект сотрудника С ПАСПОРТОМ
+            Double.parseDouble(salaryField.getText().trim());
+        } catch (NumberFormatException e) {
+            showError("Зарплата должна быть числом (например: 50000.00)");
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    protected void saveData() {
+        try {
             Staff staff = new Staff(
-                    passport,
                     firstNameField.getText().trim(),
                     lastNameField.getText().trim(),
+                    passportField.getText().trim(),
                     positionField.getText().trim(),
                     phoneField.getText().trim(),
                     emailField.getText().trim(),
@@ -183,31 +223,20 @@ public class AddStaffForm extends JDialog {
                     departmentComboBox.getSelectedItem().toString()
             );
 
-            // Пытаемся отправить на сервер
             if (staffService.addStaff(staff)) {
-                JOptionPane.showMessageDialog(this,
-                        "✅ Сотрудник успешно добавлен!\n\n" +
-                                "Паспорт: " + passport + "\n" +
-                                "Данные отправлены на сервер.",
-                        "Успех", JOptionPane.INFORMATION_MESSAGE);
+                showSuccess("Сотрудник успешно добавлен!\n\n" +
+                        "Паспорт: " + staff.getPassportNumber() + "\n" +
+                        "Должность: " + staff.getPosition());
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(this,
-                        "❌ Ошибка при добавлении сотрудника\n\n" +
-                                "Возможные причины:\n" +
-                                "• Сотрудник с таким паспортом уже существует\n" +
-                                "• Сервер недоступен\n" +
-                                "• Проверьте корректность данных",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                showError("Ошибка при добавлении сотрудника\n\n" +
+                        "Возможные причины:\n" +
+                        "• Сотрудник с таким паспортом уже существует\n" +
+                        "• Сервер недоступен");
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Зарплата должна быть числом (например: 50000.00)",
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Неожиданная ошибка: " + e.getMessage(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+            logger.error("Ошибка сохранения сотрудника: {}", e.getMessage());
+            showError("Неожиданная ошибка: " + e.getMessage());
         }
     }
 }

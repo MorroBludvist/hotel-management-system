@@ -1,0 +1,178 @@
+/* Основные стили */
+.root-panel {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Стили для кнопок */
+.styled-button {
+    background: linear-gradient(45deg, #FF6B6B, #FFE66D);
+    border: 2px solid #FF6B6B;
+    border-radius: 25px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2C3E50;
+    padding: 12px 24px;
+    margin: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.styled-button:hover {
+    background: linear-gradient(45deg, #FF8E8E, #FFF180);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.styled-button:pressed {
+    background: linear-gradient(45deg, #E55656, #E5C95C);
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.styled-button:disabled {
+    background: #BDC3C7;
+    border-color: #95A5A6;
+    color: #7F8C8D;
+}
+
+/* Стили для навигационных кнопок */
+.nav-button {
+    background: linear-gradient(45deg, #3498DB, #8E44AD);
+    border: 2px solid #2980B9;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 3px;
+    font-size: 24px;
+}
+
+.nav-button:hover {
+    background: linear-gradient(45deg, #5DADE2, #9B59B6);
+}
+
+/* Стили для опасных кнопок */
+.danger-button {
+    background: linear-gradient(45deg, #E74C3C, #C0392B);
+    border: 2px solid #C0392B;
+    border-radius: 20px;
+    color: white;
+}
+
+.danger-button:hover {
+    background: linear-gradient(45deg, #EC7063, #CD6155);
+}
+
+/* Стили для таблиц */
+.styled-table {
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #BDC3C7;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.styled-table-header {
+    background: linear-gradient(45deg, #34495E, #2C3E50);
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    border-bottom: 2px solid #3498DB;
+}
+
+.styled-table-row {
+    background: #F8F9F9;
+    border-bottom: 1px solid #EAECEE;
+}
+
+.styled-table-row:selected {
+    background: #D6EAF8;
+    color: #2C3E50;
+}
+
+.styled-table-row:hover {
+    background: #EBF5FB;
+}
+
+/* Стили для форм */
+.styled-form {
+    background: white;
+    border-radius: 15px;
+    border: 3px solid #3498DB;
+    padding: 20px;
+}
+
+.styled-label {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.styled-textfield {
+    border: 2px solid #BDC3C7;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    background: #F8F9F9;
+    transition: border 0.3s ease;
+}
+
+.styled-textfield:focus {
+    border-color: #3498DB;
+    background: white;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+}
+
+.styled-combobox {
+    border: 2px solid #BDC3C7;
+    border-radius: 10px;
+    padding: 8px 12px;
+    background: #F8F9F9;
+}
+
+/*ИСПРАВИТЬ НАЗВАНИЯ*/
+.modern-table {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #E0E0E0;
+}
+
+.modern-table-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    border-bottom: 2px solid #5a67d8;
+}
+
+.modern-table-row {
+    background: #F8F9FA;
+    border-bottom: 1px solid #E9ECEF;
+}
+
+.modern-table-row:even {
+    background: #FFFFFF;
+}
+
+.modern-table-row:selected {
+    background: linear-gradient(45deg, #4FC3F7, #29B6F6);
+    color: white;
+}
+
+.status-available {
+    background: #C8E6C9;
+    color: #2E7D32;
+    border-radius: 12px;
+    padding: 4px 8px;
+    font-weight: bold;
+}
+
+.status-occupied {
+    background: #FFCDD2;
+    color: #C62828;
+    border-radius: 12px;
+    padding: 4px 8px;
+    font-weight: bold;
+}

@@ -1,38 +1,44 @@
 package com.hotel.client.service;
 
 import com.hotel.client.model.Client;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientService {
-    private final ApiService apiService;
     private static final Logger logger = LogManager.getLogger(ClientService.class);
+
+    private final ApiService apiService;
 
     public ClientService(ApiService apiService) {
         this.apiService = apiService;
+        logger.debug("ClientService инициализирован");
     }
 
     public List<Client> getAllClients() {
+        logger.info("🔄 Получаем список всех клиентов");
         try {
             String response = apiService.executeRequest("/clients", "GET", null);
             if (response != null && response.startsWith("[")) {
-                return parseJsonToClients(response);
+                List<Client> clients = parseJsonToClients(response);
+                logger.info("✅ Успешно загружено {} клиентов", clients.size());
+                return clients;
             } else {
-                System.out.println("❌ Сервер вернул некорректный ответ: " + response);
+                logger.error("❌ Сервер вернул некорректный ответ: {}", response);
                 return new ArrayList<>();
             }
         } catch (Exception e) {
-            System.err.println("❌ Ошибка получения клиентов: " + e.getMessage());
+            logger.error("❌ Ошибка получения клиентов: {}", e.getMessage(), e);
             return new ArrayList<>();
         }
     }
 
     public boolean addClient(Client client) {
+        logger.info("👤 Добавляем клиента: {} {} (паспорт: {})",
+                client.getFirstName(), client.getLastName(), client.getPassportNumber());
+
         try {
             String jsonBody = String.format(
                     "{\"firstName\":\"%s\",\"lastName\":\"%s\",\"passportNumber\":\"%s\"," +
@@ -49,11 +55,22 @@ public class ClientService {
                     apiService.escapeJson(client.getRoomType())
             );
 
+            logger.debug("📨 JSON для отправки: {}", jsonBody);
             String response = apiService.executeRequest("/clients", "POST", jsonBody);
-            return response != null && response.contains("\"success\":true");
+
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Клиент {} {} успешно добавлен",
+                        client.getFirstName(), client.getLastName());
+            } else {
+                logger.warn("⚠️ Не удалось добавить клиента. Ответ сервера: {}", response);
+            }
+
+            return success;
 
         } catch (Exception e) {
-            System.err.println("❌ Ошибка добавления клиента: " + e.getMessage());
+            logger.error("❌ Ошибка добавления клиента: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -62,33 +79,29 @@ public class ClientService {
         List<Client> clients = new ArrayList<>();
 
         if (json == null || json.trim().isEmpty()) {
-            System.out.println("❌ JSON пустой или null");
+            logger.warn("❌ JSON пустой или null");
             return clients;
         }
 
         try {
-            System.out.println("🔧 Начинаем парсинг JSON клиентов...");
+            logger.debug("🔧 Начинаем парсинг JSON клиентов...");
 
-            // Убираем внешние скобки
-            System.out.println(json);
             String cleanJson = json.trim();
             if (cleanJson.startsWith("[") && cleanJson.endsWith("]")) {
                 cleanJson = cleanJson.substring(1, cleanJson.length() - 1).trim();
             }
 
             if (cleanJson.isEmpty()) {
-                System.out.println("📭 Нет данных о клиентах");
+                logger.info("📭 Нет данных о клиентах");
                 return clients;
             }
 
-            // Разделяем на объекты
             String[] objects = cleanJson.split("\\},\\s*\\{");
-            System.out.println("📋 Найдено объектов: " + objects.length);
+            logger.debug("📋 Найдено объектов: {}", objects.length);
 
             for (int i = 0; i < objects.length; i++) {
                 String obj = objects[i].trim();
 
-                // Восстанавливаем фигурные скобки
                 if (i == 0 && !obj.startsWith("{")) obj = "{" + obj;
                 if (i == objects.length - 1 && !obj.endsWith("}")) obj = obj + "}";
                 if (i > 0 && i < objects.length - 1) {
@@ -102,17 +115,17 @@ public class ClientService {
                 }
             }
 
-            System.out.println("🎯 Итого распаршено клиентов: " + clients.size());
+            logger.info("🎯 Итого распаршено клиентов: {}", clients.size());
+            return clients;
 
         } catch (Exception e) {
-            System.err.println("❌ Ошибка парсинга клиентов: " + e.getMessage());
+            logger.error("❌ Ошибка парсинга клиентов: {}", e.getMessage(), e);
+            return new ArrayList<>();
         }
-        return clients;
     }
 
     private Client parseClientObject(String jsonObject) {
         try {
-            // Извлекаем все поля
             String firstName = apiService.extractStringValue(jsonObject, "firstName");
             String lastName = apiService.extractStringValue(jsonObject, "lastName");
             String passportNumber = apiService.extractStringValue(jsonObject, "passportNumber");
@@ -123,14 +136,14 @@ public class ClientService {
             Integer roomNumber = apiService.extractIntegerValue(jsonObject, "roomNumber");
             String roomType = apiService.extractStringValue(jsonObject, "roomType");
 
-            // Проверяем обязательные поля
+            logger.debug("📊 Распаршены поля: {} {}, паспорт: {}, номер: {}",
+                    firstName, lastName, passportNumber, roomNumber);
+
             if (firstName == null || lastName == null || passportNumber == null) {
-                //logger.debug("Отсутствуют обязательные поля");
-                //System.out.println("⚠️ Отсутствуют обязательные поля");
+                logger.warn("⚠️ Отсутствуют обязательные поля у клиента");
                 return null;
             }
 
-            // Создаем клиента
             Client client = new Client(
                     firstName, lastName, passportNumber, phoneNumber, email,
                     checkInDate, checkOutDate,
@@ -138,12 +151,19 @@ public class ClientService {
                     roomType != null ? roomType : "Не указан"
             );
 
-            System.out.println("✅ Создан клиент: " + firstName + " " + lastName);
+            logger.debug("✅ Создан клиент: {} {}", firstName, lastName);
             return client;
 
         } catch (Exception e) {
-            System.err.println("❌ Ошибка парсинга объекта клиента: " + e.getMessage());
+            logger.error("❌ Ошибка парсинга объекта клиента: {}", e.getMessage(), e);
             return null;
         }
     }
+
+    public boolean clearClientData() {
+        logger.debug("Очистка базы данных клиентов");
+        boolean success = false;
+        return success;
+    }
+
 }
