@@ -1538,3 +1538,185 @@
 [AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
 [AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
 [AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567822, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 0987654321, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a f, паспорт: 1231312312, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: d f, паспорт: 1231231232, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: d f
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Найдено 40 свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567822, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 0987654321, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a f, паспорт: 1231312312, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: d f, паспорт: 1231231232, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: d f
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 2
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: 1234567890 a, паспорт: a, зарплата: 22.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: 1234567890 a, паспорт: a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: 1231231232 adaf, паспорт: afa, зарплата: 245.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: 1231231232 adaf, паспорт: afa
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 2
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 2 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567822, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 0987654321, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a f, паспорт: 1231312312, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: d f, паспорт: 1231231232, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: d f
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567822, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 0987654321, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a f, паспорт: 1231312312, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: d f, паспорт: 1231231232, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: d f
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567822, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 0987654321, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a f, паспорт: 1231312312, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: d f, паспорт: 1231231232, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: d f
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567822, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 0987654321, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a f, паспорт: 1231312312, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: d f, паспорт: 1231231232, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: d f
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 2
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: 1234567890 a, паспорт: a, зарплата: 22.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: 1234567890 a, паспорт: a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: 1231231232 adaf, паспорт: afa, зарплата: 245.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: 1231231232 adaf, паспорт: afa
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 2
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 2 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Найдено 40 свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a a, паспорт: 1234567822, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a a
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 0987654321, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: a f, паспорт: 1231312312, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: a f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: d f, паспорт: 1231231232, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: d f
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован

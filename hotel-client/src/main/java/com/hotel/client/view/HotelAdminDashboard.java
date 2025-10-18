@@ -1,12 +1,18 @@
 package com.hotel.client.view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.hotel.client.service.*;
@@ -16,7 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Главное окно панели администратора отеля с управлением датой
+ * Главное окно панели администратора отеля
  */
 public class HotelAdminDashboard extends JFrame {
     private JLabel currentDateLabel;
@@ -27,28 +33,21 @@ public class HotelAdminDashboard extends JFrame {
     private ClientService clientService;
     private RoomService roomService;
     private StaffService staffService;
-    //private UIThemeManager uiThemeManager;
 
     private static final Logger logger = LogManager.getLogger(HotelAdminDashboard.class);
 
     public HotelAdminDashboard() {
-        //Инициализация сервисов для отправки и обработки запросов
         apiService = ApiService.getInstance();
         this.clientService = new ClientService(apiService);
         this.roomService = new RoomService(apiService);
         this.staffService = new StaffService(apiService);
 
-        // Устанавливаем текущую дату
         currentDate = new Date();
-
-        // Проверяем доступность сервера
         checkServerConnection();
 
-        // Основные настройки окна
-        //uiThemeManager = new UIThemeManager();
-        setTitle("Панель администратора отеля - Управление номерами");
+        setTitle("Панель администратора отеля");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1100, 750);
+        setSize(1200, 800);
         setLocationRelativeTo(null);
 
         setLayout(new BorderLayout());
@@ -60,21 +59,35 @@ public class HotelAdminDashboard extends JFrame {
     }
 
     private void createHeader() {
-        JPanel headerPanel = new JPanel(new BorderLayout());
-        headerPanel.setBackground(new Color(44, 62, 80)); // Темный фон
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        JPanel headerPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Светлый градиент для верхней панели
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(240, 245, 249),
+                        getWidth(), getHeight(), new Color(225, 235, 245));
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+
+        headerPanel.setPreferredSize(new Dimension(getWidth(), 80));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
 
         // Левая часть - название и дата
         JPanel leftHeader = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftHeader.setOpaque(false);
 
-        JLabel appTitle = new JLabel("🏨 Панель администратора отеля");
-        appTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        appTitle.setForeground(Color.WHITE);
+        JLabel appTitle = new JLabel("Панель администратора отеля");
+        appTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        appTitle.setForeground(new Color(52, 73, 94));
 
-        currentDateLabel = new JLabel("📅 Сегодня: " + dateFormat.format(currentDate));
+        currentDateLabel = new JLabel("Сегодня: " + dateFormat.format(currentDate));
         currentDateLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        currentDateLabel.setForeground(new Color(152, 251, 152)); // Светло-зеленый
+        currentDateLabel.setForeground(new Color(100, 100, 100));
 
         leftHeader.add(appTitle);
         leftHeader.add(Box.createHorizontalStrut(20));
@@ -84,11 +97,12 @@ public class HotelAdminDashboard extends JFrame {
         JPanel rightHeader = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightHeader.setOpaque(false);
 
-        JLabel userLabel = new JLabel("👤 Администратор: Игорь Секирин");
-        userLabel.setForeground(Color.WHITE);
+        JLabel userLabel = new JLabel("Администратор: Игорь Секирин");
+        userLabel.setForeground(new Color(100, 100, 100));
+        userLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 
-        JButton advanceDateButton = createHeaderButton("⏭ Следующий день", new Color(46, 204, 113));
-        JButton logoutButton = createHeaderButton("🚪 Выход", new Color(231, 76, 60));
+        JButton advanceDateButton = createHeaderButton("Следующий день", new Color(46, 204, 113));
+        JButton logoutButton = createHeaderButton("Выход", new Color(231, 76, 60));
 
         advanceDateButton.addActionListener(e -> advanceDate());
         logoutButton.addActionListener(e -> System.exit(0));
@@ -106,85 +120,77 @@ public class HotelAdminDashboard extends JFrame {
     }
 
     private JButton createHeaderButton(String text, Color color) {
-        JButton button = new JButton(text);
-        button.setBackground(color);
-        button.setForeground(Color.WHITE);
-        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
-        button.setBorderPainted(false);
-        button.setOpaque(true);
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Эффекты при наведении
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(color.brighter());
+                GradientPaint gradient;
+                if (getModel().isPressed()) {
+                    gradient = new GradientPaint(0, 0, color.darker(), 0, getHeight(), color.darker().darker());
+                } else if (getModel().isRollover()) {
+                    gradient = new GradientPaint(0, 0, color.brighter(), 0, getHeight(), color);
+                } else {
+                    gradient = new GradientPaint(0, 0, color, 0, getHeight(), color.darker());
+                }
+
+                g2.setPaint(gradient);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2.dispose();
+
+                super.paintComponent(g);
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(color);
-            }
-        });
+        };
+
+        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(false);
+        button.setPreferredSize(new Dimension(120, 35));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         return button;
     }
 
-    /**
-     * Продвигает дату на один день вперед
-     */
-    private void advanceDate() {
-        try {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(currentDate);
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            currentDate = calendar.getTime();
-
-            String newDate = dateFormat.format(currentDate);
-
-            // Обновляем дату на сервере и проверяем занятость номеров
-            boolean success = apiService.advanceDate(newDate);
-
-            if (success) {
-                currentDateLabel.setText("Сегодня: " + newDate);
-                JOptionPane.showMessageDialog(this,
-                        "✅ Дата обновлена: " + newDate + "\n" +
-                                "Проверена занятость номеров.",
-                        "Дата обновлена", JOptionPane.INFORMATION_MESSAGE);
-
-                // Обновляем виджеты с актуальными данными
-                updateRoomWidgets();
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "❌ Ошибка обновления даты",
-                        "Ошибка", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "❌ Ошибка: " + e.getMessage(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     private void createNavigation() {
-        JPanel navPanel = new JPanel();
+        JPanel navPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                // Светлый фон для левой панели
+                GradientPaint gradient = new GradientPaint(0, 0, new Color(245, 248, 250),
+                        getWidth(), getHeight(), new Color(235, 242, 248));
+                g2d.setPaint(gradient);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
         navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.Y_AXIS));
-        navPanel.setBackground(new Color(52, 73, 94)); // Темный фон для контраста
+        navPanel.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+        navPanel.setPreferredSize(new Dimension(250, 0));
 
-        navPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        navPanel.setPreferredSize(new Dimension(220, 0));
+        // Кнопки управления данными
+        JButton viewClientsButton = createNavButton("Список клиентов", new Color(41, 128, 185));
+        JButton viewStaffButton = createNavButton("Список сотрудников", new Color(230, 126, 34));
+        JButton viewRoomsButton = createNavButton("Список номеров", new Color(39, 174, 96));
 
-        // Создаем кнопки с применением стилей
-        JButton viewClientsButton = createStyledButton("👥 Список клиентов", "nav-button");
-        JButton viewStaffButton = createStyledButton("👨‍💼 Список сотрудников", "nav-button");
-        JButton viewRoomsButton = createStyledButton("🏨 Список номеров", "nav-button");
+        // Функциональные кнопки
+        JButton generateReportButton = createNavButton("Сгенерировать отчет", new Color(155, 89, 182));
+        JButton checkOutClientButton = createNavButton("Выселить клиента", new Color(231, 76, 60));
+        JButton dismissStaffButton = createNavButton("Уволить сотрудника", new Color(192, 57, 43));
 
-        JButton generateReportButton = createStyledButton("📊 Сгенерировать отчет", "nav-button");
-        JButton clearAllDataButton = createStyledButton("🗑 Очистить всю БД", "danger-button");
-        JButton clearClientsButton = createStyledButton("Очистить клиентов", "danger-button");
-        JButton clearStaffButton = createStyledButton("Очистить сотрудников", "danger-button");
-        JButton clearRoomsButton = createStyledButton("Очистить номера", "danger-button");
+        // Очистка данных
+        JButton clearAllDataButton = createNavButton("Очистить всю БД", new Color(149, 165, 166));
+        JButton clearClientsButton = createNavButton("Очистить клиентов", new Color(149, 165, 166));
+        JButton clearStaffButton = createNavButton("Очистить сотрудников", new Color(149, 165, 166));
+        JButton clearRoomsButton = createNavButton("Очистить номера", new Color(149, 165, 166));
 
-        // Обработчики событий...
+        // Обработчики
         viewClientsButton.addActionListener(e -> {
             ClientsListForm clientsListForm = new ClientsListForm(this);
             clientsListForm.setVisible(true);
@@ -201,28 +207,35 @@ public class HotelAdminDashboard extends JFrame {
         });
 
         generateReportButton.addActionListener(e -> generateReport());
+        checkOutClientButton.addActionListener(e -> checkOutClient());
+        dismissStaffButton.addActionListener(e -> dismissStaff());
+
         clearAllDataButton.addActionListener(e -> clearAllData());
         clearClientsButton.addActionListener(e -> clearClientsData());
         clearStaffButton.addActionListener(e -> clearStaffData());
         clearRoomsButton.addActionListener(e -> clearRoomsData());
 
-        // Добавляем компоненты
+        // Добавление компонентов
         navPanel.add(createSectionLabel("Управление данными"));
-        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(Box.createVerticalStrut(8));
         navPanel.add(viewClientsButton);
         navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(viewStaffButton);
         navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(viewRoomsButton);
 
-        navPanel.add(Box.createVerticalStrut(15));
-        navPanel.add(createSectionLabel("Отчеты"));
+        navPanel.add(Box.createVerticalStrut(20));
+        navPanel.add(createSectionLabel("Операции"));
+        navPanel.add(Box.createVerticalStrut(8));
+        navPanel.add(checkOutClientButton);
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(dismissStaffButton);
         navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(generateReportButton);
 
-        navPanel.add(Box.createVerticalStrut(15));
+        navPanel.add(Box.createVerticalStrut(20));
         navPanel.add(createSectionLabel("Очистка данных"));
-        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(Box.createVerticalStrut(8));
         navPanel.add(clearClientsButton);
         navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(clearStaffButton);
@@ -236,136 +249,285 @@ public class HotelAdminDashboard extends JFrame {
         add(navPanel, BorderLayout.WEST);
     }
 
-    private JButton createStyledButton(String text, String styleClass) {
+    private JButton createNavButton(String text, Color baseColor) {
         JButton button = new JButton(text) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                // Рисуем скругленный фон
+                GradientPaint gradient;
                 if (getModel().isPressed()) {
-                    g2.setColor(getBackground().darker());
+                    gradient = new GradientPaint(0, 0, baseColor.darker(), 0, getHeight(), baseColor.darker().darker());
                 } else if (getModel().isRollover()) {
-                    g2.setColor(getBackground().brighter());
+                    gradient = new GradientPaint(0, 0, baseColor.brighter(), 0, getHeight(), baseColor);
                 } else {
-                    g2.setColor(getBackground());
+                    gradient = new GradientPaint(0, 0, baseColor, 0, getHeight(), baseColor.darker());
                 }
 
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2.setPaint(gradient);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
                 g2.dispose();
 
                 super.paintComponent(g);
             }
         };
 
-        button.setMaximumSize(new Dimension(200, 40));
-        button.setPreferredSize(new Dimension(200, 40));
-        button.setAlignmentX(Component.LEFT_ALIGNMENT);
-        button.setContentAreaFilled(false);
+        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
         button.setOpaque(false);
+        button.setMaximumSize(new Dimension(220, 40));
+        button.setPreferredSize(new Dimension(220, 40));
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         return button;
     }
 
     private JLabel createSectionLabel(String text) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        label.setForeground(new Color(52, 73, 94));
-        label.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
+        label.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        label.setForeground(new Color(100, 100, 100));
+        label.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         return label;
     }
 
     private void createMainContent() {
-        JPanel mainPanel = new JPanel(new GridLayout(2, 2, 20, 20));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(Color.WHITE);
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(240, 242, 245)); // Фон для правой панели
 
-        mainPanel.add(createRoomStatusWidget());
-        mainPanel.add(createRoomTypesWidget());
-        mainPanel.add(createQuickActionsWidget());
-        mainPanel.add(createTodayEventsWidget());
+        JPanel widgetsPanel = new JPanel(new GridLayout(2, 2, 20, 20));
+        widgetsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        widgetsPanel.setBackground(new Color(240, 242, 245)); // Фон для виджетов
+        widgetsPanel.setOpaque(true);
 
+        // Новый порядок виджетов:
+        widgetsPanel.add(createRoomTypesWidget());      // Левый верхний (бывший статус номеров)
+        widgetsPanel.add(createCalendarWidget());       // Правый верхний (бывшие типы номеров)
+        widgetsPanel.add(createQuickActionsWidget());   // Левый нижний
+        widgetsPanel.add(createTodayEventsWidget());    // Правый нижний
+
+        mainPanel.add(widgetsPanel, BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
     }
 
     /**
-     * Виджет статуса номеров
+     * Виджет типов номеров (левый верхний)
      */
-    private JPanel createRoomStatusWidget() {
-        JPanel panel = createWidgetPanel("Статус номеров на сегодня");
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    private JPanel createRoomTypesWidget() {
+        JPanel panel = createWidgetPanel("Типы номеров");
+        panel.setLayout(new BorderLayout());
 
         // Получаем актуальные данные о номерах
         List<Room> allRooms = roomService.getAllRooms();
-        List<Room> freeRooms = roomService.getFreeRooms();
         List<Room> occupiedRooms = allRooms.stream()
                 .filter(room -> "occupied".equals(room.getStatus()))
                 .collect(Collectors.toList());
 
-        JPanel chartPanel = new JPanel(new GridLayout(1, 2, 10, 10));
-        chartPanel.setOpaque(false);
-
-        JPanel occupiedPanel = createStatusPanel("Занято",
-                occupiedRooms.size() + " номеров", Color.RED);
-        JPanel freePanel = createStatusPanel("Свободно",
-                freeRooms.size() + " номеров", Color.GREEN);
-
-        chartPanel.add(occupiedPanel);
-        chartPanel.add(freePanel);
-
-        JPanel detailsPanel = new JPanel(new FlowLayout());
-        detailsPanel.setOpaque(false);
-        detailsPanel.add(new JLabel("Всего номеров: " + allRooms.size()));
-
-        JButton detailsButton = new JButton("Подробнее");
-        detailsButton.addActionListener(e -> {
-            RoomsListForm roomsListForm = new RoomsListForm(this);
-            roomsListForm.setVisible(true);
-        });
-
-        panel.add(chartPanel);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(detailsPanel);
-        panel.add(detailsButton);
-
-        return panel;
-    }
-
-    /**
-     * Виджет типов номеров
-     */
-    private JPanel createRoomTypesWidget() {
-        JPanel panel = createWidgetPanel("Типы номеров");
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
         // Статистика по типам номеров
-        List<Room> allRooms = roomService.getAllRooms();
-
-        long economyRooms = allRooms.stream().filter(r -> "Эконом".equals(r.getRoomType())).count();
-        long standardRooms = allRooms.stream().filter(r -> "Стандарт".equals(r.getRoomType())).count();
-        long businessRooms = allRooms.stream().filter(r -> "Бизнес".equals(r.getRoomType())).count();
-        long luxuryRooms = allRooms.stream().filter(r -> "Люкс".equals(r.getRoomType())).count();
+        Map<String, RoomStats> roomStats = calculateRoomStats(allRooms, occupiedRooms);
 
         JPanel statsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         statsPanel.setOpaque(false);
 
-        statsPanel.add(createStatsPanel("Эконом", economyRooms + " номеров", new Color(100, 149, 237)));
-        statsPanel.add(createStatsPanel("Стандарт", standardRooms + " номеров", new Color(60, 179, 113)));
-        statsPanel.add(createStatsPanel("Бизнес", businessRooms + " номеров", new Color(255, 165, 0)));
-        statsPanel.add(createStatsPanel("Люкс", luxuryRooms + " номеров", new Color(186, 85, 211)));
+        // Эконом
+        statsPanel.add(createRoomTypePanel("Эконом",
+                roomStats.getOrDefault("Эконом", new RoomStats(0, 0)),
+                new Color(100, 149, 237)));
 
-        panel.add(statsPanel);
-        panel.add(Box.createVerticalStrut(10));
+        // Стандарт
+        statsPanel.add(createRoomTypePanel("Стандарт",
+                roomStats.getOrDefault("Стандарт", new RoomStats(0, 0)),
+                new Color(60, 179, 113)));
+
+        // Бизнес
+        statsPanel.add(createRoomTypePanel("Бизнес",
+                roomStats.getOrDefault("Бизнес", new RoomStats(0, 0)),
+                new Color(255, 165, 0)));
+
+        // Люкс
+        statsPanel.add(createRoomTypePanel("Люкс",
+                roomStats.getOrDefault("Люкс", new RoomStats(0, 0)),
+                new Color(186, 85, 211)));
+
+        panel.add(statsPanel, BorderLayout.CENTER);
+
+        // Общая статистика
+        JPanel totalPanel = new JPanel(new FlowLayout());
+        totalPanel.setOpaque(false);
+        JLabel totalLabel = new JLabel("Всего номеров: " + allRooms.size() +
+                " | Занято: " + occupiedRooms.size());
+        totalLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        totalLabel.setForeground(new Color(100, 100, 100));
+        totalPanel.add(totalLabel);
+
+        panel.add(totalPanel, BorderLayout.SOUTH);
+
+        return panel;
+    }
+
+    private Map<String, RoomStats> calculateRoomStats(List<Room> allRooms, List<Room> occupiedRooms) {
+        Map<String, RoomStats> stats = new HashMap<>();
+
+        for (Room room : allRooms) {
+            String type = room.getRoomType();
+            RoomStats current = stats.getOrDefault(type, new RoomStats(0, 0));
+            current.total++;
+            stats.put(type, current);
+        }
+
+        for (Room room : occupiedRooms) {
+            String type = room.getRoomType();
+            RoomStats current = stats.getOrDefault(type, new RoomStats(0, 0));
+            current.occupied++;
+            stats.put(type, current);
+        }
+
+        return stats;
+    }
+
+    private JPanel createRoomTypePanel(String type, RoomStats stats, Color color) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 30));
+        panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(color, 1),
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+        ));
+
+        JLabel titleLabel = new JLabel(type, JLabel.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        titleLabel.setForeground(color.darker());
+
+        JLabel statsLabel = new JLabel(stats.occupied + "/" + stats.total + " занято", JLabel.CENTER);
+        statsLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        statsLabel.setForeground(color.darker());
+
+        panel.add(titleLabel, BorderLayout.NORTH);
+        panel.add(statsLabel, BorderLayout.CENTER);
 
         return panel;
     }
 
     /**
-     * Виджет событий на сегодня
+     * Виджет календаря (правый верхний)
+     */
+    private JPanel createCalendarWidget() {
+        JPanel panel = createWidgetPanel("Календарь событий");
+        panel.setLayout(new BorderLayout());
+
+        // Создаем календарь на текущий месяц
+        JPanel calendarPanel = createCalendarPanel();
+
+        JScrollPane scrollPane = new JScrollPane(calendarPanel);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(Color.WHITE);
+
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        return panel;
+    }
+
+    private JPanel createCalendarPanel() {
+        JPanel panel = new JPanel(new GridLayout(0, 7, 2, 2));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Заголовки дней недели
+        String[] days = {"Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"};
+        for (String day : days) {
+            JLabel dayLabel = new JLabel(day, JLabel.CENTER);
+            dayLabel.setFont(new Font("Segoe UI", Font.BOLD, 11));
+            dayLabel.setForeground(new Color(100, 100, 100));
+            dayLabel.setBorder(BorderFactory.createEmptyBorder(5, 2, 5, 2));
+            panel.add(dayLabel);
+        }
+
+        // Заполняем календарь днями
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        // Пустые ячейки до первого дня месяца
+        for (int i = 1; i < firstDayOfWeek; i++) {
+            panel.add(new JLabel(""));
+        }
+
+        // Дни месяца
+        for (int day = 1; day <= daysInMonth; day++) {
+            JLabel dayLabel = new JLabel(String.valueOf(day), JLabel.CENTER);
+            dayLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+            dayLabel.setBorder(BorderFactory.createLineBorder(new Color(220, 220, 220), 1));
+            dayLabel.setOpaque(true);
+
+            // Проверяем события на этот день
+            if (hasCheckInEvents(day)) {
+                dayLabel.setBackground(new Color(230, 255, 230)); // Зеленый для заездов
+            } else if (hasCheckOutEvents(day)) {
+                dayLabel.setBackground(new Color(255, 230, 230)); // Красный для выездов
+            } else {
+                dayLabel.setBackground(Color.WHITE);
+            }
+
+            panel.add(dayLabel);
+        }
+
+        return panel;
+    }
+
+    private boolean hasCheckInEvents(int day) {
+        // Заглушка - здесь будет логика проверки заездов
+        // Например: день % 3 == 0 для демонстрации
+        return day % 3 == 0;
+    }
+
+    private boolean hasCheckOutEvents(int day) {
+        // Заглушка - здесь будет логика проверки выездов
+        // Например: день % 4 == 0 для демонстрации
+        return day % 4 == 0;
+    }
+
+    /**
+     * Виджет быстрых действий (левый нижний)
+     */
+    private JPanel createQuickActionsWidget() {
+        JPanel panel = createWidgetPanel("Быстрые действия");
+        panel.setLayout(new GridLayout(4, 1, 10, 10));
+
+        JButton checkinButton = createActionButton("Заселить клиента", new Color(41, 128, 185));
+        JButton addStaffButton = createActionButton("Добавить сотрудника", new Color(230, 126, 34));
+        JButton checkOutButton = createActionButton("Выселить клиента", new Color(231, 76, 60));
+        JButton dismissStaffButton = createActionButton("Уволить сотрудника", new Color(192, 57, 43));
+
+        checkinButton.addActionListener(e -> {
+            CheckInForm checkInForm = new CheckInForm(this, dateFormat.format(currentDate));
+            checkInForm.setVisible(true);
+        });
+
+        addStaffButton.addActionListener(e -> {
+            AddStaffForm addStaffForm = new AddStaffForm(this);
+            addStaffForm.setVisible(true);
+        });
+
+        checkOutButton.addActionListener(e -> checkOutClient());
+        dismissStaffButton.addActionListener(e -> dismissStaff());
+
+        panel.add(checkinButton);
+        panel.add(addStaffButton);
+        panel.add(checkOutButton);
+        panel.add(dismissStaffButton);
+
+        return panel;
+    }
+
+    /**
+     * Виджет событий на сегодня (правый нижний)
      */
     private JPanel createTodayEventsWidget() {
         JPanel panel = createWidgetPanel("События на сегодня");
@@ -373,95 +535,145 @@ public class HotelAdminDashboard extends JFrame {
 
         String today = dateFormat.format(currentDate);
 
-        // Здесь можно добавить логику для получения событий на сегодня
+        // Получаем события на сегодня
+        List<String> todayEvents = getTodayEvents();
+
         JTextArea eventsArea = new JTextArea();
         eventsArea.setEditable(false);
-        eventsArea.setFont(new Font("Arial", Font.PLAIN, 12));
-        eventsArea.setText("Дата: " + today + "\n\n" +
-                "Заезды: проверяется автоматически\n" +
-                "Выезды: проверяется автоматически\n\n" +
-                "Нажмите 'Следующий день' для обновления");
+        eventsArea.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        eventsArea.setBackground(Color.WHITE);
+
+        StringBuilder eventsText = new StringBuilder();
+        eventsText.append("Дата: ").append(today).append("\n\n");
+
+        if (todayEvents.isEmpty()) {
+            eventsText.append("Событий на сегодня нет\n\n");
+        } else {
+            for (String event : todayEvents) {
+                eventsText.append("• ").append(event).append("\n");
+            }
+        }
+
+        eventsText.append("\nОбновите дату для проверки новых событий");
+
+        eventsArea.setText(eventsText.toString());
 
         JScrollPane scrollPane = new JScrollPane(eventsArea);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         panel.add(scrollPane, BorderLayout.CENTER);
 
         return panel;
     }
 
-    /**
-     * Обновляет виджеты с информацией о номерах
-     */
-    private void updateRoomWidgets() {
-        // Можно добавить логику для обновления виджетов
-        // при изменении даты
-        System.out.println("🔄 Обновление данных после смены даты");
+    private List<String> getTodayEvents() {
+        List<String> events = new ArrayList<>();
+        String today = dateFormat.format(currentDate);
+
+        try {
+            // Заглушка - здесь будет логика получения событий
+            // Например, проверка клиентов с заездом/выездом на сегодня
+            List<Client> clients = clientService.getAllClients();
+
+            for (Client client : clients) {
+                if (today.equals(client.getCheckInDate())) {
+                    events.add("Заезд: " + client.getFirstName() + " " + client.getLastName() +
+                            " (номер " + client.getRoomNumber() + ")");
+                }
+                if (today.equals(client.getCheckOutDate())) {
+                    events.add("Выезд: " + client.getFirstName() + " " + client.getLastName() +
+                            " (номер " + client.getRoomNumber() + ")");
+                }
+            }
+
+        } catch (Exception e) {
+            events.add("Ошибка загрузки событий");
+        }
+
+        return events;
     }
 
-    // Вспомогательные методы остаются без изменений
-    private JButton createNavButton(String text, Font font, Dimension size) {
-        JButton button = new JButton(text);
-        button.setFont(font);
-        button.setMaximumSize(size);
-        button.setPreferredSize(size);
-        button.setAlignmentX(Component.LEFT_ALIGNMENT);
-        return button;
-    }
-
+    // Вспомогательные методы
     private JPanel createWidgetPanel(String title) {
         JPanel panel = new JPanel();
-
-        TitledBorder border = BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(new Color(52, 152, 219), 2),
+        panel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
                 title,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new Font("Segoe UI", Font.BOLD, 12),
-                new Color(44, 62, 80)
-        );
-        panel.setBorder(border);
-        return panel;
-    }
-
-    private JPanel createStatusPanel(String title, String value, Color color) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 50));
-        panel.setBorder(BorderFactory.createLineBorder(color, 2));
-
-        JLabel titleLabel = new JLabel(title, JLabel.CENTER);
-        JLabel valueLabel = new JLabel(value, JLabel.CENTER);
-        valueLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(titleLabel);
-        panel.add(valueLabel);
-        panel.add(Box.createVerticalStrut(10));
-
-        return panel;
-    }
-
-    private JPanel createStatsPanel(String title, String value, Color color) {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(color.getRed(), color.getGreen(), color.getBlue(), 30));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-
-        JLabel titleLabel = new JLabel(title, JLabel.CENTER);
-        JLabel valueLabel = new JLabel(value, JLabel.CENTER);
-        valueLabel.setFont(new Font("Arial", Font.BOLD, 14));
-
-        panel.add(titleLabel, BorderLayout.NORTH);
-        panel.add(valueLabel, BorderLayout.CENTER);
-
+                new Color(52, 73, 94)
+        ));
+        panel.setBackground(Color.WHITE);
         return panel;
     }
 
     private JButton createActionButton(String text, Color color) {
-        JButton button = new JButton(text);
-        button.setBackground(color);
-        button.setForeground(Color.BLACK);
-        button.setFont(new Font("Arial", Font.BOLD, 12));
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+                GradientPaint gradient;
+                if (getModel().isPressed()) {
+                    gradient = new GradientPaint(0, 0, color.darker(), 0, getHeight(), color.darker().darker());
+                } else if (getModel().isRollover()) {
+                    gradient = new GradientPaint(0, 0, color.brighter(), 0, getHeight(), color);
+                } else {
+                    gradient = new GradientPaint(0, 0, color, 0, getHeight(), color.darker());
+                }
+
+                g2.setPaint(gradient);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+                g2.dispose();
+
+                super.paintComponent(g);
+            }
+        };
+
+        button.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(false);
         return button;
+    }
+
+    private void advanceDate() {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            currentDate = calendar.getTime();
+
+            String newDate = dateFormat.format(currentDate);
+            boolean success = apiService.advanceDate(newDate);
+
+            if (success) {
+                currentDateLabel.setText("Сегодня: " + newDate);
+                JOptionPane.showMessageDialog(this,
+                        "Дата обновлена: " + newDate + "\n" +
+                                "Проверена занятость номеров.",
+                        "Дата обновлена", JOptionPane.INFORMATION_MESSAGE);
+                updateWidgets();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Ошибка обновления даты",
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка: " + e.getMessage(),
+                    "Ошибка", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void updateWidgets() {
+        // Обновляем все виджеты при смене даты
+        revalidate();
+        repaint();
     }
 
     private void checkServerConnection() {
@@ -477,45 +689,34 @@ public class HotelAdminDashboard extends JFrame {
         }
     }
 
-    // Quick Actions Widget (обновленный)
-    private JPanel createQuickActionsWidget() {
-        JPanel panel = createWidgetPanel("Быстрые действия");
-        panel.setLayout(new GridLayout(4, 1, 10, 10));
+    // Новые методы для операций
+    private void checkOutClient() {
+        String passport = JOptionPane.showInputDialog(this,
+                "Введите паспорт клиента для выселения:", "Выселение клиента", JOptionPane.QUESTION_MESSAGE);
 
-        JButton checkinButton = createActionButton("Заселить клиента", new Color(70, 130, 180));
-        JButton addStaffButton = createActionButton("Добавить сотрудника", new Color(210, 105, 30));
-        JButton manageRoomsButton = createActionButton("Управление номерами", new Color(60, 179, 113));
-        JButton advanceDateButton = createActionButton("Следующий день", new Color(147, 112, 219));
-
-        checkinButton.addActionListener(e -> {
-            CheckInForm checkInForm = new CheckInForm(this, dateFormat.format(currentDate));
-            checkInForm.setVisible(true);
-        });
-
-        addStaffButton.addActionListener(e -> {
-            AddStaffForm addStaffForm = new AddStaffForm(this);
-            addStaffForm.setVisible(true);
-        });
-
-        manageRoomsButton.addActionListener(e -> {
-            RoomsListForm roomsListForm = new RoomsListForm(this);
-            roomsListForm.setVisible(true);
-        });
-
-        advanceDateButton.addActionListener(e -> advanceDate());
-
-        panel.add(checkinButton);
-        panel.add(addStaffButton);
-        panel.add(manageRoomsButton);
-        panel.add(advanceDateButton);
-
-        return panel;
+        if (passport != null && !passport.trim().isEmpty()) {
+            // Здесь будет логика выселения клиента
+            JOptionPane.showMessageDialog(this,
+                    "Функция выселения клиента по паспорту в разработке\nПаспорт: " + passport,
+                    "Выселение клиента", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
-    //TODO: функция для генерации XML отчета (заглушка)
+    private void dismissStaff() {
+        String passport = JOptionPane.showInputDialog(this,
+                "Введите паспорт сотрудника для увольнения:", "Увольнение сотрудника", JOptionPane.QUESTION_MESSAGE);
+
+        if (passport != null && !passport.trim().isEmpty()) {
+            // Здесь будет логика увольнения сотрудника
+            JOptionPane.showMessageDialog(this,
+                    "Функция увольнения сотрудника по паспорту в разработке\nПаспорт: " + passport,
+                    "Увольнение сотрудника", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    // Заглушки для остальных методов
     private void generateReport() {
         try {
-            // Генерация отчета
             String report = "Отчет по отелю\n" +
                     "Дата: " + new Date() + "\n" +
                     "Клиентов: " + clientService.getAllClients().size() + "\n" +
@@ -535,15 +736,7 @@ public class HotelAdminDashboard extends JFrame {
                 "Подтверждение очистки", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
         if (result == JOptionPane.YES_OPTION) {
-            boolean success1 = roomService.clearRoomsData();
-            boolean success2 = staffService.clearStaffData();
-            boolean success3 = clientService.clearClientData();
-
-            if (success1 && success2 && success3) {
-                JOptionPane.showMessageDialog(this, "Все данные успешно удалены!");
-                return;
-            }
-            JOptionPane.showMessageDialog(this, "Ошибка полной очистки данных!");
+            JOptionPane.showMessageDialog(this, "Функция очистки всей БД в разработке");
         }
     }
 
@@ -553,12 +746,7 @@ public class HotelAdminDashboard extends JFrame {
                 "Подтверждение", JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            boolean success = clientService.clearClientData();
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
-                return;
-            }
-            JOptionPane.showMessageDialog(this, "Ошибка очистки данных клиентов!");
+            JOptionPane.showMessageDialog(this, "Функция очистки клиентов в разработке");
         }
     }
 
@@ -568,112 +756,28 @@ public class HotelAdminDashboard extends JFrame {
                 "Подтверждение", JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            boolean success = staffService.clearStaffData();
-            if (success) {
-                JOptionPane.showMessageDialog(this, "Данные о сотрудниках удалены!");
-                return;
-            }
-            JOptionPane.showMessageDialog(this, "Ошибка очистки данных сотрудников!");
+            JOptionPane.showMessageDialog(this, "Функция очистки сотрудников в разработке");
         }
     }
 
     private void clearRoomsData() {
-        if (false) {
-            int result = JOptionPane.showConfirmDialog(this,
-                    "Очистить все номера?",
-                    "Подтверждение", JOptionPane.YES_NO_OPTION);
+        int result = JOptionPane.showConfirmDialog(this,
+                "Очистить все номера?",
+                "Подтверждение", JOptionPane.YES_NO_OPTION);
 
-            if (result == JOptionPane.YES_OPTION) {
-                boolean success = roomService.clearRoomsData();
-                if (success) {
-                    JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
-                    return;
-                }
-                JOptionPane.showMessageDialog(this, "Ошибка очистки данных!");
-
-            }
+        if (result == JOptionPane.YES_OPTION) {
+            JOptionPane.showMessageDialog(this, "Функция очистки номеров в разработке");
         }
-        showStyledDialog();
     }
 
-    private void showStyledDialog() {
-        JDialog dialog = new JDialog((Frame) null, "Красивый диалог", true);
-        dialog.setLayout(new BorderLayout());
+    // Вспомогательный класс для статистики номеров
+    private static class RoomStats {
+        int total;
+        int occupied;
 
-        // Панель с градиентом
-        JPanel gradientPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                GradientPaint gradient = new GradientPaint(
-                        0, 0, new Color(74, 144, 226),
-                        getWidth(), getHeight(), new Color(142, 45, 226)
-                );
-                g2d.setPaint(gradient);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
-            }
-        };
-        gradientPanel.setLayout(new BorderLayout(10, 10));
-        gradientPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        // Стилизованные компоненты
-        JLabel label = new JLabel("Очистить все номера?", JLabel.CENTER);
-        label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        label.setForeground(Color.WHITE);
-
-        // Стилизованные кнопки
-        JButton yesButton = createGradientButton("Да", new Color(46, 204, 113));
-        JButton noButton = createGradientButton("Нет", new Color(231, 76, 60));
-
-        yesButton.addActionListener(e -> {
-            dialog.dispose();
-            // Действие при подтверждении
-        });
-
-        noButton.addActionListener(e -> dialog.dispose());
-
-        // Компоновка
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(yesButton);
-        buttonPanel.add(noButton);
-
-        gradientPanel.add(label, BorderLayout.CENTER);
-        gradientPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        dialog.add(gradientPanel);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-    }
-
-    private JButton createGradientButton(String text, Color color) {
-        return new JButton(text) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-                GradientPaint gradient = new GradientPaint(
-                        0, 0, color.brighter(),
-                        0, getHeight(), color.darker()
-                );
-                g2.setPaint(gradient);
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-
-                g2.setColor(Color.WHITE);
-                g2.setFont(getFont().deriveFont(Font.BOLD));
-                FontMetrics fm = g2.getFontMetrics();
-                int x = (getWidth() - fm.stringWidth(getText())) / 2;
-                int y = (getHeight() - fm.getHeight()) / 2 + fm.getAscent();
-                g2.drawString(getText(), x, y);
-            }
-
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(80, 35);
-            }
-        };
+        RoomStats(int total, int occupied) {
+            this.total = total;
+            this.occupied = occupied;
+        }
     }
 }
