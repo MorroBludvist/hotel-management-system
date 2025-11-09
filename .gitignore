@@ -10,5 +10,7 @@ target/
 # Database
 *.db
 lib/
+docs/
 count_lines.ps1
 run_simple.bat
+*.bat

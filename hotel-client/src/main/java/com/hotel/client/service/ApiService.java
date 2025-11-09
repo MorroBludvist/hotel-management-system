@@ -4,12 +4,17 @@ import com.hotel.client.config.AppConfig;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import com.hotel.client.exception.HotelException;
+import com.hotel.client.exception.ServerException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.jmx.Server;
 
 //TODO: залогировать
 public class ApiService {
@@ -25,8 +30,11 @@ public class ApiService {
 
     /**
      * Отправление запроса на сервер
+     * @throws ServerException при ошибках сети, таймаутах и HTTP ошибках
+     * @throws HotelException при других ошибках приложения
      */
-    public String executeRequest(String endpoint, String method, String jsonBody) {
+    public String executeRequest(String endpoint, String method, String jsonBody)
+            throws ServerException, HotelException {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
         BufferedWriter writer = null;
@@ -55,41 +63,74 @@ public class ApiService {
             }
 
             int responseCode = connection.getResponseCode();
-            System.out.println("📡 HTTP " + method + " " + endpoint + " -> " + responseCode);
+            logger.info("HTTP {} {} -> {}", method, endpoint, responseCode);
+
+            if (responseCode >= 400) {
+                String errorMessage = readErrorResponse(connection);
+                logger.error("HTTP error {}: {}", responseCode, errorMessage);
+                throw new ServerException(responseCode, "HTTP " + responseCode + ": " + errorMessage);
+            }
 
             if (responseCode >= 200 && responseCode < 300) {
                 reader = new BufferedReader(new InputStreamReader(
                         connection.getInputStream(), StandardCharsets.UTF_8));
-            } else {
-                InputStream errorStream = connection.getErrorStream();
-                if (errorStream != null) {
-                    reader = new BufferedReader(new InputStreamReader(errorStream, StandardCharsets.UTF_8));
-                }
-            }
 
-            if (reader != null) {
                 StringBuilder response = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
                     response.append(line);
                 }
                 return response.toString();
+            } else {
+                throw new HotelException("Unexpected response code: " + responseCode);
             }
 
+        } catch (SocketTimeoutException e) {
+            logger.error("Request timeout: {}", e.getMessage());
+            throw new ServerException(408, "Request timeout - server not responding", e);
+        } catch (UnknownHostException e) {
+            logger.error("Server not found: {}", e.getMessage());
+            throw new ServerException(503, "Server unavailable - unknown host", e);
         } catch (IOException e) {
-            System.err.println("❌ Ошибка сети: " + e.getMessage());
+            logger.error("Network error: {}", e.getMessage());
+            throw new ServerException(500, "Network communication error", e);
+        } catch (ServerException e) {
+            throw e;
         } catch (Exception e) {
-            System.err.println("❌ Ошибка: " + e.getMessage());
+            logger.error("Unexpected error: {}", e.getMessage());
+            throw new HotelException("Unexpected error during request execution", e);
         } finally {
             try {
                 if (writer != null) writer.close();
                 if (reader != null) reader.close();
                 if (connection != null) connection.disconnect();
             } catch (Exception e) {
-                System.err.println("❌ Ошибка закрытия ресурсов: " + e.getMessage());
+                logger.warn("Error closing resources: {}", e.getMessage());
             }
         }
-        return null;
+    }
+
+    /**
+     * Чтение ошибки из HTTP response
+     */
+    private String readErrorResponse(HttpURLConnection connection) {
+        try {
+            InputStream errorStream = connection.getErrorStream();
+            if (errorStream != null) {
+                BufferedReader errorReader = new BufferedReader(
+                        new InputStreamReader(errorStream, StandardCharsets.UTF_8));
+                StringBuilder errorResponse = new StringBuilder();
+                String line;
+                while ((line = errorReader.readLine()) != null) {
+                    errorResponse.append(line);
+                }
+                errorReader.close();
+                return errorResponse.toString();
+            }
+        } catch (IOException e) {
+            logger.warn("Could not read error response: {}", e.getMessage());
+        }
+        return "No error details available";
     }
 
     /**
@@ -180,13 +221,22 @@ public class ApiService {
     }
 
     /**
-     * Проверяет доступность сервера
+     * Проверяет доступность сервера с обработкой исключений
+     * @return true если сервер доступен, false в противном случае
      */
     public boolean isServerAvailable() {
         try {
             String response = executeRequest("/clients", "GET", null);
             return response != null;
-        } catch (Exception e) {
+
+        } catch (ServerException e) {
+            // Обрабатываем ServerException - это ожидаемые сетевые ошибки
+            logger.warn("Server unavailable: {} (HTTP {})", e.getMessage(), e.getStatusCode());
+            return false;
+
+        } catch (HotelException e) {
+            // Обрабатываем HotelException - это непредвиденные ошибки приложения
+            logger.error("Application error while checking server: {}", e.getMessage());
             return false;
         }
     }

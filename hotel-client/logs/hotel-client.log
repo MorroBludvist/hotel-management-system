@@ -1720,3 +1720,1663 @@
 [AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
 [AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
 [AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Найдено 40 свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Найдено 40 свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Найдено 40 свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Найдено 40 свободных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - Очистка базы данных клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - Очистка базы данных сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - Очистка базы данных сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - Очистка базы данных клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - Очистка базы данных клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - Очистка базы данных номеров
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Сервер вернул некорректный ответ для номеров: null
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Сервер вернул некорректный ответ: null
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] WARN  com.hotel.client.service.ApiService - Server unavailable: HTTP 500: Network communication error (HTTP 500)
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createRoomTypesWidget(HotelAdminDashboard.java:326) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:309) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 14 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.getTodayEvents(HotelAdminDashboard.java:575) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createTodayEventsWidget(HotelAdminDashboard.java:539) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:312) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 15 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] WARN  com.hotel.client.service.ApiService - Server unavailable: HTTP 500: Network communication error (HTTP 500)
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createRoomTypesWidget(HotelAdminDashboard.java:326) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:309) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 14 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.getTodayEvents(HotelAdminDashboard.java:575) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createTodayEventsWidget(HotelAdminDashboard.java:539) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:312) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 15 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.RoomsListForm.loadData(RoomsListForm.java:68) [hotel-client/:?]
+	at com.hotel.client.view.RoomsListForm.<init>(RoomsListForm.java:35) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$2(HotelAdminDashboard.java:205) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 30 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.ClientsListForm.loadData(ClientsListForm.java:66) [hotel-client/:?]
+	at com.hotel.client.view.ClientsListForm.<init>(ClientsListForm.java:33) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$0(HotelAdminDashboard.java:195) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 30 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] WARN  com.hotel.client.service.ApiService - Server unavailable: HTTP 500: Network communication error (HTTP 500)
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createRoomTypesWidget(HotelAdminDashboard.java:326) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:309) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 14 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.getTodayEvents(HotelAdminDashboard.java:575) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createTodayEventsWidget(HotelAdminDashboard.java:539) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:312) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 15 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.generateReport(HotelAdminDashboard.java:722) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$3(HotelAdminDashboard.java:209) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 29 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.StaffService - ❌ Ошибка получения сотрудников: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.StaffService.getAllStaff(StaffService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.generateReport(HotelAdminDashboard.java:723) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$3(HotelAdminDashboard.java:209) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 29 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.generateReport(HotelAdminDashboard.java:724) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$3(HotelAdminDashboard.java:209) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 29 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] WARN  com.hotel.client.service.ApiService - Server unavailable: HTTP 500: Network communication error (HTTP 500)
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createRoomTypesWidget(HotelAdminDashboard.java:326) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:309) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 14 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.getTodayEvents(HotelAdminDashboard.java:575) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createTodayEventsWidget(HotelAdminDashboard.java:539) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:312) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 15 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.generateReport(HotelAdminDashboard.java:796) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$3(HotelAdminDashboard.java:209) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 29 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.generateReport(HotelAdminDashboard.java:797) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$3(HotelAdminDashboard.java:209) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 29 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.StaffService - ❌ Ошибка получения сотрудников: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.StaffService.getAllStaff(StaffService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.generateReport(HotelAdminDashboard.java:798) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$3(HotelAdminDashboard.java:209) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 29 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 📭 Нет данных о сотрудниках
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 0 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 📭 Нет данных о сотрудниках
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 0 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 📭 Нет данных о сотрудниках
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 0 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 👤 Добавляем сотрудника: iayfh agag (паспорт: 1234567890)
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📨 JSON для отправки: {"passportNumber":"1234567890","firstName":"iayfh","lastName":"agag","position":"agag","phoneNumber":"agagag","email":"af","hireDate":"2025-11-11","salary":60000.0,"department":"Администрация"}
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP POST /staff -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Сотрудник iayfh agag успешно добавлен
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 1
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: iayfh agag, паспорт: 1234567890, зарплата: 60000.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: iayfh agag, паспорт: 1234567890
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 1
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 1 сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 1
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: iayfh agag, паспорт: 1234567890, зарплата: 60000.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: iayfh agag, паспорт: 1234567890
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 1
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 1 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 1
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: iayfh agag, паспорт: 1234567890, зарплата: 60000.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: iayfh agag, паспорт: 1234567890
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 1
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 1 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 1
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: iayfh agag, паспорт: 1234567890, зарплата: 60000.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: iayfh agag, паспорт: 1234567890
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 1
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 1 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] WARN  com.hotel.client.service.ApiService - Server unavailable: HTTP 500: Network communication error (HTTP 500)
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.RoomService - ❌ Ошибка получения номеров: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.RoomService.getAllRooms(RoomService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createRoomTypesWidget(HotelAdminDashboard.java:330) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:313) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 14 more
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.getTodayEvents(HotelAdminDashboard.java:579) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createTodayEventsWidget(HotelAdminDashboard.java:543) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.createMainContent(HotelAdminDashboard.java:316) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.<init>(HotelAdminDashboard.java:56) [hotel-client/:?]
+	at com.hotel.client.HotelClientApplication.lambda$main$0(HotelClientApplication.java:20) [hotel-client/:?]
+	at java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:723) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 15 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ApiService - Network error: Connection refused: getsockopt
+[AWT-EventQueue-0] ERROR com.hotel.client.service.ClientService - ❌ Ошибка получения клиентов: HTTP 500: Network communication error
+com.hotel.client.exception.ServerException: HTTP 500: Network communication error
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:96) ~[hotel-client/:?]
+	at com.hotel.client.service.ClientService.getAllClients(ClientService.java:23) [hotel-client/:?]
+	at com.hotel.client.view.ClientsListForm.loadData(ClientsListForm.java:66) [hotel-client/:?]
+	at com.hotel.client.view.ClientsListForm.<init>(ClientsListForm.java:33) [hotel-client/:?]
+	at com.hotel.client.view.HotelAdminDashboard.lambda$createNavigation$0(HotelAdminDashboard.java:196) [hotel-client/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:1972) [?:?]
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2314) [?:?]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:407) [?:?]
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:262) [?:?]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:279) [?:?]
+	at java.awt.Component.processMouseEvent(Component.java:6576) [?:?]
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3404) [?:?]
+	at java.awt.Component.processEvent(Component.java:6341) [?:?]
+	at java.awt.Container.processEvent(Container.java:2260) [?:?]
+	at java.awt.Component.dispatchEventImpl(Component.java:4958) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2318) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4916) [?:?]
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4559) [?:?]
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4500) [?:?]
+	at java.awt.Container.dispatchEventImpl(Container.java:2304) [?:?]
+	at java.awt.Window.dispatchEventImpl(Window.java:2671) [?:?]
+	at java.awt.Component.dispatchEvent(Component.java:4790) [?:?]
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:725) [?:?]
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:702) [?:?]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124) [?:?]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) [?:?]
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) [?:?]
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) [?:?]
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at sun.nio.ch.Net.pollConnectNow(Net.java:628) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:533) ~[?:?]
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583) ~[?:?]
+	at java.net.Socket.connect(Socket.java:665) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:161) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:516) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:604) ~[?:?]
+	at sun.net.www.http.HttpClient.<init>(HttpClient.java:276) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:380) ~[?:?]
+	at sun.net.www.http.HttpClient.New(HttpClient.java:393) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1030) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:963) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:899) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:872) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1377) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1302) ~[?:?]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:493) ~[?:?]
+	at com.hotel.client.service.ApiService.executeRequest(ApiService.java:65) ~[hotel-client/:?]
+	... 30 more
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 1
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: iayfh agag, паспорт: 1234567890, зарплата: 60000.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: iayfh agag, паспорт: 1234567890
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 1
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 1 сотрудников
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ClientService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - RoomService инициализирован
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - StaffService инициализирован
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🔄 Получаем список всех клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /clients -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 🔧 Начинаем парсинг JSON клиентов...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📋 Найдено объектов: 5
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: F F, паспорт: 1235467890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: F F
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: b b, паспорт: 1234567899, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: b b
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: f f, паспорт: 1234567800, номер: 201
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: f f
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: sgsg sgsg, паспорт: 1234567890, номер: 101
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: sgsg sgsg
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - 📊 Распаршены поля: м м, паспорт: 0987654321, номер: 104
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.ClientService - ✅ Создан клиент: м м
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - 🎯 Итого распаршено клиентов: 5
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ClientService - ✅ Успешно загружено 5 клиентов
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🔄 Получаем список всех номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /rooms -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 🔧 Начинаем парсинг JSON номеров...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.RoomService - 📋 Найдено объектов: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - 🎯 Итого распаршено номеров: 40
+[AWT-EventQueue-0] INFO  com.hotel.client.service.RoomService - ✅ Успешно загружено 40 номеров
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🔄 Получаем список всех сотрудников
+[AWT-EventQueue-0] INFO  com.hotel.client.service.ApiService - HTTP GET /staff -> 200
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 🔧 Начинаем парсинг JSON сотрудников...
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📋 Найдено объектов: 1
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - 📊 Распаршены поля: iayfh agag, паспорт: 1234567890, зарплата: 60000.0
+[AWT-EventQueue-0] DEBUG com.hotel.client.service.StaffService - ✅ Создан сотрудник: iayfh agag, паспорт: 1234567890
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - 🎯 Итого распаршено сотрудников: 1
+[AWT-EventQueue-0] INFO  com.hotel.client.service.StaffService - ✅ Успешно загружено 1 сотрудников

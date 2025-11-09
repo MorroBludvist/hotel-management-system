@@ -181,6 +181,7 @@ public class HotelAdminDashboard extends JFrame {
 
         // Функциональные кнопки
         JButton generateReportButton = createNavButton("Сгенерировать отчет", new Color(155, 89, 182));
+        JButton loadReportButton = createNavButton("Загрузить отчет", new Color(125, 60, 152));
         JButton checkOutClientButton = createNavButton("Выселить клиента", new Color(231, 76, 60));
         JButton dismissStaffButton = createNavButton("Уволить сотрудника", new Color(192, 57, 43));
 
@@ -207,6 +208,7 @@ public class HotelAdminDashboard extends JFrame {
         });
 
         generateReportButton.addActionListener(e -> generateReport());
+        loadReportButton.addActionListener(e -> loadReport());
         checkOutClientButton.addActionListener(e -> checkOutClient());
         dismissStaffButton.addActionListener(e -> dismissStaff());
 
@@ -232,6 +234,8 @@ public class HotelAdminDashboard extends JFrame {
         navPanel.add(dismissStaffButton);
         navPanel.add(Box.createVerticalStrut(5));
         navPanel.add(generateReportButton);
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(loadReportButton); // Добавляем новую кнопку
 
         navPanel.add(Box.createVerticalStrut(20));
         navPanel.add(createSectionLabel("Очистка данных"));
@@ -714,29 +718,18 @@ public class HotelAdminDashboard extends JFrame {
         }
     }
 
-    // Заглушки для остальных методов
-    private void generateReport() {
-        try {
-            String report = "Отчет по отелю\n" +
-                    "Дата: " + new Date() + "\n" +
-                    "Клиентов: " + clientService.getAllClients().size() + "\n" +
-                    "Сотрудников: " + staffService.getAllStaff().size() + "\n" +
-                    "Номеров: " + roomService.getAllRooms().size();
-
-            JOptionPane.showMessageDialog(this, report, "Отчет", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Ошибка генерации отчета: " + e.getMessage(),
-                    "Ошибка", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void clearAllData() {
+    private void clearStaffData() {
         int result = JOptionPane.showConfirmDialog(this,
-                "Вы уверены что хотите очистить ВСЕ данные?\nЭто действие нельзя отменить!",
-                "Подтверждение очистки", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                "Очистить всех сотрудников?",
+                "Подтверждение", JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(this, "Функция очистки всей БД в разработке");
+            boolean success = staffService.clearStaffData();
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Данные о сотрудниках удалены!");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Ошибка очистки данных сотрудников!");
         }
     }
 
@@ -746,27 +739,47 @@ public class HotelAdminDashboard extends JFrame {
                 "Подтверждение", JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(this, "Функция очистки клиентов в разработке");
+            boolean success = clientService.clearClientData();
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Ошибка очистки данных клиентов!");
         }
     }
 
-    private void clearStaffData() {
+    private void clearAllData() {
         int result = JOptionPane.showConfirmDialog(this,
-                "Очистить всех сотрудников?",
-                "Подтверждение", JOptionPane.YES_NO_OPTION);
+                "Вы уверены что хотите очистить ВСЕ данные?\nЭто действие нельзя отменить!",
+                "Подтверждение очистки",
+                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
         if (result == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(this, "Функция очистки сотрудников в разработке");
+            boolean success1 = roomService.clearRoomsData();
+            boolean success2 = staffService.clearStaffData();
+            boolean success3 = clientService.clearClientData();
+
+            if (success1 && success2 && success3) {
+                JOptionPane.showMessageDialog(this, "Все данные успешно удалены!");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Ошибка полной очистки данных!");
         }
     }
 
     private void clearRoomsData() {
-        int result = JOptionPane.showConfirmDialog(this,
+        int result = GradientDialog.showConfirmDialog(this,
                 "Очистить все номера?",
                 "Подтверждение", JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(this, "Функция очистки номеров в разработке");
+            boolean success = roomService.clearRoomsData();
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
+                return;
+            }
+            JOptionPane.showMessageDialog(this, "Ошибка очистки данных!");
+
         }
     }
 
@@ -778,6 +791,150 @@ public class HotelAdminDashboard extends JFrame {
         RoomStats(int total, int occupied) {
             this.total = total;
             this.occupied = occupied;
+        }
+    }
+
+    private void generateReport() {
+        try {
+            // Получаем данные для отчета
+            List<Client> clients = clientService.getAllClients();
+            List<Room> rooms = roomService.getAllRooms();
+            List<Staff> staffList = staffService.getAllStaff();
+
+            // Анализируем данные
+            String report = buildReport(clients, rooms, staffList);
+
+            // Создаем и показываем форму отчета
+            ReportForm reportForm = new ReportForm(this, report, "Отчет по отелю");
+            reportForm.setVisible(true);
+
+        } catch (Exception e) {
+            logger.error("Ошибка генерации отчета: {}", e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка генерации отчета: " + e.getMessage(),
+                    "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private String buildReport(List<Client> clients, List<Room> rooms, List<Staff> staffList) {
+        StringBuilder report = new StringBuilder();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+
+        // Заголовок отчета
+        report.append("=").append("=".repeat(50)).append("\n");
+        report.append("               ОТЧЕТ ПО ОТЕЛЮ\n");
+        report.append("=").append("=".repeat(50)).append("\n");
+        report.append("Дата формирования: ").append(dateFormat.format(new Date())).append("\n\n");
+
+        // Статистика по клиентам
+        report.append("СТАТИСТИКА КЛИЕНТОВ:\n");
+        report.append("-".repeat(30)).append("\n");
+        long activeClients = clients.stream()
+                .filter(c -> c.getCheckInDate() != null && !c.getCheckInDate().isEmpty())
+                .count();
+        long checkedOutClients = clients.stream()
+                .filter(c -> c.getCheckOutDate() != null && !c.getCheckOutDate().isEmpty())
+                .count();
+
+        report.append("Всего клиентов: ").append(clients.size()).append("\n");
+        report.append("Активных клиентов: ").append(activeClients).append("\n");
+        report.append("Выселенных клиентов: ").append(checkedOutClients).append("\n\n");
+
+        // Статистика по номерам
+        report.append("СТАТИСТИКА НОМЕРОВ:\n");
+        report.append("-".repeat(30)).append("\n");
+        long totalRooms = rooms.size();
+        long freeRooms = rooms.stream().filter(r -> "free".equals(r.getStatus())).count();
+        long occupiedRooms = rooms.stream().filter(r -> "occupied".equals(r.getStatus())).count();
+
+        // Статистика по типам номеров
+        Map<String, Long> roomsByType = rooms.stream()
+                .collect(java.util.stream.Collectors.groupingBy(Room::getRoomType,
+                        java.util.stream.Collectors.counting()));
+
+        report.append("Всего номеров: ").append(totalRooms).append("\n");
+        report.append("Свободных номеров: ").append(freeRooms).append("\n");
+        report.append("Занятых номеров: ").append(occupiedRooms).append("\n");
+        report.append("Загрузка отеля: ").append(String.format("%.1f%%",
+                totalRooms > 0 ? (occupiedRooms * 100.0 / totalRooms) : 0)).append("\n\n");
+
+        report.append("Распределение по типам:\n");
+        roomsByType.forEach((type, count) -> {
+            long occupiedByType = rooms.stream()
+                    .filter(r -> type.equals(r.getRoomType()) && "occupied".equals(r.getStatus()))
+                    .count();
+            report.append("  ").append(type).append(": ").append(count)
+                    .append(" (занято: ").append(occupiedByType).append(")\n");
+        });
+        report.append("\n");
+
+        // Статистика по персоналу
+        report.append("СТАТИСТИКА ПЕРСОНАЛА:\n");
+        report.append("-".repeat(30)).append("\n");
+
+        Map<String, Long> staffByDepartment = staffList.stream()
+                .collect(java.util.stream.Collectors.groupingBy(Staff::getDepartment,
+                        java.util.stream.Collectors.counting()));
+
+        double totalSalary = staffList.stream().mapToDouble(Staff::getSalary).sum();
+
+        report.append("Всего сотрудников: ").append(staffList.size()).append("\n");
+        report.append("Общий фонд зарплат: ").append(String.format("%,.0f руб.", totalSalary)).append("\n");
+        report.append("Средняя зарплата: ").append(String.format("%,.0f руб.",
+                staffList.isEmpty() ? 0 : totalSalary / staffList.size())).append("\n\n");
+
+        report.append("Распределение по отделам:\n");
+        staffByDepartment.forEach((dept, count) -> {
+            double deptSalary = staffList.stream()
+                    .filter(s -> dept.equals(s.getDepartment()))
+                    .mapToDouble(Staff::getSalary)
+                    .sum();
+            report.append("  ").append(dept).append(": ").append(count)
+                    .append(" чел., зарплата: ").append(String.format("%,.0f руб.", deptSalary)).append("\n");
+        });
+        report.append("\n");
+
+        // Финансовая сводка (упрощенная)
+        report.append("ФИНАНСОВАЯ СВОДКА:\n");
+        report.append("-".repeat(30)).append("\n");
+
+        //Расчеты доходов (не реализовано)
+        double estimatedDailyIncome = occupiedRooms * 2500; // пример: 2500 руб./номер/день
+        double monthlyExpenses = totalSalary; // только зарплаты для примера
+        double estimatedMonthlyIncome = estimatedDailyIncome * 30;
+
+        report.append("Примерный дневной доход: ").append(String.format("%,.0f руб.", estimatedDailyIncome)).append("\n");
+        report.append("Примерный месячный доход: ").append(String.format("%,.0f руб.", estimatedMonthlyIncome)).append("\n");
+        report.append("Месячные расходы (зарплаты): ").append(String.format("%,.0f руб.", monthlyExpenses)).append("\n");
+        report.append("Примерная прибыль: ").append(String.format("%,.0f руб.", estimatedMonthlyIncome - monthlyExpenses)).append("\n\n");
+
+        report.append("=").append("=".repeat(50)).append("\n");
+        report.append("               КОНЕЦ ОТЧЕТА\n");
+        report.append("=").append("=".repeat(50)).append("\n");
+
+        return report.toString();
+    }
+
+    private void loadReport() {
+        try {
+            // Создаем пустую форму отчета и сразу вызываем загрузку файла
+            ReportForm reportForm = new ReportForm(this,
+                    "Выберите файл отчета для загрузки...\n\n" +
+                            "Для загрузки отчета нажмите кнопку 'Загрузить отчет'",
+                    "Загрузка отчета");
+            reportForm.setVisible(true);
+
+            // Автоматически открываем диалог выбора файла
+            // Это можно сделать через рефлексию или добавить метод в ReportForm
+            // Для простоты просто показываем форму, пользователь сам нажмет "Загрузить отчет"
+
+        } catch (Exception e) {
+            logger.error("Ошибка загрузки отчета: {}", e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "Ошибка загрузки отчета: " + e.getMessage(),
+                    "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }
