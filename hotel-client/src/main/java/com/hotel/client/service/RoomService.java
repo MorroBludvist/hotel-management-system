@@ -56,6 +56,23 @@ public class RoomService {
         }
     }
 
+    public List<Room> getOccupiedRooms() {
+        logger.info("🔄 Получаем список занятых номеров");
+        try {
+            String response = apiService.executeRequest("/rooms/occupied", "GET", null);
+            if (response != null && response.startsWith("[")) {
+                List<Room> rooms = JsonUtils.fromJsonList(response, Room.class);
+                logger.info("✅ Найдено {} занятых номеров", rooms.size());
+                return rooms;
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (Exception e) {
+            logger.error("❌ Ошибка получения занятых номеров: {}", e.getMessage(), e);
+            return new ArrayList<>();
+        }
+    }
+
     public boolean isRoomAvailable(int roomNumber, String checkInDate, String checkOutDate) {
         logger.info("🔍 Проверяем доступность номера {} с {} по {}", roomNumber, checkInDate, checkOutDate);
         try {
@@ -77,38 +94,66 @@ public class RoomService {
         }
     }
 
-    public boolean advanceDate(String currentDate) {
-        logger.info("📅 Продвигаем дату на сервере: {}", currentDate);
+    /**
+     * Обновление статуса номера
+     */
+    public boolean updateRoomStatus(int roomNumber, String status) {
+        logger.info("🔄 Обновление статуса номера {} на '{}'", roomNumber, status);
         try {
             Map<String, Object> requestData = new HashMap<>();
-            requestData.put("currentDate", currentDate);
+            requestData.put("status", status);
 
             String jsonBody = JsonUtils.toJson(requestData);
-            String response = apiService.executeRequest("/rooms/advance-date", "POST", jsonBody);
+            String response = apiService.executeRequest("/rooms/" + roomNumber + "/status", "PUT", jsonBody);
 
             boolean success = response != null && response.contains("\"success\":true");
 
             if (success) {
-                logger.info("✅ Дата успешно обновлена на сервере");
+                logger.info("✅ Статус номера {} обновлен на '{}'", roomNumber, status);
             } else {
-                logger.warn("⚠️ Не удалось обновить дату на сервере");
+                logger.warn("⚠️ Не удалось обновить статус номера. Ответ: {}", response);
             }
             return success;
 
         } catch (Exception e) {
-            logger.error("❌ Ошибка обновления даты: {}", e.getMessage(), e);
+            logger.error("❌ Ошибка обновления статуса номера: {}", e.getMessage(), e);
             return false;
         }
     }
 
-    public boolean clearRoomsData() {
-        logger.info("🗑️ Очистка всех данных номеров");
+    /**
+     * Очистка конкретного номера
+     */
+    public boolean clearRoom(int roomNumber) {
+        logger.info("🗑️ Очистка номера {}", roomNumber);
         try {
-            String response = apiService.executeRequest("/rooms/clear", "DELETE", null);
+            String response = apiService.executeRequest("/rooms/" + roomNumber, "DELETE", null);
             boolean success = response != null && response.contains("\"success\":true");
 
             if (success) {
-                logger.info("✅ Данные номеров успешно очищены, клиенты выселены");
+                logger.info("✅ Номер {} очищен", roomNumber);
+            } else {
+                logger.warn("⚠️ Не удалось очистить номер. Ответ: {}", response);
+            }
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка очистки номера: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Очистка всех номеров
+     */
+    public boolean clearRoomsData() {
+        logger.info("🗑️ Очистка всех данных номеров");
+        try {
+            String response = apiService.executeRequest("/rooms", "DELETE", null);
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Данные номеров успешно очищены");
             } else {
                 logger.warn("⚠️ Не удалось очистить данные номеров. Ответ: {}", response);
             }
@@ -121,55 +166,7 @@ public class RoomService {
     }
 
     /**
-     * Проверяет доступность с подробной информацией
-     */
-    public Map<String, Object> checkAvailabilityDetailed(int roomNumber, String checkInDate, String checkOutDate) {
-        logger.info("🔍 Детальная проверка доступности номера {} с {} по {}",
-                roomNumber, checkInDate, checkOutDate);
-
-        try {
-            Map<String, Object> requestData = new HashMap<>();
-            requestData.put("roomNumber", roomNumber);
-            requestData.put("checkInDate", checkInDate);
-            requestData.put("checkOutDate", checkOutDate);
-
-            String jsonBody = JsonUtils.toJson(requestData);
-            String response = apiService.executeRequest("/rooms/check-availability-detailed", "POST", jsonBody);
-
-            if (response != null) {
-                // Парсим JSON ответ
-                boolean available = response.contains("\"available\":true");
-                String historyInfo = extractHistoryInfo(response);
-
-                Map<String, Object> result = new HashMap<>();
-                result.put("available", available);
-                result.put("historyInfo", historyInfo);
-                result.put("rawResponse", response);
-
-                return result;
-            }
-
-            return Map.of("available", false, "error", "No response from server");
-
-        } catch (Exception e) {
-            logger.error("❌ Ошибка детальной проверки доступности: {}", e.getMessage(), e);
-            return Map.of("available", false, "error", e.getMessage());
-        }
-    }
-
-    private String extractHistoryInfo(String json) {
-        try {
-            if (json.contains("bookingHistory")) {
-                return "История бронирований доступна";
-            }
-            return "Нет истории бронирований";
-        } catch (Exception e) {
-            return "Ошибка при анализе истории";
-        }
-    }
-
-    /**
-     * Получает все номера определенного типа (включая занятые)
+     * Получает все номера определенного типа
      */
     public List<Room> getRoomsByType(String roomType) {
         logger.info("🔄 Получаем номера типа: {}", roomType);

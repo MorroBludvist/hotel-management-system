@@ -23,7 +23,6 @@ public class ClientService {
             String response = apiService.executeRequest("/clients", "GET", null);
 
             if (response != null && response.startsWith("[")) {
-                // Используем JsonUtils для автоматического парсинга
                 List<Client> clients = JsonUtils.fromJsonList(response, Client.class);
                 logger.info("✅ Успешно загружено {} клиентов", clients.size());
                 return clients;
@@ -42,7 +41,6 @@ public class ClientService {
                 client.getFirstName(), client.getLastName(), client.getPassportNumber());
 
         try {
-            // Автоматическая сериализация объекта в JSON
             String jsonBody = JsonUtils.toJson(client);
             logger.debug("📨 JSON для отправки: {}", jsonBody);
 
@@ -65,16 +63,38 @@ public class ClientService {
     }
 
     /**
+     * Удаление клиента по паспорту
+     */
+    public boolean deleteClient(String passportNumber) {
+        logger.info("🗑️ Удаление клиента с паспортом: {}", passportNumber);
+        try {
+            String response = apiService.executeRequest("/clients/" + passportNumber, "DELETE", null);
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Клиент с паспортом {} удален", passportNumber);
+            } else {
+                logger.warn("⚠️ Не удалось удалить клиента. Ответ: {}", response);
+            }
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка удаления клиента: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
      * Очистка всех клиентских данных
      */
     public boolean clearClientData() {
         logger.info("🗑️ Очистка всех данных клиентов");
         try {
-            String response = apiService.executeRequest("/clients/clear", "DELETE", null);
+            String response = apiService.executeRequest("/clients", "DELETE", null);
             boolean success = response != null && response.contains("\"success\":true");
 
             if (success) {
-                logger.info("✅ Данные клиентов успешно очищены, номера освобождены");
+                logger.info("✅ Данные клиентов успешно очищены");
             } else {
                 logger.warn("⚠️ Не удалось очистить данные клиентов. Ответ: {}", response);
             }
@@ -87,7 +107,7 @@ public class ClientService {
     }
 
     /**
-     * Заселение клиента с полной валидацией
+     * Заселение клиента
      */
     public boolean checkInClient(Client client) {
         logger.info("👤 Заселение клиента: {} {} (паспорт: {}) в номер {}",
@@ -95,7 +115,6 @@ public class ClientService {
                 client.getPassportNumber(), client.getRoomNumber());
 
         try {
-            // Автоматическая сериализация объекта в JSON
             String jsonBody = JsonUtils.toJson(client);
             logger.debug("📨 Отправка запроса на заселение: {}", jsonBody);
 
@@ -124,9 +143,7 @@ public class ClientService {
         logger.info("🚪 Выселение клиента с паспортом: {}", passportNumber);
 
         try {
-            // Создаем простой JSON объект для выселения
             String jsonBody = String.format("{\"passportNumber\":\"%s\"}", passportNumber);
-
             String response = apiService.executeRequest("/bookings/check-out", "POST", jsonBody);
             boolean success = response != null && response.contains("\"success\":true");
 
@@ -153,7 +170,6 @@ public class ClientService {
             String response = apiService.executeRequest("/clients/" + passportNumber, "GET", null);
 
             if (response != null && response.startsWith("{")) {
-                // Автоматический парсинг JSON в объект Client
                 Client client = JsonUtils.fromJson(response, Client.class);
                 if (client != null) {
                     logger.info("✅ Найден клиент: {} {}", client.getFirstName(), client.getLastName());
@@ -166,35 +182,6 @@ public class ClientService {
         } catch (Exception e) {
             logger.error("❌ Ошибка поиска клиента: {}", e.getMessage(), e);
             return null;
-        }
-    }
-
-    /**
-     * Обновить данные клиента
-     */
-    public boolean updateClient(Client client) {
-        logger.info("✏️ Обновление данных клиента: {} {} (паспорт: {})",
-                client.getFirstName(), client.getLastName(), client.getPassportNumber());
-
-        try {
-            // Автоматическая сериализация объекта в JSON
-            String jsonBody = JsonUtils.toJson(client);
-            String response = apiService.executeRequest("/clients/" + client.getPassportNumber(), "PUT", jsonBody);
-
-            boolean success = response != null && response.contains("\"success\":true");
-
-            if (success) {
-                logger.info("✅ Данные клиента {} {} успешно обновлены",
-                        client.getFirstName(), client.getLastName());
-            } else {
-                logger.warn("⚠️ Не удалось обновить данные клиента. Ответ: {}", response);
-            }
-
-            return success;
-
-        } catch (Exception e) {
-            logger.error("❌ Ошибка обновления клиента: {}", e.getMessage(), e);
-            return false;
         }
     }
 }

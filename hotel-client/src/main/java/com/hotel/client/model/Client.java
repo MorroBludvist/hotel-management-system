@@ -32,17 +32,15 @@ public class Client {
     @JsonProperty("roomNumber")
     private int roomNumber;
 
-    @JsonProperty("roomType")
-    private String roomType;
+    @JsonProperty("status")
+    private String status;
 
-    // Пустой конструктор для Jackson
-    public Client() {
-    }
+    // Конструкторы
+    public Client() {}
 
-    // Полный конструктор
     public Client(String firstName, String lastName, String passportNumber,
                   String phoneNumber, String email, String checkInDate,
-                  String checkOutDate, int roomNumber, String roomType) {
+                  String checkOutDate, Integer roomNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.passportNumber = passportNumber;
@@ -51,18 +49,18 @@ public class Client {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.roomNumber = roomNumber;
-        this.roomType = roomType;
+        this.status = "active";
     }
 
     // Геттеры и сеттеры
+    public String getPassportNumber() { return passportNumber; }
+    public void setPassportNumber(String passportNumber) { this.passportNumber = passportNumber; }
+
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
 
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
-
-    public String getPassportNumber() { return passportNumber; }
-    public void setPassportNumber(String passportNumber) { this.passportNumber = passportNumber; }
 
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
@@ -76,19 +74,9 @@ public class Client {
     public String getCheckOutDate() { return checkOutDate; }
     public void setCheckOutDate(String checkOutDate) { this.checkOutDate = checkOutDate; }
 
-    public int getRoomNumber() { return roomNumber; }
-    public void setRoomNumber(int roomNumber) { this.roomNumber = roomNumber; }
+    public Integer getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(Integer roomNumber) { this.roomNumber = roomNumber; }
 
-    public String getRoomType() { return roomType; }
-    public void setRoomType(String roomType) { this.roomType = roomType; }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", passportNumber='" + passportNumber + '\'' +
-                ", roomNumber=" + roomNumber +
-                '}';
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

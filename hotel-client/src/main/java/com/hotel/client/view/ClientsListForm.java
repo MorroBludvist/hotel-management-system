@@ -35,8 +35,9 @@ public class ClientsListForm extends BaseTableForm {
 
     @Override
     protected void initializeTable() {
+        // Убрали "Тип номера" из колонок
         String[] columns = {"Паспорт", "Имя", "Фамилия", "Телефон", "Email",
-                "Дата заезда", "Дата выезда", "Номер", "Тип номера", "Статус"};
+                "Дата заезда", "Дата выезда", "Номер", "Статус"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -47,13 +48,12 @@ public class ClientsListForm extends BaseTableForm {
         table = new JTable(model);
         applyTableStyles();
 
-        // Настройка ширины колонок
-        int[] columnWidths = {120, 100, 120, 130, 180, 110, 110, 80, 100, 90};
+        // Настройка ширины колонок (убрали одну колонку)
+        int[] columnWidths = {120, 100, 120, 130, 180, 110, 110, 80, 90};
         for (int i = 0; i < columnWidths.length; i++) {
             table.getColumnModel().getColumn(i).setPreferredWidth(columnWidths[i]);
         }
 
-        // Специальный рендерер для статусов клиентов
         table.setDefaultRenderer(Object.class, new ClientCellRenderer());
     }
 
@@ -78,7 +78,7 @@ public class ClientsListForm extends BaseTableForm {
                         client.getCheckInDate(),
                         client.getCheckOutDate(),
                         client.getRoomNumber(),
-                        client.getRoomType(),
+                        // Убрали client.getRoomType() - его больше нет
                         status
                 });
             }

@@ -4,9 +4,6 @@ public class Room {
     private Integer roomNumber;
     private String roomType;
     private String status;
-    private String clientPassport;
-    private String checkInDate;
-    private String checkOutDate;
 
     public Room() {}
 
@@ -25,13 +22,4 @@ public class Room {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
-    public String getClientPassport() { return clientPassport; }
-    public void setClientPassport(String clientPassport) { this.clientPassport = clientPassport; }
-
-    public String getCheckInDate() { return checkInDate; }
-    public void setCheckInDate(String checkInDate) { this.checkInDate = checkInDate; }
-
-    public String getCheckOutDate() { return checkOutDate; }
-    public void setCheckOutDate(String checkOutDate) { this.checkOutDate = checkOutDate; }
 }

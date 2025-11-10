@@ -250,20 +250,11 @@ public class CheckInForm extends BaseAddForm {
                     emailField.getText().trim(),
                     checkInDateField.getText().trim(),
                     checkOutDateField.getText().trim(),
-                    (Integer) roomNumberComboBox.getSelectedItem(),
-                    (String) roomTypeComboBox.getSelectedItem()
+                    (Integer) roomNumberComboBox.getSelectedItem()
+                    // Убрали roomType - он больше не нужен в клиенте
             );
 
-            if (clientService.addClient(client)) {
-                // Добавляем запись в историю бронирований через BookingService
-                BookingService bookingService = new BookingService(apiService);
-                bookingService.addBookingHistory(
-                        client.getRoomNumber(),
-                        client.getPassportNumber(),
-                        client.getCheckInDate(),
-                        client.getCheckOutDate()
-                );
-
+            if (clientService.checkInClient(client)) {
                 showSuccess("Клиент успешно заселен!\n\n" +
                         "Номер: " + client.getRoomNumber() + "\n" +
                         "С " + client.getCheckInDate() + " по " + client.getCheckOutDate());

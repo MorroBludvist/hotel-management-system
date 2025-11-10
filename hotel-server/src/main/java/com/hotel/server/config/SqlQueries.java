@@ -134,44 +134,10 @@ public class SqlQueries {
         ORDER BY last_name, first_name
     """;
 
-    public static final String STAFF_FIND_BY_PASSPORT = """
-        SELECT passport_number, first_name, last_name, position, phone_number, 
-               email, hire_date, salary, department
-        FROM staff 
-        WHERE passport_number = ? AND status = 'active'
-    """;
-
     public static final String STAFF_INSERT = """
         INSERT INTO staff (passport_number, first_name, last_name, position, 
                           phone_number, email, hire_date, salary, department, status)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')
-    """;
-
-    public static final String STAFF_UPDATE = """
-        UPDATE staff 
-        SET first_name = ?, last_name = ?, position = ?, phone_number = ?, 
-            email = ?, hire_date = ?, salary = ?, department = ?
-        WHERE passport_number = ? AND status = 'active'
-    """;
-
-    public static final String STAFF_SOFT_DELETE = """
-        UPDATE staff SET status = 'inactive' WHERE passport_number = ?
-    """;
-
-    public static final String STAFF_FIND_BY_DEPARTMENT = """
-        SELECT passport_number, first_name, last_name, position, phone_number, 
-               email, hire_date, salary, department
-        FROM staff 
-        WHERE department = ? AND status = 'active'
-        ORDER BY position, last_name
-    """;
-
-    public static final String STAFF_FIND_BY_POSITION = """
-        SELECT passport_number, first_name, last_name, position, phone_number, 
-               email, hire_date, salary, department
-        FROM staff 
-        WHERE position = ? AND status = 'active'
-        ORDER BY last_name, first_name
     """;
 
     //REPORTING QUERIES

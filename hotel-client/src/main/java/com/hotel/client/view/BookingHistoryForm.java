@@ -22,7 +22,6 @@ public class BookingHistoryForm extends BaseTableForm {
     private ApiService apiService;
     private RoomService roomService;
     private BookingService bookingService;
-    private JComboBox<String> filterComboBox;
 
     public BookingHistoryForm(JFrame parent) {
         super(parent, "История бронирований", 1000, 600);
@@ -33,13 +32,12 @@ public class BookingHistoryForm extends BaseTableForm {
         initializeComponents();
         setupBookingHistoryLayout();
         setupBaseListeners();
-        setupBookingHistoryListeners();
         loadData();
     }
 
     @Override
     protected void initializeTable() {
-        String[] columns = {"Номер", "Паспорт клиента", "Дата заезда", "Дата выезда", "Дата бронирования"};
+        String[] columns = {"Номер", "Паспорт клиента", "Дата заезда", "Дата выезда"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -51,7 +49,7 @@ public class BookingHistoryForm extends BaseTableForm {
         applyTableStyles();
 
         // Настройка ширины колонок
-        int[] columnWidths = {80, 150, 120, 120, 180};
+        int[] columnWidths = {80, 150, 120, 120};
         for (int i = 0; i < columnWidths.length; i++) {
             table.getColumnModel().getColumn(i).setPreferredWidth(columnWidths[i]);
         }
@@ -81,17 +79,14 @@ public class BookingHistoryForm extends BaseTableForm {
 
     @Override
     protected void setupAdditionalComponents() {
-        // Комбобокс для фильтрации
-        String[] filters = {"Все записи", "За последнюю неделю", "За последний месяц", "За последний год"};
-        filterComboBox = new JComboBox<>(filters);
-        styleComboBox(filterComboBox);
+        // Комбобокс больше не нужен
     }
 
     private void setupBookingHistoryLayout() {
         // Убираем стандартную компоновку и создаем кастомную
         getContentPane().removeAll();
 
-        // Градиентный заголовок с фильтром
+        // Градиентный заголовок
         add(createBookingHistoryHeaderPanel(), BorderLayout.NORTH);
 
         // Таблица
@@ -128,18 +123,7 @@ public class BookingHistoryForm extends BaseTableForm {
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 
-        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
-        filterPanel.setOpaque(false);
-
-        JLabel filterLabel = new JLabel("Период:");
-        filterLabel.setForeground(Color.WHITE);
-        filterLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
-
-        filterPanel.add(filterLabel);
-        filterPanel.add(filterComboBox);
-
         headerPanel.add(titleLabel, BorderLayout.WEST);
-        headerPanel.add(filterPanel, BorderLayout.EAST);
 
         return headerPanel;
     }
@@ -167,10 +151,6 @@ public class BookingHistoryForm extends BaseTableForm {
         bottomPanel.add(buttonPanel, BorderLayout.EAST);
 
         return bottomPanel;
-    }
-
-    private void setupBookingHistoryListeners() {
-        filterComboBox.addActionListener(e -> applyFilter());
     }
 
     private void updateBookingHistoryTable(List<Map<String, Object>> history) {
@@ -206,20 +186,5 @@ public class BookingHistoryForm extends BaseTableForm {
             logger.warn("Ошибка форматирования даты: {}", e.getMessage());
         }
         return String.valueOf(timestamp);
-    }
-
-    private void applyFilter() {
-        // TODO: Реализовать фильтрацию по периодам
-        // Пока просто перезагружаем все данные
-        loadData();
-    }
-
-    private void styleComboBox(JComboBox<String> comboBox) {
-        comboBox.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        comboBox.setBackground(Color.WHITE);
-        comboBox.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-                BorderFactory.createEmptyBorder(8, 12, 8, 12)
-        ));
     }
 }

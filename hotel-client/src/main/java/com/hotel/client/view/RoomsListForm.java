@@ -2,7 +2,9 @@ package com.hotel.client.view;
 
 import com.hotel.client.service.ApiService;
 import com.hotel.client.model.Room;
+import com.hotel.client.model.Client;
 import com.hotel.client.service.RoomService;
+import com.hotel.client.service.ClientService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,23 +12,29 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Форма для просмотра списка номеров с градиентным дизайном
+ * Форма для просмотра списка номеров с информацией о текущих клиентах
  */
 public class RoomsListForm extends BaseTableForm {
     private static final Logger logger = LogManager.getLogger(RoomsListForm.class);
 
     private ApiService apiService;
     private RoomService roomService;
+    private ClientService clientService;
     private JComboBox<String> filterComboBox;
     private JLabel statsLabel;
+
+    // Карта для быстрого доступа к клиентам по номеру комнаты
+    private Map<Integer, Client> roomToClientMap = new HashMap<>();
 
     public RoomsListForm(JFrame parent) {
         super(parent, "Список номеров отеля", 1000, 650);
         this.apiService = ApiService.getInstance();
         this.roomService = new RoomService(apiService);
+        this.clientService = new ClientService(apiService);
 
         initializeComponents();
         setupRoomsLayout();
@@ -37,7 +45,7 @@ public class RoomsListForm extends BaseTableForm {
 
     @Override
     protected void initializeTable() {
-        // 6 колонок как в исходной версии
+        // 6 колонок: Номер, Тип, Статус, Клиент, Дата заезда, Дата выезда
         String[] columns = {"Номер", "Тип", "Статус", "Клиент", "Дата заезда", "Дата выезда"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
@@ -65,7 +73,13 @@ public class RoomsListForm extends BaseTableForm {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             refreshButton.setEnabled(false);
 
+            // Загружаем и комнаты, и клиентов
             List<Room> allRooms = roomService.getAllRooms();
+            List<Client> allClients = clientService.getAllClients();
+
+            // Создаем карту для быстрого поиска клиента по номеру комнаты
+            updateRoomToClientMap(allClients);
+
             updateRoomsTable(allRooms);
 
             if (allRooms.isEmpty()) {
@@ -79,6 +93,19 @@ public class RoomsListForm extends BaseTableForm {
             setCursor(Cursor.getDefaultCursor());
             refreshButton.setEnabled(true);
         }
+    }
+
+    /**
+     * Обновляет карту соответствия комнат клиентам
+     */
+    private void updateRoomToClientMap(List<Client> clients) {
+        roomToClientMap.clear();
+        for (Client client : clients) {
+            if (client.getRoomNumber() != null && "active".equals(client.getStatus())) {
+                roomToClientMap.put(client.getRoomNumber(), client);
+            }
+        }
+        logger.debug("Обновлена карта клиентов: {} активных клиентов", roomToClientMap.size());
     }
 
     @Override
@@ -183,9 +210,22 @@ public class RoomsListForm extends BaseTableForm {
 
         for (Room room : rooms) {
             String status = "free".equals(room.getStatus()) ? "Свободен" : "Занят";
-            String clientInfo = room.getClientPassport() != null ? room.getClientPassport() : "-";
-            String checkIn = room.getCheckInDate() != null ? room.getCheckInDate() : "-";
-            String checkOut = room.getCheckOutDate() != null ? room.getCheckOutDate() : "-";
+
+            // Получаем информацию о клиенте из карты
+            Client client = roomToClientMap.get(room.getRoomNumber());
+            String clientInfo = "-";
+            String checkIn = "-";
+            String checkOut = "-";
+
+            if (client != null && "occupied".equals(room.getStatus())) {
+                // Форматируем информацию о клиенте
+                clientInfo = String.format("%s %s (%s)",
+                        client.getFirstName(),
+                        client.getLastName(),
+                        client.getPassportNumber());
+                checkIn = client.getCheckInDate() != null ? client.getCheckInDate() : "-";
+                checkOut = client.getCheckOutDate() != null ? client.getCheckOutDate() : "-";
+            }
 
             model.addRow(new Object[]{
                     room.getRoomNumber(),
@@ -204,10 +244,11 @@ public class RoomsListForm extends BaseTableForm {
         long totalRooms = rooms.size();
         long freeRooms = rooms.stream().filter(r -> "free".equals(r.getStatus())).count();
         long occupiedRooms = rooms.stream().filter(r -> "occupied".equals(r.getStatus())).count();
+        long clientsInRooms = roomToClientMap.size();
 
         statsLabel.setText(String.format(
-                "Всего номеров: %d | Свободно: %d | Занято: %d",
-                totalRooms, freeRooms, occupiedRooms
+                "Всего номеров: %d | Свободно: %d | Занято: %d | Клиентов: %d",
+                totalRooms, freeRooms, occupiedRooms, clientsInRooms
         ));
         updateCountLabel(rooms.size());
     }
@@ -270,7 +311,7 @@ public class RoomsListForm extends BaseTableForm {
         ));
     }
 
-    // Специальный рендерер для номеров
+    // Специальный рендерер для номеров с улучшенным отображением клиентов
     private static class RoomCellRenderer extends GradientCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
@@ -293,14 +334,22 @@ public class RoomsListForm extends BaseTableForm {
                 }
             }
 
-            // Стили для пустых значений клиента
-            if (column == 3 && value != null && value.equals("-") && !isSelected) {
-                setForeground(new Color(150, 150, 150));
-                setFont(getFont().deriveFont(Font.ITALIC));
+            // Стили для информации о клиенте (колонка 3)
+            if (column == 3) {
+                if (value != null && !value.equals("-") && !isSelected) {
+                    setForeground(new Color(52, 73, 94));
+                    setFont(getFont().deriveFont(Font.BOLD));
+                } else if (value != null && value.equals("-") && !isSelected) {
+                    setForeground(new Color(150, 150, 150));
+                    setFont(getFont().deriveFont(Font.ITALIC));
+                }
             }
 
-            // Стили для пустых дат
-            if ((column == 4 || column == 5) && value != null && value.equals("-") && !isSelected) {
+            // Стили для дат
+            if ((column == 4 || column == 5) && value != null && !value.equals("-") && !isSelected) {
+                setForeground(new Color(41, 128, 185));
+                setFont(getFont().deriveFont(Font.PLAIN));
+            } else if ((column == 4 || column == 5) && value != null && value.equals("-") && !isSelected) {
                 setForeground(new Color(150, 150, 150));
                 setFont(getFont().deriveFont(Font.ITALIC));
             }
@@ -314,5 +363,12 @@ public class RoomsListForm extends BaseTableForm {
 
             return this;
         }
+    }
+
+    /**
+     * Переопределяем метод обновления данных для перезагрузки и клиентов
+     */
+    protected void refreshData() {
+        loadData();
     }
 }
