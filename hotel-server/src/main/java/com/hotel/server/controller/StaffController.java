@@ -2,6 +2,7 @@ package com.hotel.server.controller;
 
 import com.hotel.server.model.Staff;
 import com.hotel.server.service.StaffService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 public class StaffController {
 
     private final StaffService staffService;
+    private static final Logger logger = LogManager.getLogger(StaffController.class);
 
     public StaffController(StaffService staffService) {
         this.staffService = staffService;
@@ -57,6 +59,32 @@ public class StaffController {
         } catch (Exception e) {
             System.err.println("Ошибка добавления сотрудника: " + e.getMessage());
             return ResponseEntity.badRequest().body(
+                    Map.of("success", false, "error", e.getMessage())
+            );
+        }
+    }
+
+    /**
+     * Очистка всего персонала
+     */
+    @DeleteMapping("/clear")
+    public ResponseEntity<Map<String, Object>> clearAllStaff() {
+        try {
+            logger.info("🔄 Запрос на очистку всего персонала");
+            boolean success = staffService.clearAll();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", success);
+            response.put("message", success ?
+                    "Весь персонал удален" :
+                    "Ошибка очистки персонала");
+
+            logger.info("✅ Ответ очистки персонала: {}", success);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка в контроллере очистки персонала: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                     Map.of("success", false, "error", e.getMessage())
             );
         }

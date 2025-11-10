@@ -218,4 +218,53 @@ public class SqlQueries {
     public static final String VALIDATE_STAFF_EXISTS = """
         SELECT COUNT(*) FROM staff WHERE passport_number = ? AND status = 'active'
     """;
+
+    //NEW QUERIES
+
+    public static final String BOOKING_CHECK_AVAILABILITY = """
+    SELECT COUNT(*) FROM rooms 
+    WHERE room_number = ? AND status = 'occupied' 
+    AND NOT (check_out_date <= ? OR check_in_date >= ?)
+    """;
+
+    public static final String BOOKING_OCCUPY_WITH_LOCK = """
+    UPDATE rooms 
+    SET status = 'occupied', client_passport = ?, 
+        check_in_date = ?, check_out_date = ?
+    WHERE room_number = ? AND status = 'free'
+    AND NOT EXISTS (
+        SELECT 1 FROM rooms r2 
+        WHERE r2.room_number = ? 
+        AND r2.status = 'occupied' 
+        AND NOT (r2.check_out_date <= ? OR r2.check_in_date >= ?)
+    )
+    """;
+
+//    public static final String BOOKING_HISTORY_CHECK_CONFLICT = """
+//    SELECT COUNT(*) FROM booking_history
+//    WHERE room_number = ?
+//    AND status = 'completed'
+//    AND NOT (check_out_date <= ? OR check_in_date >= ?)
+//    """;
+
+    public static final String CLIENT_DELETE_ALL = "DELETE FROM clients";
+    public static final String STAFF_DELETE_ALL = "DELETE FROM staff";
+    public static final String ROOM_DELETE_ALL = "DELETE FROM rooms";
+    public static final String ROOM_FREE_ALL = "UPDATE rooms SET status = 'free', client_passport = NULL, check_in_date = NULL, check_out_date = NULL";
+    public static final String BOOKING_HISTORY_DELETE_ALL = "DELETE FROM booking_history";
+
+    public static final String BOOKING_HISTORY_SELECT_ALL =
+            "SELECT * FROM booking_history ORDER BY booked_at DESC";
+
+    public static final String BOOKING_HISTORY_SELECT_BY_ROOM =
+            "SELECT * FROM booking_history WHERE room_number = ? ORDER BY booked_at DESC";
+
+    public static final String BOOKING_HISTORY_INSERT =
+            "INSERT INTO booking_history (room_number, client_passport, check_in_date, check_out_date) VALUES (?, ?, ?, ?)";
+
+    public static final String BOOKING_HISTORY_DELETE_BY_PASSPORT =
+            "DELETE FROM booking_history WHERE client_passport = ?";
+
+    public static final String BOOKING_HISTORY_CHECK_CONFLICT =
+            "SELECT COUNT(*) FROM booking_history WHERE room_number = ? AND NOT (check_out_date <= ? OR check_in_date >= ?)";
 }

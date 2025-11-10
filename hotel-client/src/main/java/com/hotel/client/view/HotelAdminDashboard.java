@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.hotel.client.config.AppStateManager;
 import com.hotel.client.service.*;
 import com.hotel.client.model.*;
 
@@ -30,19 +31,28 @@ public class HotelAdminDashboard extends JFrame {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private ApiService apiService;
+    private AppStateManager appStateManager;
     private ClientService clientService;
     private RoomService roomService;
     private StaffService staffService;
+
+    private JPanel mainPanel;
+    private JPanel roomTypesWidget;
+    private JPanel calendarWidget;
+    private JPanel quickActionsWidget;
+    private JPanel todayEventsWidget;
 
     private static final Logger logger = LogManager.getLogger(HotelAdminDashboard.class);
 
     public HotelAdminDashboard() {
         apiService = ApiService.getInstance();
+        appStateManager = AppStateManager.getInstance();
         this.clientService = new ClientService(apiService);
         this.roomService = new RoomService(apiService);
         this.staffService = new StaffService(apiService);
 
-        currentDate = new Date();
+        // Загружаем дату из состояния приложения
+        loadCurrentDateFromState();
         checkServerConnection();
 
         setTitle("Панель администратора отеля");
@@ -56,6 +66,28 @@ public class HotelAdminDashboard extends JFrame {
         createMainContent();
 
         setVisible(true);
+    }
+
+    /**
+     * Загружает текущую дату из состояния приложения
+     */
+    private void loadCurrentDateFromState() {
+        try {
+            String savedDate = AppStateManager.getInstance().getCurrentDate();
+            currentDate = dateFormat.parse(savedDate);
+            logger.info("📅 Загружена дата из состояния: {}", savedDate);
+        } catch (Exception e) {
+            logger.error("❌ Ошибка загрузки даты из состояния: {}", e.getMessage());
+            currentDate = new Date(); // Используем текущую дату как запасной вариант
+        }
+    }
+
+    /**
+     * Сохраняет текущую дату в состояние приложения
+     */
+    private void saveCurrentDateToState() {
+        String dateStr = dateFormat.format(currentDate);
+        AppStateManager.getInstance().setCurrentDate(dateStr);
     }
 
     private void createHeader() {
@@ -80,6 +112,11 @@ public class HotelAdminDashboard extends JFrame {
         // Левая часть - название и дата
         JPanel leftHeader = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftHeader.setOpaque(false);
+
+        JButton resetDateButton = createHeaderButton("Сбросить дату", new Color(155, 89, 182));
+        resetDateButton.addActionListener(e -> resetDateToToday());
+
+
 
         JLabel appTitle = new JLabel("Панель администратора отеля");
         appTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -108,6 +145,13 @@ public class HotelAdminDashboard extends JFrame {
         logoutButton.addActionListener(e -> System.exit(0));
 
         rightHeader.add(userLabel);
+        rightHeader.add(Box.createHorizontalStrut(10));
+        rightHeader.add(advanceDateButton);
+        rightHeader.add(Box.createHorizontalStrut(10));
+        rightHeader.add(logoutButton);
+
+        // Добавляем кнопку в rightHeader
+        rightHeader.add(resetDateButton);
         rightHeader.add(Box.createHorizontalStrut(10));
         rightHeader.add(advanceDateButton);
         rightHeader.add(Box.createHorizontalStrut(10));
@@ -251,6 +295,18 @@ public class HotelAdminDashboard extends JFrame {
         navPanel.add(Box.createVerticalGlue());
 
         add(navPanel, BorderLayout.WEST);
+
+        JButton viewBookingHistoryButton = createNavButton("История бронирований", new Color(142, 68, 173));
+
+        // Добавить обработчик:
+        viewBookingHistoryButton.addActionListener(e -> {
+            BookingHistoryForm bookingHistoryForm = new BookingHistoryForm(this);
+            bookingHistoryForm.setVisible(true);
+        });
+
+        // В код добавления кнопок в navPanel (в раздел "Операции"):
+        navPanel.add(Box.createVerticalStrut(5));
+        navPanel.add(viewBookingHistoryButton);
     }
 
     private JButton createNavButton(String text, Color baseColor) {
@@ -301,23 +357,30 @@ public class HotelAdminDashboard extends JFrame {
     }
 
     private void createMainContent() {
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(new Color(240, 242, 245)); // Фон для правой панели
+        mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(240, 242, 245));
 
         JPanel widgetsPanel = new JPanel(new GridLayout(2, 2, 20, 20));
         widgetsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        widgetsPanel.setBackground(new Color(240, 242, 245)); // Фон для виджетов
+        widgetsPanel.setBackground(new Color(240, 242, 245));
         widgetsPanel.setOpaque(true);
 
-        // Новый порядок виджетов:
-        widgetsPanel.add(createRoomTypesWidget());      // Левый верхний (бывший статус номеров)
-        widgetsPanel.add(createCalendarWidget());       // Правый верхний (бывшие типы номеров)
-        widgetsPanel.add(createQuickActionsWidget());   // Левый нижний
-        widgetsPanel.add(createTodayEventsWidget());    // Правый нижний
+        // Сохраняем ссылки на виджеты для последующего обновления
+        roomTypesWidget = createRoomTypesWidget();
+        calendarWidget = createCalendarWidget();
+        quickActionsWidget = createQuickActionsWidget();
+        todayEventsWidget = createTodayEventsWidget();
+
+        widgetsPanel.add(roomTypesWidget);
+        widgetsPanel.add(calendarWidget);
+        widgetsPanel.add(quickActionsWidget);
+        widgetsPanel.add(todayEventsWidget);
 
         mainPanel.add(widgetsPanel, BorderLayout.CENTER);
         add(mainPanel, BorderLayout.CENTER);
     }
+
+
 
     /**
      * Виджет типов номеров (левый верхний)
@@ -569,28 +632,47 @@ public class HotelAdminDashboard extends JFrame {
         return panel;
     }
 
+    /**
+     * Получает актуальные события на текущую дату
+     */
     private List<String> getTodayEvents() {
         List<String> events = new ArrayList<>();
         String today = dateFormat.format(currentDate);
 
         try {
-            // Заглушка - здесь будет логика получения событий
-            // Например, проверка клиентов с заездом/выездом на сегодня
             List<Client> clients = clientService.getAllClients();
+            List<Room> rooms = roomService.getAllRooms();
 
+            // События заезда
             for (Client client : clients) {
                 if (today.equals(client.getCheckInDate())) {
-                    events.add("Заезд: " + client.getFirstName() + " " + client.getLastName() +
-                            " (номер " + client.getRoomNumber() + ")");
-                }
-                if (today.equals(client.getCheckOutDate())) {
-                    events.add("Выезд: " + client.getFirstName() + " " + client.getLastName() +
+                    events.add("🏨 Заезд: " + client.getFirstName() + " " + client.getLastName() +
                             " (номер " + client.getRoomNumber() + ")");
                 }
             }
 
+            // События выезда
+            for (Client client : clients) {
+                if (today.equals(client.getCheckOutDate())) {
+                    events.add("🚪 Выезд: " + client.getFirstName() + " " + client.getLastName() +
+                            " (номер " + client.getRoomNumber() + ")");
+                }
+            }
+
+            // Автоматические выселения
+            for (Room room : rooms) {
+                if ("occupied".equals(room.getStatus()) && today.equals(room.getCheckOutDate())) {
+                    events.add("🔄 Автовыезд: номер " + room.getRoomNumber() +
+                            " (клиент: " + room.getClientPassport() + ")");
+                }
+            }
+
+            if (events.isEmpty()) {
+                events.add("📭 Событий на сегодня нет");
+            }
+
         } catch (Exception e) {
-            events.add("Ошибка загрузки событий");
+            events.add("❌ Ошибка загрузки событий: " + e.getMessage());
         }
 
         return events;
@@ -655,12 +737,17 @@ public class HotelAdminDashboard extends JFrame {
             boolean success = apiService.advanceDate(newDate);
 
             if (success) {
+                // Сохраняем новую дату в состоянии
+                saveCurrentDateToState();
+
                 currentDateLabel.setText("Сегодня: " + newDate);
                 JOptionPane.showMessageDialog(this,
                         "Дата обновлена: " + newDate + "\n" +
                                 "Проверена занятость номеров.",
                         "Дата обновлена", JOptionPane.INFORMATION_MESSAGE);
-                updateWidgets();
+
+                // Полностью обновляем все виджеты
+                refreshAllWidgets();
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Ошибка обновления даты",
@@ -673,6 +760,46 @@ public class HotelAdminDashboard extends JFrame {
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Полностью обновляет все виджеты на панели
+     */
+    public void refreshAllWidgets() {
+        logger.info("🔄 Обновление всех виджетов...");
+
+        // Удаляем текущую основную панель
+        if (mainPanel != null) {
+            remove(mainPanel);
+        }
+
+        // Создаем новую основную панель с обновленными данными
+        createMainContent();
+
+        // Перерисовываем интерфейс
+        revalidate();
+        repaint();
+
+        logger.info("✅ Все виджеты обновлены");
+    }
+
+    /**
+     * Обновляет только виджет событий (более легковесный метод)
+     */
+    public void refreshTodayEventsWidget() {
+        if (todayEventsWidget != null) {
+            // Находим родительскую панель и обновляем только этот виджет
+            Container parent = todayEventsWidget.getParent();
+            if (parent != null) {
+                parent.remove(todayEventsWidget);
+                JPanel newEventsWidget = createTodayEventsWidget();
+                parent.add(newEventsWidget);
+                parent.revalidate();
+                parent.repaint();
+            }
+        }
+    }
+
+
 
     private void updateWidgets() {
         // Обновляем все виджеты при смене даты
@@ -727,6 +854,7 @@ public class HotelAdminDashboard extends JFrame {
             boolean success = staffService.clearStaffData();
             if (success) {
                 JOptionPane.showMessageDialog(this, "Данные о сотрудниках удалены!");
+                refreshAllWidgets(); // ОБНОВЛЯЕМ ВИДЖЕТЫ
                 return;
             }
             JOptionPane.showMessageDialog(this, "Ошибка очистки данных сотрудников!");
@@ -742,6 +870,7 @@ public class HotelAdminDashboard extends JFrame {
             boolean success = clientService.clearClientData();
             if (success) {
                 JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
+                refreshAllWidgets(); // ОБНОВЛЯЕМ ВИДЖЕТЫ
                 return;
             }
             JOptionPane.showMessageDialog(this, "Ошибка очистки данных клиентов!");
@@ -752,7 +881,7 @@ public class HotelAdminDashboard extends JFrame {
         int result = JOptionPane.showConfirmDialog(this,
                 "Вы уверены что хотите очистить ВСЕ данные?\nЭто действие нельзя отменить!",
                 "Подтверждение очистки",
-                 JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
         if (result == JOptionPane.YES_OPTION) {
             boolean success1 = roomService.clearRoomsData();
@@ -761,6 +890,7 @@ public class HotelAdminDashboard extends JFrame {
 
             if (success1 && success2 && success3) {
                 JOptionPane.showMessageDialog(this, "Все данные успешно удалены!");
+                refreshAllWidgets(); // ОБНОВЛЯЕМ ВИДЖЕТЫ
                 return;
             }
             JOptionPane.showMessageDialog(this, "Ошибка полной очистки данных!");
@@ -768,18 +898,34 @@ public class HotelAdminDashboard extends JFrame {
     }
 
     private void clearRoomsData() {
-        int result = GradientDialog.showConfirmDialog(this,
+        int result = JOptionPane.showConfirmDialog(this,
                 "Очистить все номера?",
                 "Подтверждение", JOptionPane.YES_NO_OPTION);
 
         if (result == JOptionPane.YES_OPTION) {
             boolean success = roomService.clearRoomsData();
             if (success) {
-                JOptionPane.showMessageDialog(this, "Данные о клиентах удалены!");
+                JOptionPane.showMessageDialog(this, "Данные о номерах удалены!");
+                refreshAllWidgets(); // ОБНОВЛЯЕМ ВИДЖЕТЫ
                 return;
             }
             JOptionPane.showMessageDialog(this, "Ошибка очистки данных!");
+        }
+    }
 
+    private void resetDateToToday() {
+        int result = JOptionPane.showConfirmDialog(this,
+                "Сбросить дату на сегодняшнюю?\nЭто обновит все данные.",
+                "Сброс даты", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            AppStateManager.getInstance().resetToToday();
+            loadCurrentDateFromState();
+            currentDateLabel.setText("Сегодня: " + dateFormat.format(currentDate));
+            refreshAllWidgets();
+            JOptionPane.showMessageDialog(this,
+                    "Дата сброшена на сегодня: " + dateFormat.format(currentDate),
+                    "Дата сброшена", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -924,10 +1070,6 @@ public class HotelAdminDashboard extends JFrame {
                             "Для загрузки отчета нажмите кнопку 'Загрузить отчет'",
                     "Загрузка отчета");
             reportForm.setVisible(true);
-
-            // Автоматически открываем диалог выбора файла
-            // Это можно сделать через рефлексию или добавить метод в ReportForm
-            // Для простоты просто показываем форму, пользователь сам нажмет "Загрузить отчет"
 
         } catch (Exception e) {
             logger.error("Ошибка загрузки отчета: {}", e.getMessage());

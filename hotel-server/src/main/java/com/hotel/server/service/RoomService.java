@@ -6,7 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class RoomService {
 
     private final JdbcTemplate jdbcTemplate;
+    private static final Logger logger = LogManager.getLogger(RoomService.class);
 
     public RoomService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -32,7 +36,37 @@ public class RoomService {
         return jdbcTemplate.query(SqlQueries.ROOM_SELECT_OCCUPIED, roomRowMapper());
     }
 
+    /**
+     * Проверяет доступность номера с учетом истории бронирований
+     */
     public boolean isRoomAvailable(Integer roomNumber, String checkInDate, String checkOutDate) {
+        logger.info("🔍 Проверка доступности номера {} с {} по {}",
+                roomNumber, checkInDate, checkOutDate);
+
+        try {
+            // 1. Проверяем текущую занятость
+            boolean currentlyAvailable = checkCurrentAvailability(roomNumber, checkInDate, checkOutDate);
+
+            // 2. Проверяем историю бронирований на конфликты
+            boolean historicallyAvailable = checkHistoricalAvailability(roomNumber, checkInDate, checkOutDate);
+
+            boolean available = currentlyAvailable && historicallyAvailable;
+
+            logger.info("📊 Номер {} доступен: {} (текущая: {}, историческая: {})",
+                    roomNumber, available, currentlyAvailable, historicallyAvailable);
+
+            return available;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка проверки доступности номера: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Проверяет текущую занятость номера
+     */
+    private boolean checkCurrentAvailability(Integer roomNumber, String checkInDate, String checkOutDate) {
         String sql = """
             SELECT COUNT(*) FROM rooms 
             WHERE room_number = ? AND status = 'occupied' 
@@ -41,10 +75,65 @@ public class RoomService {
 
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class,
                 roomNumber, checkInDate, checkOutDate);
-        System.out.println(roomNumber);
-        System.out.println(checkInDate);
-        System.out.println(checkOutDate);
         return count == 0;
+    }
+
+    /**
+     * Проверяет историю бронирований на конфликты
+     */
+    private boolean checkHistoricalAvailability(Integer roomNumber, String checkInDate, String checkOutDate) {
+        String sql = SqlQueries.BOOKING_HISTORY_CHECK_CONFLICT;
+
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class,
+                roomNumber, checkInDate, checkOutDate);
+        return count == 0;
+    }
+
+    /**
+     * Добавляет запись в историю бронирований
+     */
+    public boolean addToBookingHistory(Integer roomNumber, String clientPassport,
+                                       String checkInDate, String checkOutDate) {
+        logger.info("📝 Добавление в историю бронирований: номер {}, клиент {}",
+                roomNumber, clientPassport);
+
+        try {
+            int result = jdbcTemplate.update(SqlQueries.BOOKING_HISTORY_INSERT,
+                    roomNumber, clientPassport, checkInDate, checkOutDate);
+
+            boolean success = result > 0;
+            if (success) {
+                logger.info("✅ Запись добавлена в историю бронирований");
+            } else {
+                logger.warn("⚠️ Не удалось добавить запись в историю бронирований");
+            }
+
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка добавления в историю бронирований: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Получает историю бронирований для номера
+     */
+    public List<Map<String, Object>> getBookingHistory(Integer roomNumber) {
+        try {
+            return jdbcTemplate.query(SqlQueries.BOOKING_HISTORY_SELECT_BY_ROOM,
+                    (rs, rowNum) -> {
+                        Map<String, Object> history = new HashMap<>();
+                        history.put("clientPassport", rs.getString("client_passport"));
+                        history.put("checkInDate", rs.getString("check_in_date"));
+                        history.put("checkOutDate", rs.getString("check_out_date"));
+                        history.put("bookedAt", rs.getTimestamp("booked_at"));
+                        return history;
+                    }, roomNumber);
+        } catch (Exception e) {
+            logger.error("❌ Ошибка получения истории бронирований: {}", e.getMessage(), e);
+            return new ArrayList<>();
+        }
     }
 
     public boolean occupyRoom(Integer roomNumber, String clientPassport,
@@ -111,5 +200,23 @@ public class RoomService {
             room.setCheckOutDate(rs.getString("check_out_date"));
             return room;
         };
+    }
+
+    public boolean clearAll() {
+        logger.info("🗑️ Очистка всех номеров с выселением клиентов");
+        try {
+            // Сначала выселяем всех клиентов (освобождаем номера)
+            jdbcTemplate.update(SqlQueries.ROOM_FREE_ALL);
+            logger.info("✅ Все клиенты выселены, номера освобождены");
+
+            // Очищаем историю бронирований
+            jdbcTemplate.update(SqlQueries.BOOKING_HISTORY_DELETE_ALL);
+            logger.info("✅ История бронирований очищена");
+
+            return true;
+        } catch (Exception e) {
+            logger.error("❌ Ошибка очистки номеров: {}", e.getMessage(), e);
+            return false;
+        }
     }
 }

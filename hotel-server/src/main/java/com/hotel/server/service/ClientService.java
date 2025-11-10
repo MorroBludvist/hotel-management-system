@@ -45,7 +45,7 @@ public class ClientService {
         }
     }
 
-    private RowMapper<Client> clientRowMapper() {
+    public RowMapper<Client> clientRowMapper() {
         return (rs, rowNum) -> {
             logger.trace("Обработка ResultSet для строки #{}, данные:", rowNum);
             logger.trace("first_name: {}", rs.getString("first_name"));
@@ -70,5 +70,27 @@ public class ClientService {
             client.setRoomType(rs.getString("room_type"));
             return client;
         };
+    }
+
+    public boolean clearAll() {
+        logger.info("🗑️ Очистка всех клиентов и освобождение номеров");
+        try {
+            // Сначала освобождаем все номера
+            jdbcTemplate.update(SqlQueries.ROOM_FREE_ALL);
+            logger.info("✅ Все номера освобождены");
+
+            // Затем удаляем всех клиентов
+            int deletedClients = jdbcTemplate.update(SqlQueries.CLIENT_DELETE_ALL);
+            logger.info("✅ Удалено клиентов: {}", deletedClients);
+
+            // Очищаем историю бронирований
+            jdbcTemplate.update(SqlQueries.BOOKING_HISTORY_DELETE_ALL);
+            logger.info("✅ История бронирований очищена");
+
+            return true;
+        } catch (Exception e) {
+            logger.error("❌ Ошибка очистки клиентов: {}", e.getMessage(), e);
+            return false;
+        }
     }
 }

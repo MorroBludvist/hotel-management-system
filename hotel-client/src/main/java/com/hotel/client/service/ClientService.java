@@ -160,10 +160,96 @@ public class ClientService {
         }
     }
 
+    /**
+     * Очистка всех клиентских данных
+     */
     public boolean clearClientData() {
-        logger.debug("Очистка базы данных клиентов");
-        boolean success = false;
-        return success;
+        logger.info("🗑️ Очистка всех данных клиентов");
+        try {
+            String response = apiService.executeRequest("/clients/clear", "DELETE", null);
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Данные клиентов успешно очищены, номера освобождены");
+            } else {
+                logger.warn("⚠️ Не удалось очистить данные клиентов. Ответ: {}", response);
+            }
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка очистки клиентов: {}", e.getMessage(), e);
+            return false;
+        }
     }
 
+    /**
+     * Заселение клиента с полной валидацией
+     */
+    public boolean checkInClient(Client client) {
+        logger.info("👤 Заселение клиента: {} {} (паспорт: {}) в номер {}",
+                client.getFirstName(), client.getLastName(),
+                client.getPassportNumber(), client.getRoomNumber());
+
+        try {
+            String jsonBody = String.format(
+                    "{\"firstName\":\"%s\",\"lastName\":\"%s\",\"passportNumber\":\"%s\"," +
+                            "\"phoneNumber\":\"%s\",\"email\":\"%s\",\"checkInDate\":\"%s\"," +
+                            "\"checkOutDate\":\"%s\",\"roomNumber\":%d,\"roomType\":\"%s\"}",
+                    apiService.escapeJson(client.getFirstName()),
+                    apiService.escapeJson(client.getLastName()),
+                    apiService.escapeJson(client.getPassportNumber()),
+                    apiService.escapeJson(client.getPhoneNumber()),
+                    apiService.escapeJson(client.getEmail()),
+                    apiService.escapeJson(client.getCheckInDate()),
+                    apiService.escapeJson(client.getCheckOutDate()),
+                    client.getRoomNumber(),
+                    apiService.escapeJson(client.getRoomType())
+            );
+
+            logger.debug("📨 Отправка запроса на заселение: {}", jsonBody);
+            String response = apiService.executeRequest("/bookings/check-in", "POST", jsonBody);
+
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Клиент {} {} успешно заселен в номер {}",
+                        client.getFirstName(), client.getLastName(), client.getRoomNumber());
+            } else {
+                logger.warn("⚠️ Не удалось заселить клиента. Ответ сервера: {}", response);
+            }
+
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка заселения клиента: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Выселение клиента
+     */
+    public boolean checkOutClient(String passportNumber) {
+        logger.info("🚪 Выселение клиента с паспортом: {}", passportNumber);
+
+        try {
+            String jsonBody = String.format("{\"passportNumber\":\"%s\"}",
+                    apiService.escapeJson(passportNumber));
+
+            String response = apiService.executeRequest("/bookings/check-out", "POST", jsonBody);
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Клиент с паспортом {} успешно выселен", passportNumber);
+            } else {
+                logger.warn("⚠️ Не удалось выселить клиента. Ответ: {}", response);
+            }
+
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка выселения клиента: {}", e.getMessage(), e);
+            return false;
+        }
+    }
 }

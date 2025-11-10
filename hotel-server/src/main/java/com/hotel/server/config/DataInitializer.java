@@ -24,10 +24,10 @@ public class DataInitializer {
 
     @PostConstruct //вызов метода после инициализации подключения
     public void initialize() {
+        createBookingHistoryTable();
         try {
             // Проверяем, есть ли уже комнаты
             Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM rooms", Integer.class);
-            System.out.println("DATA INITIALIZER IS WORKS!!!");
             if (count != null && count == 0) {
                 logger.info("Инициализация комнат в базе данных...");
 
@@ -51,6 +51,29 @@ public class DataInitializer {
             }
         } catch (Exception e) {
             logger.error("Ошибка при инициализации базы данных: {}", e.getMessage());
+        }
+    }
+
+    //TODO: убрать инициализацию в schema.sql в будущем
+    private void createBookingHistoryTable() {
+        try {
+            String createTableSQL = """
+                CREATE TABLE IF NOT EXISTS booking_history (
+                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                    room_number INT NOT NULL,
+                    client_passport VARCHAR(50) NOT NULL,
+                    check_in_date VARCHAR(10) NOT NULL,
+                    check_out_date VARCHAR(10) NOT NULL,
+                    booked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    status VARCHAR(20) DEFAULT 'completed'
+                )
+            """;
+
+            jdbcTemplate.execute(createTableSQL);
+            logger.info("✅ Таблица booking_history создана или уже существует");
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка создания таблицы booking_history: {}", e.getMessage());
         }
     }
 }

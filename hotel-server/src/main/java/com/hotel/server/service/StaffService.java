@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 @Service
 public class StaffService {
     private final JdbcTemplate jdbcTemplate;
+    private static final Logger logger = LogManager.getLogger(StaffService.class);
 
     public StaffService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -57,5 +58,17 @@ public class StaffService {
             staff.setDepartment(rs.getString("department"));
             return staff;
         };
+    }
+
+    public boolean clearAll() {
+        logger.info("🗑️ Очистка всего персонала");
+        try {
+            int deletedStaff = jdbcTemplate.update(SqlQueries.STAFF_DELETE_ALL);
+            logger.info("✅ Удалено сотрудников: {}", deletedStaff);
+            return true;
+        } catch (Exception e) {
+            logger.error("❌ Ошибка очистки персонала: {}", e.getMessage(), e);
+            return false;
+        }
     }
 }

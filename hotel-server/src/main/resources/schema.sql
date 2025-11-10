@@ -40,3 +40,13 @@ CREATE TABLE IF NOT EXISTS staff (
     department TEXT NOT NULL,
     status TEXT DEFAULT 'active'
 );
+
+CREATE TABLE IF NOT EXISTS booking_history (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    room_number INT NOT NULL,
+    client_passport VARCHAR(50) NOT NULL,
+    check_in_date VARCHAR(10) NOT NULL,
+    check_out_date VARCHAR(10) NOT NULL,
+    booked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'completed'
+);
