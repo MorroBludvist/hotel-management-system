@@ -1,5 +1,6 @@
 package com.hotel.client.service;
 
+import com.hotel.client.util.JsonUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Сервис для работы с бронированиями и историей
+ * Сервис для работы с бронированиями и историей с Jackson
  */
 public class BookingService {
     private static final Logger logger = LogManager.getLogger(BookingService.class);
@@ -18,7 +19,7 @@ public class BookingService {
 
     public BookingService(ApiService apiService) {
         this.apiService = apiService;
-        logger.debug("BookingService инициализирован");
+        logger.debug("BookingService инициализирован с Jackson");
     }
 
     // === МЕТОДЫ ДЛЯ ОПЕРАЦИЙ БРОНИРОВАНИЯ ===
@@ -29,7 +30,7 @@ public class BookingService {
     public boolean checkInClient(Map<String, Object> bookingData) {
         logger.info("🏨 Заселение клиента: {}", bookingData.get("passportNumber"));
         try {
-            String jsonBody = createBookingJson(bookingData);
+            String jsonBody = JsonUtils.toJson(bookingData);
             String response = apiService.executeRequest("/bookings/check-in", "POST", jsonBody);
             boolean success = response != null && response.contains("\"success\":true");
 
@@ -52,10 +53,12 @@ public class BookingService {
     public boolean checkOutClient(String passportNumber) {
         logger.info("🚪 Выселение клиента с паспортом: {}", passportNumber);
         try {
-            String jsonBody = String.format("{\"passportNumber\":\"%s\"}",
-                    apiService.escapeJson(passportNumber));
+            Map<String, Object> requestData = new HashMap<>();
+            requestData.put("passportNumber", passportNumber);
 
+            String jsonBody = JsonUtils.toJson(requestData);
             String response = apiService.executeRequest("/bookings/check-out", "POST", jsonBody);
+
             boolean success = response != null && response.contains("\"success\":true");
 
             if (success) {
@@ -77,7 +80,7 @@ public class BookingService {
     public Map<String, Object> validateBooking(Map<String, Object> bookingData) {
         logger.info("🔍 Проверка возможности бронирования");
         try {
-            String jsonBody = createBookingJson(bookingData);
+            String jsonBody = JsonUtils.toJson(bookingData);
             String response = apiService.executeRequest("/bookings/validate", "POST", jsonBody);
 
             if (response != null && response.contains("\"valid\"")) {
@@ -103,7 +106,8 @@ public class BookingService {
         try {
             String response = apiService.executeRequest("/bookings/history", "GET", null);
             if (response != null && response.startsWith("[")) {
-                List<Map<String, Object>> history = parseJsonToBookingHistory(response);
+                // Используем новый метод для парсинга списка Map
+                List<Map<String, Object>> history = JsonUtils.fromJsonListToMap(response);
                 logger.info("✅ Успешно загружено {} записей истории", history.size());
                 return history;
             } else {
@@ -124,7 +128,7 @@ public class BookingService {
         try {
             String response = apiService.executeRequest("/bookings/history/room/" + roomNumber, "GET", null);
             if (response != null && response.startsWith("[")) {
-                List<Map<String, Object>> history = parseJsonToBookingHistory(response);
+                List<Map<String, Object>> history = JsonUtils.fromJsonListToMap(response);
                 logger.info("✅ Успешно загружено {} записей для номера {}", history.size(), roomNumber);
                 return history;
             } else {
@@ -143,15 +147,15 @@ public class BookingService {
     public boolean addBookingHistory(int roomNumber, String clientPassport, String checkInDate, String checkOutDate) {
         logger.info("📝 Добавление в историю бронирований: номер {}, клиент {}", roomNumber, clientPassport);
         try {
-            String jsonBody = String.format(
-                    "{\"roomNumber\":%d,\"clientPassport\":\"%s\",\"checkInDate\":\"%s\",\"checkOutDate\":\"%s\"}",
-                    roomNumber,
-                    apiService.escapeJson(clientPassport),
-                    apiService.escapeJson(checkInDate),
-                    apiService.escapeJson(checkOutDate)
-            );
+            Map<String, Object> bookingData = new HashMap<>();
+            bookingData.put("roomNumber", roomNumber);
+            bookingData.put("clientPassport", clientPassport);
+            bookingData.put("checkInDate", checkInDate);
+            bookingData.put("checkOutDate", checkOutDate);
 
+            String jsonBody = JsonUtils.toJson(bookingData);
             String response = apiService.executeRequest("/bookings/history", "POST", jsonBody);
+
             boolean success = response != null && response.contains("\"success\":true");
 
             if (success) {
@@ -216,37 +220,14 @@ public class BookingService {
 
     // === ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ===
 
-    private String createBookingJson(Map<String, Object> bookingData) {
-        // Создает JSON для операций бронирования
-        return String.format(
-                "{\"firstName\":\"%s\",\"lastName\":\"%s\",\"passportNumber\":\"%s\"," +
-                        "\"phoneNumber\":\"%s\",\"email\":\"%s\",\"checkInDate\":\"%s\"," +
-                        "\"checkOutDate\":\"%s\",\"roomNumber\":%d,\"roomType\":\"%s\"}",
-                apiService.escapeJson((String) bookingData.get("firstName")),
-                apiService.escapeJson((String) bookingData.get("lastName")),
-                apiService.escapeJson((String) bookingData.get("passportNumber")),
-                apiService.escapeJson((String) bookingData.get("phoneNumber")),
-                apiService.escapeJson((String) bookingData.get("email")),
-                apiService.escapeJson((String) bookingData.get("checkInDate")),
-                apiService.escapeJson((String) bookingData.get("checkOutDate")),
-                bookingData.get("roomNumber"),
-                apiService.escapeJson((String) bookingData.get("roomType"))
-        );
-    }
-
     private Map<String, Object> parseValidationResponse(String response) {
-        Map<String, Object> result = new HashMap<>();
         try {
-            result.put("valid", response.contains("\"valid\":true"));
-            result.put("roomAvailable", response.contains("\"roomAvailable\":true"));
-            result.put("clientExists", response.contains("\"clientExists\":true"));
-            result.put("message", extractMessage(response));
+            // Используем новый метод для парсинга Map
+            return JsonUtils.fromJsonToMap(response);
         } catch (Exception e) {
             logger.error("❌ Ошибка парсинга ответа валидации: {}", e.getMessage());
-            result.put("valid", false);
-            result.put("message", "Ошибка проверки бронирования");
+            return createErrorValidationResponse();
         }
-        return result;
     }
 
     private Map<String, Object> createErrorValidationResponse() {
@@ -256,99 +237,5 @@ public class BookingService {
         result.put("clientExists", false);
         result.put("message", "Ошибка соединения с сервером");
         return result;
-    }
-
-    private String extractMessage(String json) {
-        try {
-            String search = "\"message\":\"";
-            int start = json.indexOf(search);
-            if (start == -1) return "Неизвестная ошибка";
-
-            start += search.length();
-            int end = json.indexOf("\"", start);
-            if (end == -1) return "Неизвестная ошибка";
-
-            return json.substring(start, end);
-        } catch (Exception e) {
-            return "Неизвестная ошибка";
-        }
-    }
-
-    /**
-     * Парсит JSON в список записей истории бронирований
-     */
-    private List<Map<String, Object>> parseJsonToBookingHistory(String json) {
-        List<Map<String, Object>> history = new ArrayList<>();
-
-        if (json == null || json.trim().isEmpty()) {
-            logger.warn("❌ JSON пустой или null");
-            return history;
-        }
-
-        try {
-            logger.debug("🔧 Начинаем парсинг JSON истории бронирований...");
-
-            String cleanJson = json.trim();
-            if (cleanJson.startsWith("[") && cleanJson.endsWith("]")) {
-                cleanJson = cleanJson.substring(1, cleanJson.length() - 1).trim();
-            }
-
-            if (cleanJson.isEmpty()) {
-                logger.info("📭 Нет данных истории бронирований");
-                return history;
-            }
-
-            String[] objects = cleanJson.split("\\},\\s*\\{");
-            logger.debug("📋 Найдено объектов: {}", objects.length);
-
-            for (int i = 0; i < objects.length; i++) {
-                String obj = objects[i].trim();
-
-                if (i == 0 && !obj.startsWith("{")) obj = "{" + obj;
-                if (i == objects.length - 1 && !obj.endsWith("}")) obj = obj + "}";
-                if (i > 0 && i < objects.length - 1) {
-                    if (!obj.startsWith("{")) obj = "{" + obj;
-                    if (!obj.endsWith("}")) obj = obj + "}";
-                }
-
-                Map<String, Object> record = parseBookingHistoryObject(obj);
-                if (record != null) {
-                    history.add(record);
-                }
-            }
-
-            logger.info("🎯 Итого распаршено записей истории: {}", history.size());
-            return history;
-
-        } catch (Exception e) {
-            logger.error("❌ Ошибка парсинга истории бронирований: {}", e.getMessage(), e);
-            return new ArrayList<>();
-        }
-    }
-
-    private Map<String, Object> parseBookingHistoryObject(String jsonObject) {
-        try {
-            Integer roomNumber = apiService.extractIntegerValue(jsonObject, "roomNumber");
-            String clientPassport = apiService.extractStringValue(jsonObject, "clientPassport");
-            String checkInDate = apiService.extractStringValue(jsonObject, "checkInDate");
-            String checkOutDate = apiService.extractStringValue(jsonObject, "checkOutDate");
-            String bookedAt = apiService.extractStringValue(jsonObject, "bookedAt");
-
-            if (roomNumber != null) {
-                Map<String, Object> record = new HashMap<>();
-                record.put("roomNumber", roomNumber);
-                record.put("clientPassport", clientPassport != null ? clientPassport : "-");
-                record.put("checkInDate", checkInDate != null ? checkInDate : "-");
-                record.put("checkOutDate", checkOutDate != null ? checkOutDate : "-");
-                record.put("bookedAt", bookedAt != null ? bookedAt : "-");
-
-                logger.debug("✅ Создана запись истории: номер {}, клиент {}", roomNumber, clientPassport);
-                return record;
-            }
-
-        } catch (Exception e) {
-            logger.error("❌ Ошибка парсинга объекта истории бронирования: {}", e.getMessage(), e);
-        }
-        return null;
     }
 }

@@ -23,5 +23,16 @@ public class HotelServerApplication {
         System.out.println("   POST http://localhost:8080/api/staff - добавить сотрудника");
         System.out.println("   GET  http://localhost:8080/api/rooms - список номеров");
         System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
+        System.out.println("   GET  http://localhost:8080/api/rooms/free - свободные номера");
     }
 }

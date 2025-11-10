@@ -28,7 +28,7 @@ public class ReportForm extends JDialog {
 
     public ReportForm(JFrame parent, String reportContent, String title) {
         super(parent, title, true);
-        setSize(800, 700); // Увеличил размер для лучшего отображения
+        setSize(800, 700);
         setLocationRelativeTo(parent);
         setResizable(true);
         setLayout(new BorderLayout());

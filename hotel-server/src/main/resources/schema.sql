@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS rooms;
 DROP TABLE IF EXISTS clients;
 DROP TABLE IF EXISTS staff;
 
--- Таблица номеров (БЕЗ foreign key на clients)
+-- Таблица номеров (БЕЗ foreign key на clients)ё
 CREATE TABLE IF NOT EXISTS rooms (
     room_number INTEGER PRIMARY KEY,
     room_type TEXT NOT NULL,

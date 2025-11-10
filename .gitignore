@@ -14,3 +14,4 @@ docs/
 count_lines.ps1
 run_simple.bat
 *.bat
+libs/
