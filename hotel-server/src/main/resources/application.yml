@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:sqlite:hotel.db
+    url: jdbc:sqlite:hotel.db?foreign_keys=on
     driver-class-name: org.sqlite.JDBC
   security:
     user:
@@ -13,6 +13,7 @@ spring:
     init:
       mode: never
       schema-locations: classpath:schema.sql
+      continue-on-error: true
 
 logging:
   level:

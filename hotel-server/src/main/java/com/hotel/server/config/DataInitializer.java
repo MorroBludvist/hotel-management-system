@@ -24,7 +24,6 @@ public class DataInitializer {
 
     @PostConstruct //вызов метода после инициализации подключения
     public void initialize() {
-        createBookingHistoryTable();
         try {
             // Проверяем, есть ли уже комнаты
             Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM rooms", Integer.class);

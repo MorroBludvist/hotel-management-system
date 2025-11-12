@@ -5,15 +5,21 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Service
 public class BookingService {
     private final JdbcTemplate jdbcTemplate;
     private final RoomService roomService;
     private final ClientService clientService;
+    private static final Logger logger = LogManager.getLogger(BookingService.class);
 
     public BookingService(JdbcTemplate jdbcTemplate, RoomService roomService, ClientService clientService) {
         this.jdbcTemplate = jdbcTemplate;
@@ -25,33 +31,52 @@ public class BookingService {
      * Заселение клиента
      */
     @Transactional
-    public boolean checkInClient(Client client) {
+    public Map<String, Object> checkInClient(Client client) {
+        Map<String, Object> result = new HashMap<>();
         try {
             // 1. Проверяем доступность номера
-            if (!isRoomAvailable(client.getRoomNumber(), client.getCheckInDate(), client.getCheckOutDate())) {
-                return false;
+            boolean roomAvailable = roomService.isRoomAvailable(
+                    client.getRoomNumber(), client.getCheckInDate(), client.getCheckOutDate());
+
+            if (!roomAvailable) {
+                result.put("success", false);
+                result.put("error", "Номер недоступен в указанные даты");
+                return result;
             }
 
             // 2. Проверяем, не заселен ли уже клиент
-            if (clientExists(client.getPassportNumber())) {
-                return false;
+            if (clientService.clientExists(client.getPassportNumber())) {
+                result.put("success", false);
+                result.put("error", "Клиент с таким паспортом уже заселен");
+                return result;
             }
 
-            // 3. Занимаем номер
-            roomService.updateRoomStatus(client.getRoomNumber(), "occupied");
-
-            // 4. Добавляем клиента
+            // 3. Добавляем клиента
             boolean clientAdded = clientService.addClient(client);
 
-            // 5. Добавляем в историю
             if (clientAdded) {
+                // 4. Добавляем в историю бронирований
                 addToBookingHistory(client.getRoomNumber(), client.getPassportNumber(),
-                        client.getCheckInDate(), client.getCheckOutDate());
+                        client.getCheckInDate(), client.getCheckOutDate(), "active");
+
+                // 5. Обновляем статус комнаты, если сегодня дата заезда
+                String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                if (today.equals(client.getCheckInDate())) {
+                    roomService.updateRoomStatus(client.getRoomNumber(), "occupied");
+                }
+
+                result.put("success", true);
+            } else {
+                result.put("success", false);
+                result.put("error", "Ошибка при добавлении клиента");
             }
 
-            return clientAdded;
+            return result;
         } catch (Exception e) {
-            return false;
+            logger.error("Ошибка при заселении клиента: {}", e.getMessage());
+            result.put("success", false);
+            result.put("error", e.getMessage());
+            return result;
         }
     }
 
@@ -59,55 +84,42 @@ public class BookingService {
      * Выселение клиента
      */
     @Transactional
-    public boolean checkOutClient(String passportNumber) {
+    public Map<String, Object> checkOutClient(String passportNumber) {
+        Map<String, Object> result = new HashMap<>();
         try {
             // Находим клиента и его номер
-            String findClientSql = "SELECT * FROM clients WHERE passport_number = ? AND status = 'active'";
-            Client client = jdbcTemplate.queryForObject(findClientSql, (rs, rowNum) -> {
-                Client c = new Client();
-                c.setPassportNumber(rs.getString("passport_number"));
-                c.setRoomNumber(rs.getInt("room_number"));
-                c.setFirstName(rs.getString("first_name"));
-                c.setLastName(rs.getString("last_name"));
-                return c;
-            }, passportNumber);
+            Client client = clientService.getClientByPassport(passportNumber);
 
-            if (client == null) return false;
+            if (client == null) {
+                result.put("success", false);
+                result.put("error", "Клиент не найден");
+                return result;
+            }
+
+            // Обновляем историю бронирований
+            updateBookingHistoryStatus(client.getRoomNumber(), passportNumber, "completed");
 
             // Освобождаем комнату
             roomService.updateRoomStatus(client.getRoomNumber(), "free");
 
-            // Удаляем клиента (каскадно удалится история бронирований)
-            return clientService.deleteClient(passportNumber);
+            // Удаляем клиента
+            boolean deleted = clientService.deleteClient(passportNumber);
+
+            result.put("success", deleted);
+            return result;
         } catch (Exception e) {
-            return false;
+            logger.error("Ошибка при выселении клиента: {}", e.getMessage());
+            result.put("success", false);
+            result.put("error", e.getMessage());
+            return result;
         }
-    }
-
-    /**
-     * Проверка возможности бронирования
-     */
-    public Map<String, Object> validateBooking(Client client) {
-        Map<String, Object> result = new HashMap<>();
-
-        boolean roomAvailable = isRoomAvailable(client.getRoomNumber(), client.getCheckInDate(), client.getCheckOutDate());
-        boolean clientExists = clientExists(client.getPassportNumber());
-
-        result.put("valid", roomAvailable && !clientExists);
-        result.put("roomAvailable", roomAvailable);
-        result.put("clientExists", clientExists);
-        result.put("message", roomAvailable && !clientExists ?
-                "Заселение возможно" :
-                (!roomAvailable ? "Номер недоступен" : "Клиент уже заселен"));
-
-        return result;
     }
 
     /**
      * Получает всю историю бронирований
      */
     public List<Map<String, Object>> getAllBookingHistory() {
-        String sql = "SELECT * FROM booking_history ORDER BY check_in_date DESC";
+        String sql = "SELECT * FROM bookings ORDER BY check_in_date DESC";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Map<String, Object> history = new HashMap<>();
             history.put("id", rs.getLong("id"));
@@ -125,7 +137,7 @@ public class BookingService {
      * Получает историю бронирований для конкретного номера
      */
     public List<Map<String, Object>> getBookingHistoryByRoom(Integer roomNumber) {
-        String sql = "SELECT * FROM booking_history WHERE room_number = ? ORDER BY check_in_date DESC";
+        String sql = "SELECT * FROM bookings WHERE room_number = ? ORDER BY check_in_date DESC";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Map<String, Object> history = new HashMap<>();
             history.put("id", rs.getLong("id"));
@@ -139,27 +151,13 @@ public class BookingService {
         }, roomNumber);
     }
 
-    // ==================== ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ====================
-
-    private boolean isRoomAvailable(Integer roomNumber, String checkInDate, String checkOutDate) {
-        // Проверяем только историю бронирований, так как текущая занятость теперь через статус комнаты
-        String sql = """
-            SELECT COUNT(*) FROM booking_history 
-            WHERE room_number = ? AND status = 'completed'
-            AND NOT (check_out_date <= ? OR check_in_date >= ?)
-        """;
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, roomNumber, checkInDate, checkOutDate);
-        return count == 0;
+    private void addToBookingHistory(Integer roomNumber, String clientPassport, String checkInDate, String checkOutDate, String status) {
+        String sql = "INSERT INTO bookings (room_number, client_passport, check_in_date, check_out_date, total_price, status) VALUES (?, ?, ?, ?, 0, ?)";
+        jdbcTemplate.update(sql, roomNumber, clientPassport, checkInDate, checkOutDate, status);
     }
 
-    private boolean clientExists(String passportNumber) {
-        String sql = "SELECT COUNT(*) FROM clients WHERE passport_number = ? AND status = 'active'";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, passportNumber);
-        return count != null && count > 0;
-    }
-
-    private void addToBookingHistory(Integer roomNumber, String clientPassport, String checkInDate, String checkOutDate) {
-        String sql = "INSERT INTO booking_history (room_number, client_passport, check_in_date, check_out_date, total_price, status) VALUES (?, ?, ?, ?, 0, 'completed')";
-        jdbcTemplate.update(sql, roomNumber, clientPassport, checkInDate, checkOutDate);
+    private void updateBookingHistoryStatus(Integer roomNumber, String clientPassport, String status) {
+        String sql = "UPDATE bookings SET status = ? WHERE room_number = ? AND client_passport = ? AND status = 'active'";
+        jdbcTemplate.update(sql, status, roomNumber, clientPassport);
     }
 }

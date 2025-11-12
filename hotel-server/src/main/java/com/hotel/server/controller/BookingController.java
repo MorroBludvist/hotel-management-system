@@ -19,20 +19,15 @@ public class BookingController {
 
     @PostMapping("/check-in")
     public ResponseEntity<Map<String, Object>> checkIn(@RequestBody Client client) {
-        boolean success = bookingService.checkInClient(client);
-        return ResponseEntity.ok(Map.of("success", success));
+        Map<String, Object> result = bookingService.checkInClient(client);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/check-out")
     public ResponseEntity<Map<String, Object>> checkOut(@RequestBody Map<String, String> request) {
         String passportNumber = request.get("passportNumber");
-        boolean success = bookingService.checkOutClient(passportNumber);
-        return ResponseEntity.ok(Map.of("success", success));
-    }
-
-    @PostMapping("/validate")
-    public Map<String, Object> validateBooking(@RequestBody Client client) {
-        return bookingService.validateBooking(client);
+        Map<String, Object> result = bookingService.checkOutClient(passportNumber);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/history")

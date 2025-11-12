@@ -132,7 +132,7 @@ public class RoomsListForm extends BaseTableForm {
         JPanel tablePanel = createTablePanel();
         add(tablePanel, BorderLayout.CENTER);
 
-        // Панель с статистикой и кнопками
+        // Панель со статистикой и кнопками
         add(createRoomsBottomPanel(), BorderLayout.SOUTH);
 
         revalidate();

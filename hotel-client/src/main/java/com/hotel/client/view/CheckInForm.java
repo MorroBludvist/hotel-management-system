@@ -239,7 +239,9 @@ public class CheckInForm extends BaseAddForm {
     }
 
     @Override
-    //TODO: вынести booking service в поля класса
+    /**
+     * Заселение клиента
+     */
     protected void saveData() {
         try {
             Client client = new Client(

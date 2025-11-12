@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS clients (
 );
 
 -- Таблица истории бронирований
-CREATE TABLE IF NOT EXISTS booking_history (
+CREATE TABLE IF NOT EXISTS bookings (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     room_number INTEGER NOT NULL,
     client_passport TEXT NOT NULL,
@@ -52,9 +52,9 @@ CREATE TABLE IF NOT EXISTS booking_history (
     FOREIGN KEY (room_number) REFERENCES rooms(room_number) ON DELETE CASCADE
 );
 
--- Индексы для улучшения производительности
+-- Индексы для улучшения производительности (для будущих обновлений)
 CREATE INDEX IF NOT EXISTS idx_clients_room_number ON clients(room_number);
 CREATE INDEX IF NOT EXISTS idx_clients_status ON clients(status);
 CREATE INDEX IF NOT EXISTS idx_rooms_status ON rooms(status);
-CREATE INDEX IF NOT EXISTS idx_booking_history_client ON booking_history(client_passport);
-CREATE INDEX IF NOT EXISTS idx_booking_history_room ON booking_history(room_number);
+CREATE INDEX IF NOT EXISTS idx_bookings_client ON bookings(client_passport);
+CREATE INDEX IF NOT EXISTS idx_bookings_room ON bookings(room_number);
