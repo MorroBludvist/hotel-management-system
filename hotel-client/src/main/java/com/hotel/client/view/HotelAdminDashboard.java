@@ -143,8 +143,6 @@ public class HotelAdminDashboard extends JFrame {
         }
     }
 
-    // === PUBLIC API FOR COMPONENTS ===
-
     /**
      * Возвращает текущую дату приложения
      * @return текущая дата
@@ -184,6 +182,7 @@ public class HotelAdminDashboard extends JFrame {
     public void refreshAllWidgets() {
         if (widgetsManager != null) {
             widgetsManager.refreshAllWidgets();
+            logger.debug("Виджеты были обновлены!");
         }
         if (headerPanel != null) {
             headerPanel.refreshDateDisplay();

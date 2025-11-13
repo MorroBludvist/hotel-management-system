@@ -104,9 +104,9 @@ public class ClientsListForm extends BaseTableForm {
     }
 
     private String getClientStatus(Client client) {
-        if (client.getCheckInDate() == null || client.getCheckInDate().isEmpty()) {
-            return "Не заселен";
-        } else if (client.getCheckOutDate() == null || client.getCheckOutDate().isEmpty()) {
+        if (client.getStatus().equals("pending")) {
+            return "В ожидании";
+        } else if (client.getStatus().equals("active")) {
             return "Проживает";
         } else {
             return "Выселен";
@@ -126,13 +126,13 @@ public class ClientsListForm extends BaseTableForm {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
             // Особые стили для статусов
-            if (column == 9 && value != null) {
+            if (column == 8 && value != null) {
                 String status = value.toString();
                 if (!isSelected) {
                     if (status.equals("Проживает")) {
                         setBackground(new Color(230, 255, 230));
                         setForeground(new Color(39, 174, 96));
-                    } else if (status.equals("Не заселен")) {
+                    } else if (status.equals("В ожидании")) {
                         setBackground(new Color(255, 243, 205));
                         setForeground(new Color(255, 193, 7));
                     } else if (status.equals("Выселен")) {

@@ -100,12 +100,22 @@ public class RoomsListForm extends BaseTableForm {
      */
     private void updateRoomToClientMap(List<Client> clients) {
         roomToClientMap.clear();
+        logger.info("=== ДИАГНОСТИКА КЛИЕНТОВ ===");
+
         for (Client client : clients) {
+            logger.info("Клиент: {} {}, комната: {}, статус: '{}'",
+                    client.getFirstName(), client.getLastName(),
+                    client.getRoomNumber(), client.getStatus());
+
             if (client.getRoomNumber() != null && "active".equals(client.getStatus())) {
                 roomToClientMap.put(client.getRoomNumber(), client);
+                logger.info("✅ ДОБАВЛЕН В КАРТУ: комната {}", client.getRoomNumber());
+            } else {
+                logger.info("❌ НЕ ДОБАВЛЕН: комната={}, статус='{}'",
+                        client.getRoomNumber(), client.getStatus());
             }
         }
-        logger.debug("Обновлена карта клиентов: {} активных клиентов", roomToClientMap.size());
+        logger.info("Итог: {} клиентов в карте", roomToClientMap.size());
     }
 
     @Override

@@ -86,4 +86,24 @@ public class StaffService {
             return false;
         }
     }
+
+    //TODO: доделать
+    public boolean dismissStaff() {
+        logger.info("🗑️ Очистка всех данных сотрудника");
+        try {
+            String response = apiService.executeRequest("/staff/clear", "DELETE", null);
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Данные сотрудников успешно очищены");
+            } else {
+                logger.warn("⚠️ Не удалось очистить данные сотрудников. Ответ: {}", response);
+            }
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка очистки сотрудников: {}", e.getMessage(), e);
+            return false;
+        }
+    }
 }

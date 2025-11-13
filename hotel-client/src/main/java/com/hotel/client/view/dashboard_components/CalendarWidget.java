@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -87,13 +88,25 @@ public class CalendarWidget extends BaseWidget {
 
                 // Проверяем события на этот день
                 String dateStr = formatDateForDay(cal, day);
-                if (hasCheckInEvents(clients, dateStr)) {
-                    dayLabel.setBackground(new Color(230, 255, 230)); // Зеленый для заездов
-                    dayLabel.setToolTipText("Заезды: " + countCheckIns(clients, dateStr));
-                } else if (hasCheckOutEvents(clients, dateStr)) {
-                    dayLabel.setBackground(new Color(255, 230, 230)); // Красный для выездов
-                    dayLabel.setToolTipText("Выезды: " + countCheckOuts(clients, dateStr));
+                boolean hasCheckIns = hasCheckInEvents(clients, dateStr);
+                boolean hasCheckOuts = hasCheckOutEvents(clients, dateStr);
+                int checkInCount = countCheckIns(clients, dateStr);
+                int checkOutCount = countCheckOuts(clients, dateStr);
+
+                if (hasCheckIns && hasCheckOuts) {
+                    // Желтый - есть и заезды, и выезды
+                    dayLabel.setBackground(new Color(255, 255, 200));
+                    dayLabel.setToolTipText("Заезды: " + checkInCount + ", Выезды: " + checkOutCount);
+                } else if (hasCheckIns) {
+                    // Зеленый - только заезды
+                    dayLabel.setBackground(new Color(230, 255, 230));
+                    dayLabel.setToolTipText("Заезды: " + checkInCount);
+                } else if (hasCheckOuts) {
+                    // Красный - только выезды
+                    dayLabel.setBackground(new Color(255, 230, 230));
+                    dayLabel.setToolTipText("Выезды: " + checkOutCount);
                 } else {
+                    // Белый - нет событий
                     dayLabel.setBackground(Color.WHITE);
                 }
 
@@ -121,13 +134,17 @@ public class CalendarWidget extends BaseWidget {
     }
 
     private boolean isToday(Calendar monthCal, int day) {
-        Calendar today = Calendar.getInstance();
+        // Используем дату из dashboard вместо реальной сегодняшней даты
+        Date currentAppDate = dashboard.getCurrentDate();
+
         Calendar dateCal = (Calendar) monthCal.clone();
         dateCal.set(Calendar.DAY_OF_MONTH, day);
 
-        return dateCal.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
-                dateCal.get(Calendar.MONTH) == today.get(Calendar.MONTH) &&
-                dateCal.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH);
+        // Сравниваем строковые представления дат
+        String cellDate = dashboard.getDateFormat().format(dateCal.getTime());
+        String appDate = dashboard.getDateFormat().format(currentAppDate);
+
+        return cellDate.equals(appDate);
     }
 
     private boolean hasCheckInEvents(List<Client> clients, String date) {

@@ -125,7 +125,7 @@ public class DashboardActionHandler {
                 "Введите паспорт сотрудника для увольнения:", "Увольнение сотрудника", JOptionPane.QUESTION_MESSAGE);
 
         if (passport != null && !passport.trim().isEmpty()) {
-            // Здесь будет логика увольнения сотрудника
+            staffService.dismissStaff();
             JOptionPane.showMessageDialog(dashboard,
                     "Функция увольнения сотрудника по паспорту в разработке\nПаспорт: " + passport,
                     "Увольнение сотрудника", JOptionPane.INFORMATION_MESSAGE);

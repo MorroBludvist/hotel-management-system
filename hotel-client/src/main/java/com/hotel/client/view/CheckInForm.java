@@ -38,16 +38,20 @@ public class CheckInForm extends BaseAddForm {
     private ApiService apiService;
     private ClientService clientService;
     private RoomService roomService;
+    private BookingService bookingService;
 
     private String currentDate;
+    private HotelAdminDashboard parent;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public CheckInForm(JFrame parent, String currentDate) {
+    public CheckInForm(HotelAdminDashboard parent, String currentDate) {
         super(parent, "Заселение клиента", 500, 600);
+        this.parent = parent;
         this.apiService = ApiService.getInstance();
         this.clientService = new ClientService(apiService);
         this.roomService = new RoomService(apiService);
         this.currentDate = currentDate;
+        this.bookingService = new BookingService(apiService);
 
         initializeComponents();
         setupBaseLayout("Заселение клиента",
@@ -253,13 +257,13 @@ public class CheckInForm extends BaseAddForm {
                     checkInDateField.getText().trim(),
                     checkOutDateField.getText().trim(),
                     (Integer) roomNumberComboBox.getSelectedItem()
-                    // Убрали roomType - он больше не нужен в клиенте
             );
 
-            if (clientService.checkInClient(client)) {
+            if (bookingService.checkInClient(client)) {
                 showSuccess("Клиент успешно заселен!\n\n" +
                         "Номер: " + client.getRoomNumber() + "\n" +
                         "С " + client.getCheckInDate() + " по " + client.getCheckOutDate());
+                parent.refreshAllWidgets();
                 dispose();
             } else {
                 showError("Ошибка при заселении клиента");

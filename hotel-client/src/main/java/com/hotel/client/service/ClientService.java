@@ -107,36 +107,6 @@ public class ClientService {
     }
 
     /**
-     * Заселение клиента
-     */
-    public boolean checkInClient(Client client) {
-        logger.info("👤 Заселение клиента: {} {} (паспорт: {}) в номер {}",
-                client.getFirstName(), client.getLastName(),
-                client.getPassportNumber(), client.getRoomNumber());
-
-        try {
-            String jsonBody = JsonUtils.toJson(client);
-            logger.debug("📨 Отправка запроса на заселение: {}", jsonBody);
-
-            String response = apiService.executeRequest("/bookings/check-in", "POST", jsonBody);
-            boolean success = response != null && response.contains("\"success\":true");
-
-            if (success) {
-                logger.info("✅ Клиент {} {} успешно заселен в номер {}",
-                        client.getFirstName(), client.getLastName(), client.getRoomNumber());
-            } else {
-                logger.warn("⚠️ Не удалось заселить клиента. Ответ сервера: {}", response);
-            }
-
-            return success;
-
-        } catch (Exception e) {
-            logger.error("❌ Ошибка заселения клиента: {}", e.getMessage(), e);
-            return false;
-        }
-    }
-
-    /**
      * Выселение клиента
      */
     public boolean checkOutClient(String passportNumber) {

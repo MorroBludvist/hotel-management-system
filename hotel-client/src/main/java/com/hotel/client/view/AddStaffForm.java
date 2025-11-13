@@ -11,6 +11,18 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.*;
+
+import java.io.File;
+
 /**
  * Форма для добавления сотрудника с градиентным дизайном и скроллингом
  */
@@ -173,7 +185,7 @@ public class AddStaffForm extends BaseAddForm {
     protected void setupListeners() {
         saveButton.addActionListener(e -> {
             if (validateForm()) {
-                saveData();
+                saveDataXML();
             }
         });
 
@@ -237,6 +249,141 @@ public class AddStaffForm extends BaseAddForm {
         } catch (Exception e) {
             logger.error("Ошибка сохранения сотрудника: {}", e.getMessage());
             showError("Неожиданная ошибка: " + e.getMessage());
+        }
+    }
+
+    //-----------------------------ЛОГИКА ДЛЯ XML---------------------------------------
+
+    private static final String STAFF_XML_FILE = "staff_data/all_staff.xml";
+
+    protected void saveDataXML() {
+        try {
+            Staff staff = new Staff(
+                    firstNameField.getText().trim(),
+                    lastNameField.getText().trim(),
+                    passportField.getText().trim(),
+                    positionField.getText().trim(),
+                    phoneField.getText().trim(),
+                    emailField.getText().trim(),
+                    hireDateField.getText().trim(),
+                    Double.parseDouble(salaryField.getText().trim()),
+                    departmentComboBox.getSelectedItem().toString()
+            );
+
+            // Сохраняем в единый XML файл
+            if (saveStaffToXml(staff)) {
+                showSuccess("Сотрудник успешно добавлен в XML файл!\n\n" +
+                        "Паспорт: " + staff.getPassportNumber() + "\n" +
+                        "Должность: " + staff.getPosition() + "\n" +
+                        "Файл: " + STAFF_XML_FILE);
+                dispose();
+            } else {
+                showError("Ошибка при сохранении сотрудника в XML");
+            }
+        } catch (Exception e) {
+            logger.error("Ошибка сохранения сотрудника в XML: {}", e.getMessage());
+            showError("Неожиданная ошибка: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Сохраняет данные сотрудника в единый XML файл
+     */
+    private boolean saveStaffToXml(Staff staff) {
+        try {
+            // Создаем директорию если не существует
+            File directory = new File("staff_data");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            File xmlFile = new File(STAFF_XML_FILE);
+            Document doc;
+            Element rootElement;
+
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+            if (xmlFile.exists()) {
+                // Файл существует - загружаем и ОЧИЩАЕМ пробелы
+                doc = docBuilder.parse(xmlFile);
+                doc.setXmlStandalone(true);
+
+                // Удаляем все текстовые узлы (пробелы) для чистого форматирования
+                removeWhitespaceNodes(doc.getDocumentElement());
+
+                rootElement = doc.getDocumentElement();
+            } else {
+                // Файл не существует - создаем новый
+                doc = docBuilder.newDocument();
+                doc.setXmlStandalone(true);
+
+                rootElement = doc.createElement("staffList");
+                doc.appendChild(rootElement);
+            }
+
+            // Создаем элемент для нового сотрудника
+            Element staffElement = doc.createElement("staff");
+            rootElement.appendChild(staffElement);
+
+            // Добавляем данные сотрудника БЕЗ лишних пробелов
+            addXmlElement(doc, staffElement, "passportNumber", staff.getPassportNumber());
+            addXmlElement(doc, staffElement, "firstName", staff.getFirstName());
+            addXmlElement(doc, staffElement, "lastName", staff.getLastName());
+            addXmlElement(doc, staffElement, "position", staff.getPosition());
+            addXmlElement(doc, staffElement, "phoneNumber", staff.getPhoneNumber());
+            addXmlElement(doc, staffElement, "email", staff.getEmail());
+            addXmlElement(doc, staffElement, "hireDate", staff.getHireDate());
+            addXmlElement(doc, staffElement, "salary", String.valueOf(staff.getSalary()));
+            addXmlElement(doc, staffElement, "department", staff.getDepartment());
+            addXmlElement(doc, staffElement, "createdAt", java.time.LocalDateTime.now().toString());
+
+            // Записываем обратно в файл с ЕДИНООБРАЗНЫМ форматированием
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.setOutputProperty(OutputKeys.STANDALONE, "yes");
+
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(xmlFile);
+
+            transformer.transform(source, result);
+
+            logger.info("Сотрудник добавлен в XML: {}", STAFF_XML_FILE);
+            return true;
+
+        } catch (Exception e) {
+            logger.error("Ошибка сохранения в XML: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Вспомогательный метод для добавления XML элементов
+     */
+    private void addXmlElement(Document doc, Element parent, String tagName, String value) {
+        Element element = doc.createElement(tagName);
+        if (value != null) {
+            element.appendChild(doc.createTextNode(value));
+        } else {
+            element.appendChild(doc.createTextNode(""));
+        }
+        parent.appendChild(element);
+    }
+
+    /**
+     * Удаляет все текстовые узлы, содержащие только пробелы
+     */
+    private void removeWhitespaceNodes(Element element) {
+        NodeList children = element.getChildNodes();
+        for (int i = children.getLength() - 1; i >= 0; i--) {
+            Node child = children.item(i);
+            if (child instanceof Text && ((Text) child).getData().trim().isEmpty()) {
+                element.removeChild(child);
+            } else if (child instanceof Element) {
+                removeWhitespaceNodes((Element) child);
+            }
         }
     }
 }

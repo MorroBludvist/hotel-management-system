@@ -34,7 +34,11 @@ public class BookingService {
     public Map<String, Object> checkInClient(Client client) {
         Map<String, Object> result = new HashMap<>();
         try {
-            // 1. Проверяем доступность номера
+
+            //Проверяем доступность номера
+            logger.trace("Попытка заселить клиента: {}", client);
+            System.out.println(client.getPassportNumber());
+            System.out.println(client.getStatus());
             boolean roomAvailable = roomService.isRoomAvailable(
                     client.getRoomNumber(), client.getCheckInDate(), client.getCheckOutDate());
 
@@ -44,22 +48,23 @@ public class BookingService {
                 return result;
             }
 
-            // 2. Проверяем, не заселен ли уже клиент
-            if (clientService.clientExists(client.getPassportNumber())) {
+            //Проверяем, не заселен ли уже клиент
+            if (clientService.isNotClientAvailableForCheckIn(client.getPassportNumber())) {
                 result.put("success", false);
                 result.put("error", "Клиент с таким паспортом уже заселен");
                 return result;
             }
+            //Добавляем клиента
+            System.out.println("ПОПЫТКА ЗАСЕЛИТЬ КЛИЕНАТ ФШАГЕЩГИАНВФЩГФФЩФЕАПЩФАФНАПГШФАФРАЩФАРФАФ");
+            boolean clientAdded = clientService.reseatClient(client);
 
-            // 3. Добавляем клиента
-            boolean clientAdded = clientService.addClient(client);
 
             if (clientAdded) {
-                // 4. Добавляем в историю бронирований
+                //Добавляем в историю бронирований
                 addToBookingHistory(client.getRoomNumber(), client.getPassportNumber(),
                         client.getCheckInDate(), client.getCheckOutDate(), "active");
 
-                // 5. Обновляем статус комнаты, если сегодня дата заезда
+                //Обновляем статус комнаты, если сегодня дата заезда
                 String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                 if (today.equals(client.getCheckInDate())) {
                     roomService.updateRoomStatus(client.getRoomNumber(), "occupied");

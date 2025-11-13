@@ -9,6 +9,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.hotel.server.config.SqlQueries.*;
+
 @Service
 public class RoomService {
     private final JdbcTemplate jdbcTemplate;
@@ -19,8 +21,7 @@ public class RoomService {
     }
 
     public List<Room> getAllRooms() {
-        String sql = "SELECT * FROM rooms ORDER BY room_number";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query(ROOM_SELECT_ALL, (rs, rowNum) -> {
             Room room = new Room();
             room.setRoomNumber(rs.getInt("room_number"));
             room.setRoomType(rs.getString("room_type"));
@@ -30,8 +31,7 @@ public class RoomService {
     }
 
     public List<Room> getFreeRooms() {
-        String sql = "SELECT * FROM rooms WHERE status = 'free' ORDER BY room_number";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query(ROOM_SELECT_FREE, (rs, rowNum) -> {
             Room room = new Room();
             room.setRoomNumber(rs.getInt("room_number"));
             room.setRoomType(rs.getString("room_type"));
@@ -57,37 +57,59 @@ public class RoomService {
         jdbcTemplate.update(deleteClientsSql, roomNumber);
 
         // Освобождаем комнату
-        String updateRoomSql = "UPDATE rooms SET status = 'free' WHERE room_number = ?";
-        int result = jdbcTemplate.update(updateRoomSql, roomNumber);
+        int result = jdbcTemplate.update(ROOM_FREE, roomNumber);
         return result > 0;
     }
 
     public boolean clearAll() {
         // Удаляем всех клиентов (каскадно удалится история)
         jdbcTemplate.update("DELETE FROM clients");
-        // Освобождаем все комнаты
+        // Освобождаем все комнаты`
         jdbcTemplate.update("UPDATE rooms SET status = 'free'");
         return true;
     }
 
     public void checkRoomOccupancy(String currentDate) {
-        // 1. Освобождаем комнаты, у которых истек срок бронирования
-        String freeRoomsSql = "UPDATE rooms SET status = 'free' WHERE room_number IN (" +
-                "SELECT room_number FROM bookings WHERE status = 'active' AND check_out_date <= ?)";
-        int freedRooms = jdbcTemplate.update(freeRoomsSql, currentDate);
+        try {
+            // 1. Заселяем клиентов (pending → active)
+            String checkInClientsSql = "UPDATE clients SET status = 'active' " +
+                    "WHERE status = 'pending' AND check_in_date <= ?";
+            int checkedInClients = jdbcTemplate.update(checkInClientsSql, currentDate);
 
-        // 2. Обновляем статус завершенных бронирований
-        String completeBookingsSql = "UPDATE bookings SET status = 'completed' " +
-                "WHERE status = 'active' AND check_out_date <= ?";
-        int completedBookings = jdbcTemplate.update(completeBookingsSql, currentDate);
+            // 2. Занимаем комнаты для новых заездов
+            String occupyRoomsSql = "UPDATE rooms SET status = 'occupied' WHERE room_number IN (" +
+                    "SELECT room_number FROM clients WHERE status = 'active' " +
+                    "AND check_in_date <= ? AND check_out_date > ?)";
+            int occupiedRooms = jdbcTemplate.update(occupyRoomsSql, currentDate, currentDate);
 
-        // 3. Занимаем комнаты, у которых начался срок бронирования
-        String occupyRoomsSql = "UPDATE rooms SET status = 'occupied' WHERE room_number IN (" +
-                "SELECT room_number FROM bookings WHERE status = 'active' AND check_in_date = ?)";
-        int occupiedRooms = jdbcTemplate.update(occupyRoomsSql, currentDate);
+            // 3. Выселяем клиентов (active → checked_out)
+            String checkOutClientsSql = "UPDATE clients SET status = 'checked_out' " +
+                    "WHERE status = 'active' AND check_out_date < ?";
+            int checkedOutClients = jdbcTemplate.update(checkOutClientsSql, currentDate);
 
-        logger.info("Обновление занятости: освобождено {} комнат, завершено {} бронирований, занято {} комнат",
-                freedRooms, completedBookings, occupiedRooms);
+            // 4. Освобождаем комнаты, где бронирование ЗАВЕРШИЛОСЬ
+            String freeRoomsSql = "UPDATE rooms SET status = 'free' WHERE room_number IN (" +
+                    "SELECT room_number FROM clients WHERE status = 'checked_out' " +
+                    "AND check_out_date < ?)";
+            int freedRooms = jdbcTemplate.update(freeRoomsSql, currentDate);
+
+            // 5. Обновляем статус завершенных бронирований (если нужно)
+            String completeBookingsSql = "UPDATE bookings SET status = 'completed' " +
+                    "WHERE status = 'active' AND check_out_date < ?";
+            int completedBookings = jdbcTemplate.update(completeBookingsSql, currentDate);
+
+            logger.info("Обновление занятости: " +
+                            "заселено {} клиентов, " +
+                            "занято {} комнат, " +
+                            "выселено {} клиентов, " +
+                            "освобождено {} комнат, " +
+                            "завершено {} бронирований",
+                    checkedInClients, occupiedRooms, checkedOutClients, freedRooms, completedBookings);
+
+        } catch (Exception e) {
+            logger.error("Ошибка обновления занятости комнат: {}", e.getMessage());
+            throw new RuntimeException("Ошибка обновления занятости", e);
+        }
     }
 
     /**
@@ -95,10 +117,7 @@ public class RoomService {
      */
     public boolean isRoomAvailable(Integer roomNumber, String checkInDate, String checkOutDate) {
         try {
-            String sql = "SELECT COUNT(*) FROM bookings WHERE room_number = ? AND status = 'active' " +
-                    "AND ((check_in_date <= ? AND check_out_date > ?) OR (check_in_date < ? AND check_out_date >= ?))";
-
-            int overlappingBookings = jdbcTemplate.queryForObject(sql, Integer.class,
+            int overlappingBookings = jdbcTemplate.queryForObject(ROOM_CHECK_AVAILABILITY, Integer.class,
                     roomNumber, checkOutDate, checkInDate, checkOutDate, checkInDate);
 
             return overlappingBookings == 0;
@@ -112,8 +131,7 @@ public class RoomService {
      * Обновление статуса комнаты
      */
     public boolean updateRoomStatus(int roomNumber, String status) {
-        String sql = "UPDATE rooms SET status = ? WHERE room_number = ?";
-        int result = jdbcTemplate.update(sql, status, roomNumber);
+        int result = jdbcTemplate.update(ROOMS_UPDATE_STATUS, status, roomNumber);
         return result > 0;
     }
 }

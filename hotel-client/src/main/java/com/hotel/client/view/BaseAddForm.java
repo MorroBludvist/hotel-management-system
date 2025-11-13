@@ -17,12 +17,12 @@ public abstract class BaseAddForm extends JDialog {
         super(parent, title, true);
         setSize(width, height);
         setLocationRelativeTo(parent);
-        setResizable(true); // Разрешаем изменение размера для скролла
+        setResizable(true);
         setLayout(new BorderLayout());
     }
 
     protected abstract void initializeComponents();
-    protected abstract JPanel createFieldsPanel(); // Изменен возвращаемый тип
+    protected abstract JPanel createFieldsPanel();
     protected abstract void setupListeners();
     protected abstract boolean validateForm();
     protected abstract void saveData();

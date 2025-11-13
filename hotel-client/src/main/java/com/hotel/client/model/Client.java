@@ -49,7 +49,7 @@ public class Client {
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.roomNumber = roomNumber;
-        this.status = "active";
+        this.status = "pending";
     }
 
     // Геттеры и сеттеры
@@ -79,4 +79,19 @@ public class Client {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "passportNumber='" + passportNumber + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", roomNumber=" + roomNumber +
+                ", checkInDate='" + checkInDate + '\'' +
+                ", checkOutDate='" + checkOutDate + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

@@ -9,20 +9,9 @@ import org.springframework.stereotype.Component;
 public class SqlQueries {
 
     //ROOM QUERIES
-    public static final String ROOM_SELECT_ALL = """
-        SELECT room_number, room_type, status, client_passport, 
-               check_in_date, check_out_date 
-        FROM rooms 
-        ORDER BY room_number
-    """;
+    public static final String ROOM_SELECT_ALL = "SELECT * FROM rooms ORDER BY room_number";
 
-    public static final String ROOM_SELECT_FREE = """
-        SELECT room_number, room_type, status, client_passport, 
-               check_in_date, check_out_date 
-        FROM rooms 
-        WHERE status = 'free' 
-        ORDER BY room_number
-    """;
+    public static final String ROOM_SELECT_FREE = "SELECT * FROM rooms WHERE status = 'free' ORDER BY room_number";
 
     public static final String ROOM_SELECT_OCCUPIED = """
         SELECT room_number, room_type, status, client_passport, 
@@ -32,11 +21,10 @@ public class SqlQueries {
         ORDER BY room_number
     """;
 
-    public static final String ROOM_CHECK_AVAILABILITY = """
-        SELECT COUNT(*) FROM rooms 
-        WHERE room_number = ? AND status = 'occupied' 
-        AND NOT (check_out_date <= ? OR check_in_date >= ?)
-    """;
+    public static final String ROOM_CHECK_AVAILABILITY = "SELECT COUNT(*)" +
+            " FROM bookings WHERE room_number = ? AND status = 'active' " +
+            "AND ((check_in_date <= ? AND check_out_date > ?)" +
+            " OR (check_in_date < ? AND check_out_date >= ?))";
 
     public static final String ROOM_OCCUPY = """
         UPDATE rooms 
@@ -45,12 +33,7 @@ public class SqlQueries {
         WHERE room_number = ?
     """;
 
-    public static final String ROOM_FREE = """
-        UPDATE rooms 
-        SET status = 'free', client_passport = NULL, 
-            check_in_date = NULL, check_out_date = NULL
-        WHERE room_number = ?
-    """;
+    public static final String ROOM_FREE = "UPDATE rooms SET status = 'free' WHERE room_number = ?";
 
     public static final String ROOM_AUTO_FREE = """
         UPDATE rooms SET status = 'free', client_passport = NULL,
@@ -81,10 +64,8 @@ public class SqlQueries {
     //CLIENT QUERIES
 
     public static final String CLIENT_SELECT_ALL = """
-        SELECT first_name, last_name, passport_number, phone_number, 
-               email, check_in_date, check_out_date, room_number, room_type
-        FROM clients 
-        WHERE status = 'active'
+        SELECT *
+        FROM clients
         ORDER BY last_name, first_name
     """;
 
@@ -233,4 +214,18 @@ public class SqlQueries {
 
     public static final String BOOKING_HISTORY_CHECK_CONFLICT =
             "SELECT COUNT(*) FROM booking_history WHERE room_number = ? AND NOT (check_out_date <= ? OR check_in_date >= ?)";
+
+    public static final String CLIENT_IS_AVAILABLE_TO_CHECK_IN =
+            "SELECT COUNT(*) FROM clients WHERE passport_number = ? AND status IN ('active', 'pending')";
+
+    public static final String IS_CLIENT_EXISTS = "SELECT COUNT(*) FROM clients WHERE passport_number = ?";
+    public static final String ADD_CLIENT = "INSERT INTO clients (passport_number, first_name, last_name, phone_number, email, check_in_date, check_out_date, room_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')";
+    public static final String RESEAT_CLIENT = "INSERT OR REPLACE INTO clients (passport_number, first_name, last_name, phone_number, email, check_in_date, check_out_date, room_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')";
+
+    public static final String DELETE_CLIENT = "DELETE FROM clients WHERE passport_number = ?";
+
+    public static final String ROOMS_SET_FREE = "UPDATE rooms SET status = 'free'";
+    public static final String ROOMS_UPDATE_STATUS = "UPDATE rooms SET status = ? WHERE room_number = ?";
+    public static final String SELECT_CLIENT_BY_PASSPORT = "SELECT * FROM clients WHERE passport_number = ?";
+
 }

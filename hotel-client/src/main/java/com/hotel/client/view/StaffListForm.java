@@ -11,6 +11,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  * Форма для просмотра списка сотрудников с градиентным дизайном
  */
@@ -63,7 +71,9 @@ public class StaffListForm extends BaseTableForm {
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             refreshButton.setEnabled(false);
 
-            List<Staff> staffList = staffService.getAllStaff();
+            //TODO: вернуть позже
+            //List<Staff> staffList = staffService.getAllStaff();
+            List<Staff> staffList = loadStaffFromXml();
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setRowCount(0);
 
@@ -107,7 +117,7 @@ public class StaffListForm extends BaseTableForm {
         return phone.replaceFirst("(\\d{1})(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "+$1 ($2) $3-$4-$5");
     }
 
-    // Специальный рендерер для ячеек сотрудников
+    // Специальный рендер для ячеек сотрудников
     private static class StaffCellRenderer extends GradientCellRenderer {
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value,
@@ -137,5 +147,67 @@ public class StaffListForm extends BaseTableForm {
 
             return this;
         }
+    }
+
+    //-----------------------------ЛОГИКА ДЛЯ XML---------------------------------------
+
+    private static final String STAFF_XML_FILE = "staff_data/all_staff.xml";
+
+    /**
+     * Загружает список сотрудников из XML файла
+     */
+    private List<Staff> loadStaffFromXml() {
+        List<Staff> staffList = new ArrayList<>();
+
+        try {
+            File xmlFile = new File(STAFF_XML_FILE);
+
+            if (!xmlFile.exists()) {
+                logger.info("XML файл с сотрудниками не найден: {}", STAFF_XML_FILE);
+                return staffList;
+            }
+
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(xmlFile);
+
+            NodeList staffNodes = doc.getElementsByTagName("staff");
+
+            for (int i = 0; i < staffNodes.getLength(); i++) {
+                Element staffElement = (Element) staffNodes.item(i);
+
+                Staff staff = new Staff(
+                        getElementText(staffElement, "firstName"),
+                        getElementText(staffElement, "lastName"),
+                        getElementText(staffElement, "passportNumber"),
+                        getElementText(staffElement, "position"),
+                        getElementText(staffElement, "phoneNumber"),
+                        getElementText(staffElement, "email"),
+                        getElementText(staffElement, "hireDate"),
+                        Double.parseDouble(getElementText(staffElement, "salary")),
+                        getElementText(staffElement, "department")
+                );
+
+                staffList.add(staff);
+            }
+
+            logger.info("Загружено {} сотрудников из XML", staffList.size());
+
+        } catch (Exception e) {
+            logger.error("Ошибка чтения XML файла сотрудников: {}", e.getMessage());
+        }
+
+        return staffList;
+    }
+
+    /**
+     * Вспомогательный метод для получения текста из XML элемента
+     */
+    private String getElementText(Element parent, String tagName) {
+        NodeList nodes = parent.getElementsByTagName(tagName);
+        if (nodes.getLength() > 0) {
+            return nodes.item(0).getTextContent();
+        }
+        return "";
     }
 }
