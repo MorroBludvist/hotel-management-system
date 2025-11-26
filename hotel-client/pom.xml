@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.hotel.client</groupId>
+    <artifactId>hotel-management</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jasperreports.version>6.20.0</jasperreports.version>
+        <jackson.version>2.19.2</jackson.version>
+        <log4j.version>2.20.0</log4j.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>jasperreports</id>
+            <url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- JasperReports как system scope -->
+        <dependency>
+            <groupId>com.jasperreports.local</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.20.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jasperreports-6.20.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jasperreports.local</groupId>
+            <artifactId>jasperreports-functions</artifactId>
+            <version>6.20.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jasperreports-functions-6.20.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jasperreports.local</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.20.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jasperreports-fonts-6.20.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lowagie.local</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/itext-2.1.7.jar</systemPath>
+        </dependency>
+
+        <!-- Остальные зависимости из Maven Central -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!-- Логирование и JSON остаются из Maven -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+    </dependencies>
+
+
+</project>
