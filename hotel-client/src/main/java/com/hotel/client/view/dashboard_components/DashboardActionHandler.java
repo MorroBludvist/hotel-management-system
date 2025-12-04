@@ -1,6 +1,7 @@
 package com.hotel.client.view.dashboard_components;
 
 import com.hotel.client.service.*;
+import com.hotel.client.util.JasperReportGenerator;
 import com.hotel.client.view.*;
 import com.hotel.client.config.AppStateManager;
 import com.hotel.client.model.Client;
@@ -10,6 +11,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +33,7 @@ public class DashboardActionHandler {
     private final RoomService roomService;
     private final StaffService staffService;
     private final AppStateManager appStateManager;
+    private final JasperReportGenerator reportGenerator;
 
     public DashboardActionHandler(HotelAdminDashboard dashboard,
                                   ClientService clientService,
@@ -39,6 +44,7 @@ public class DashboardActionHandler {
         this.roomService = roomService;
         this.staffService = staffService;
         this.appStateManager = AppStateManager.getInstance();
+        this.reportGenerator = new JasperReportGenerator();
     }
 
     /**
@@ -129,32 +135,6 @@ public class DashboardActionHandler {
             JOptionPane.showMessageDialog(dashboard,
                     "Функция увольнения сотрудника по паспорту в разработке\nПаспорт: " + passport,
                     "Увольнение сотрудника", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    /**
-     * Сгенерировать отчет
-     */
-    public void generateReport() {
-        try {
-            // Получаем данные для отчета
-            List<Client> clients = clientService.getAllClients();
-            List<Room> rooms = roomService.getAllRooms();
-            List<Staff> staffList = staffService.getAllStaff();
-
-            // Анализируем данные
-            String report = buildReport(clients, rooms, staffList);
-
-            // Создаем и показываем форму отчета
-            ReportForm reportForm = new ReportForm(dashboard, report, "Отчет по отелю");
-            reportForm.setVisible(true);
-
-        } catch (Exception e) {
-            logger.error("Ошибка генерации отчета: {}", e.getMessage());
-            JOptionPane.showMessageDialog(dashboard,
-                    "Ошибка генерации отчета: " + e.getMessage(),
-                    "Ошибка",
-                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -329,102 +309,431 @@ public class DashboardActionHandler {
     }
 
     /**
-     * Построение отчета
+     * Генерация отчета с выбором типа и формата
      */
-    private String buildReport(List<Client> clients, List<Room> rooms, List<Staff> staffList) {
-        StringBuilder report = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+    public void generateReport() {
+        try {
+            logger.info("🔄 Начало генерации отчета...");
 
-        // Заголовок отчета
-        report.append("=").append("=".repeat(50)).append("\n");
-        report.append("               ОТЧЕТ ПО ОТЕЛЮ\n");
-        report.append("=").append("=".repeat(50)).append("\n");
-        report.append("Дата формирования: ").append(dateFormat.format(new Date())).append("\n\n");
+            // Создаем диалоговое окно для выбора параметров отчета
+            ReportGenerationDialog dialog = new ReportGenerationDialog(dashboard, this);
+            dialog.setVisible(true);
 
-        // Статистика по клиентам
-        report.append("СТАТИСТИКА КЛИЕНТОВ:\n");
-        report.append("-".repeat(30)).append("\n");
-        long activeClients = clients.stream()
-                .filter(c -> c.getCheckInDate() != null && !c.getCheckInDate().isEmpty())
-                .count();
-        long checkedOutClients = clients.stream()
-                .filter(c -> c.getCheckOutDate() != null && !c.getCheckOutDate().isEmpty())
-                .count();
+        } catch (Exception e) {
+            logger.error("❌ Ошибка генерации отчета: {}", e.getMessage());
+            JOptionPane.showMessageDialog(dashboard,
+                    "Ошибка генерации отчета: " + e.getMessage(),
+                    "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-        report.append("Всего клиентов: ").append(clients.size()).append("\n");
-        report.append("Активных клиентов: ").append(activeClients).append("\n");
-        report.append("Выселенных клиентов: ").append(checkedOutClients).append("\n\n");
+    /**
+     * Внутренний метод для генерации отчета (вызывается из диалога)
+     */
+    public void executeReportGeneration(String reportType, String format, File outputFile) {
+        try {
+            switch (reportType) {
+                case "Отчет по сотрудникам" -> generateStaffReport(format, outputFile);
+                case "Отчет по номерам" -> generateRoomsReport(format, outputFile);
+                case "Сводный отчет по отелю" -> generateSummaryReport(format, outputFile);
+                default -> throw new IllegalArgumentException("Неизвестный тип отчета: " + reportType);
+            }
+        } catch (Exception e) {
+            logger.error("❌ Ошибка генерации отчета: {}", e.getMessage());
+            JOptionPane.showMessageDialog(dashboard,
+                    "Ошибка создания отчета: " + e.getMessage(),
+                    "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-        // Статистика по номерам
-        report.append("СТАТИСТИКА НОМЕРОВ:\n");
-        report.append("-".repeat(30)).append("\n");
-        long totalRooms = rooms.size();
-        long freeRooms = rooms.stream().filter(r -> "free".equals(r.getStatus())).count();
-        long occupiedRooms = rooms.stream().filter(r -> "occupied".equals(r.getStatus())).count();
+    /**
+     * Генерация отчета по сотрудникам
+     */
+    private void generateStaffReport(String format, File outputFile) {
+        try {
+            List<Staff> staffList = staffService.getAllStaff();
 
-        // Статистика по типам номеров
-        Map<String, Long> roomsByType = rooms.stream()
-                .collect(Collectors.groupingBy(Room::getRoomType, Collectors.counting()));
+            if (staffList.isEmpty()) {
+                JOptionPane.showMessageDialog(dashboard,
+                        "Нет данных о сотрудниках для генерации отчета",
+                        "Информация",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
 
-        report.append("Всего номеров: ").append(totalRooms).append("\n");
-        report.append("Свободных номеров: ").append(freeRooms).append("\n");
-        report.append("Занятых номеров: ").append(occupiedRooms).append("\n");
-        report.append("Загрузка отеля: ").append(String.format("%.1f%%",
-                totalRooms > 0 ? (occupiedRooms * 100.0 / totalRooms) : 0)).append("\n\n");
+            boolean success = false;
 
-        report.append("Распределение по типам:\n");
-        roomsByType.forEach((type, count) -> {
-            long occupiedByType = rooms.stream()
-                    .filter(r -> type.equals(r.getRoomType()) && "occupied".equals(r.getStatus()))
-                    .count();
-            report.append("  ").append(type).append(": ").append(count)
-                    .append(" (занято: ").append(occupiedByType).append(")\n");
-        });
-        report.append("\n");
+            switch (format) {
+                case "PDF" -> {
+                    success = reportGenerator.generateStaffPdfReport(staffList, outputFile.getAbsolutePath());
+                    if (success) {
+                        showSuccessMessage("PDF отчет по сотрудникам успешно создан!", outputFile);
+                    }
+                }
+                case "HTML" -> {
+                    success = reportGenerator.generateStaffHtmlReport(staffList, outputFile.getAbsolutePath());
+                    if (success) {
+                        showSuccessMessage("HTML отчет по сотрудникам успешно создан!", outputFile);
+                    }
+                }
+                case "Предпросмотр" -> {
+                    reportGenerator.previewStaffReport(staffList);
+                    logger.info("✅ Предпросмотр отчета по сотрудникам открыт");
+                    return;
+                }
+                default -> {
+                    JOptionPane.showMessageDialog(dashboard,
+                            "Неизвестный формат: " + format,
+                            "Ошибка",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
 
-        // Статистика по персоналу
-        report.append("СТАТИСТИКА ПЕРСОНАЛА:\n");
-        report.append("-".repeat(30)).append("\n");
+            if (!success) {
+                throw new Exception("Не удалось создать отчет в формате " + format);
+            }
 
-        Map<String, Long> staffByDepartment = staffList.stream()
-                .collect(Collectors.groupingBy(Staff::getDepartment, Collectors.counting()));
+        } catch (Exception e) {
+            logger.error("❌ Ошибка генерации отчета по сотрудникам: {}", e.getMessage());
+            JOptionPane.showMessageDialog(dashboard,
+                    "Ошибка создания отчета по сотрудникам: " + e.getMessage(),
+                    "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-        double totalSalary = staffList.stream().mapToDouble(Staff::getSalary).sum();
+    /**
+     * Генерация отчета по номерам
+     */
+    private void generateRoomsReport(String format, File outputFile) {
+        try {
+            List<Room> rooms = roomService.getAllRooms();
 
-        report.append("Всего сотрудников: ").append(staffList.size()).append("\n");
-        report.append("Общий фонд зарплат: ").append(String.format("%,.0f руб.", totalSalary)).append("\n");
-        report.append("Средняя зарплата: ").append(String.format("%,.0f руб.",
-                staffList.isEmpty() ? 0 : totalSalary / staffList.size())).append("\n\n");
+            if (rooms.isEmpty()) {
+                JOptionPane.showMessageDialog(dashboard,
+                        "Нет данных о номерах для генерации отчета",
+                        "Информация",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
 
-        report.append("Распределение по отделам:\n");
-        staffByDepartment.forEach((dept, count) -> {
-            double deptSalary = staffList.stream()
-                    .filter(s -> dept.equals(s.getDepartment()))
-                    .mapToDouble(Staff::getSalary)
-                    .sum();
-            report.append("  ").append(dept).append(": ").append(count)
-                    .append(" чел., зарплата: ").append(String.format("%,.0f руб.", deptSalary)).append("\n");
-        });
-        report.append("\n");
+            boolean success = false;
 
-        // Финансовая сводка (упрощенная)
-        report.append("ФИНАНСОВАЯ СВОДКА:\n");
-        report.append("-".repeat(30)).append("\n");
+            switch (format) {
+                case "PDF" -> {
+                    success = reportGenerator.generateRoomsPdfReport(rooms, outputFile.getAbsolutePath());
+                    if (success) {
+                        showSuccessMessage("PDF отчет по номерам успешно создан!", outputFile);
+                    }
+                }
+                case "HTML" -> {
+                    success = reportGenerator.generateRoomsHtmlReport(rooms, outputFile.getAbsolutePath());
+                    if (success) {
+                        showSuccessMessage("HTML отчет по номерам успешно создан!", outputFile);
+                    }
+                }
+                case "Предпросмотр" -> {
+                    reportGenerator.previewRoomsReport(rooms);
+                    logger.info("✅ Предпросмотр отчета по номерам открыт");
+                    return;
+                }
+                default -> {
+                    JOptionPane.showMessageDialog(dashboard,
+                            "Неизвестный формат: " + format,
+                            "Ошибка",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
 
-        // Расчеты доходов
-        double estimatedDailyIncome = occupiedRooms * 2500; // пример: 2500 руб./номер/день
-        double monthlyExpenses = totalSalary; // только зарплаты для примера
-        double estimatedMonthlyIncome = estimatedDailyIncome * 30;
+            if (!success) {
+                throw new Exception("Не удалось создать отчет в формате " + format);
+            }
 
-        report.append("Примерный дневной доход: ").append(String.format("%,.0f руб.", estimatedDailyIncome)).append("\n");
-        report.append("Примерный месячный доход: ").append(String.format("%,.0f руб.", estimatedMonthlyIncome)).append("\n");
-        report.append("Месячные расходы (зарплаты): ").append(String.format("%,.0f руб.", monthlyExpenses)).append("\n");
-        report.append("Примерная прибыль: ").append(String.format("%,.0f руб.", estimatedMonthlyIncome - monthlyExpenses)).append("\n\n");
+        } catch (Exception e) {
+            logger.error("❌ Ошибка генерации отчета по номерам: {}", e.getMessage());
+            JOptionPane.showMessageDialog(dashboard,
+                    "Ошибка создания отчета по номерам: " + e.getMessage(),
+                    "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
-        report.append("=").append("=".repeat(50)).append("\n");
-        report.append("               КОНЕЦ ОТЧЕТА\n");
-        report.append("=").append("=".repeat(50)).append("\n");
+    /**
+     * Генерация сводного отчета (в разработке)
+     */
+    private void generateSummaryReport(String format, File outputFile) {
+        JOptionPane.showMessageDialog(dashboard,
+                "Сводный отчет по отелю находится в разработке.\n" +
+                        "Скоро будет доступен!",
+                "В разработке",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 
-        return report.toString();
+    /**
+     * Генерация имени файла на основе типа отчета
+     */
+    public String generateDefaultFileName(String reportType, String format) {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String extension = format.equals("HTML") ? ".html" : ".pdf";
+
+        return switch (reportType) {
+            case "Отчет по сотрудникам" -> "staff_report_" + timestamp + extension;
+            case "Отчет по номерам" -> "rooms_report_" + timestamp + extension;
+            case "Сводный отчет по отелю" -> "hotel_summary_" + timestamp + extension;
+            default -> "report_" + timestamp + extension;
+        };
+    }
+
+    /**
+     * Показывает сообщение об успешной генерации и предлагает открыть файл
+     */
+    private void showSuccessMessage(String message, File file) {
+        int result = JOptionPane.showConfirmDialog(dashboard,
+                message + "\nФайл: " + file.getAbsolutePath() + "\n\nОткрыть файл?",
+                "Успех",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+        if (result == JOptionPane.YES_OPTION) {
+            openFile(file);
+        }
+    }
+
+    /**
+     * Открытие файла в системном просмотрщике
+     */
+    private void openFile(File file) {
+        try {
+            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+                Desktop.getDesktop().open(file);
+            } else {
+                JOptionPane.showMessageDialog(dashboard,
+                        "Не удалось открыть файл автоматически.\n" +
+                                "Файл сохранен по пути: " + file.getAbsolutePath(),
+                        "Информация",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            logger.warn("Не удалось открыть файл: {}", e.getMessage());
+            JOptionPane.showMessageDialog(dashboard,
+                    "Не удалось открыть файл: " + e.getMessage() + "\n" +
+                            "Файл сохранен по пути: " + file.getAbsolutePath(),
+                    "Ошибка",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+}
+
+/**
+ * Диалоговое окно для генерации отчетов
+ */
+class ReportGenerationDialog extends JDialog {
+    private final DashboardActionHandler handler;
+    private JComboBox<String> reportTypeCombo;
+    private JComboBox<String> formatCombo;
+    private JTextField filePathField;
+    private JButton browseButton;
+    private JButton generateButton;
+    private JButton cancelButton;
+
+    public ReportGenerationDialog(Frame parent, DashboardActionHandler handler) {
+        super(parent, "Генерация отчета", true);
+        this.handler = handler;
+        initializeComponents();
+        setupLayout();
+        setupListeners();
+    }
+
+    private void initializeComponents() {
+        // Типы отчетов
+        String[] reportTypes = {"Отчет по сотрудникам", "Отчет по номерам", "Сводный отчет по отелю"};
+        reportTypeCombo = new JComboBox<>(reportTypes);
+
+        // Форматы
+        String[] formats = {"PDF", "HTML", "Предпросмотр"};
+        formatCombo = new JComboBox<>(formats);
+
+        // Поле для пути файла
+        filePathField = new JTextField(30);
+        filePathField.setEditable(false);
+
+        // Кнопки
+        browseButton = new JButton("Обзор...");
+        generateButton = new JButton("Сгенерировать");
+        generateButton.setBackground(new Color(46, 204, 113));
+        generateButton.setForeground(Color.WHITE);
+        generateButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+
+        cancelButton = new JButton("Отмена");
+        cancelButton.setBackground(new Color(231, 76, 60));
+        cancelButton.setForeground(Color.WHITE);
+        cancelButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+
+        // Обновляем путь файла при изменении выбора
+        reportTypeCombo.addActionListener(e -> updateFilePath());
+        formatCombo.addActionListener(e -> updateFilePath());
+    }
+
+    private void setupLayout() {
+        setLayout(new BorderLayout(10, 10));
+        setSize(500, 250);
+        setLocationRelativeTo(getParent());
+
+        // Панель содержимого
+        JPanel contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        // Тип отчета
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        contentPanel.add(new JLabel("Тип отчета:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        contentPanel.add(reportTypeCombo, gbc);
+
+        // Формат отчета
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        contentPanel.add(new JLabel("Формат:"), gbc);
+
+        gbc.gridx = 1;
+        contentPanel.add(formatCombo, gbc);
+
+        // Сохранить в
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        contentPanel.add(new JLabel("Сохранить в:"), gbc);
+
+        gbc.gridx = 1;
+        contentPanel.add(filePathField, gbc);
+
+        gbc.gridx = 2;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        contentPanel.add(browseButton, gbc);
+
+        // Кнопки
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        buttonPanel.add(cancelButton);
+        buttonPanel.add(generateButton);
+
+        add(contentPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        // Инициализируем путь файла
+        updateFilePath();
+    }
+
+    private void setupListeners() {
+        browseButton.addActionListener(e -> browseForFile());
+        generateButton.addActionListener(e -> generateReport());
+        cancelButton.addActionListener(e -> dispose());
+
+        // Закрытие по ESC
+        getRootPane().registerKeyboardAction(
+                e -> dispose(),
+                KeyStroke.getKeyStroke("ESCAPE"),
+                JComponent.WHEN_IN_FOCUSED_WINDOW
+        );
+    }
+
+    private void updateFilePath() {
+        String reportType = (String) reportTypeCombo.getSelectedItem();
+        String format = (String) formatCombo.getSelectedItem();
+
+        if (format.equals("Предпросмотр")) {
+            filePathField.setText("(предпросмотр в окне программы)");
+            filePathField.setEnabled(false);
+            browseButton.setEnabled(false);
+        } else {
+            String fileName = handler.generateDefaultFileName(reportType, format);
+            filePathField.setText("reports/" + fileName);
+            filePathField.setEnabled(true);
+            browseButton.setEnabled(true);
+        }
+    }
+
+    private void browseForFile() {
+        String reportType = (String) reportTypeCombo.getSelectedItem();
+        String format = (String) formatCombo.getSelectedItem();
+        String extension = format.equals("HTML") ? ".html" : ".pdf";
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Сохранение отчета");
+        fileChooser.setSelectedFile(new File(handler.generateDefaultFileName(reportType, format)));
+
+        if (format.equals("HTML")) {
+            fileChooser.setFileFilter(new FileNameExtensionFilter("HTML файлы (*.html)", "html"));
+        } else {
+            fileChooser.setFileFilter(new FileNameExtensionFilter("PDF файлы (*.pdf)", "pdf"));
+        }
+
+        // Создаем директорию reports если не существует
+        File reportsDir = new File("reports");
+        if (!reportsDir.exists()) {
+            reportsDir.mkdirs();
+        }
+        fileChooser.setCurrentDirectory(reportsDir);
+
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            // Добавляем расширение если его нет
+            if (!filePath.toLowerCase().endsWith(extension.toLowerCase())) {
+                selectedFile = new File(filePath + extension);
+            }
+            filePathField.setText(selectedFile.getAbsolutePath());
+        }
+    }
+
+    private void generateReport() {
+        String reportType = (String) reportTypeCombo.getSelectedItem();
+        String format = (String) formatCombo.getSelectedItem();
+
+        if (format.equals("Предпросмотр")) {
+            handler.executeReportGeneration(reportType, format, null);
+            dispose();
+            return;
+        }
+
+        String filePath = filePathField.getText();
+        if (filePath.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Пожалуйста, выберите место для сохранения файла",
+                    "Ошибка",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        File outputFile = new File(filePath);
+
+        // Проверяем директорию
+        File parentDir = outputFile.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+
+        // Подтверждение перезаписи
+        if (outputFile.exists()) {
+            int result = JOptionPane.showConfirmDialog(this,
+                    "Файл уже существует. Перезаписать?",
+                    "Подтверждение",
+                    JOptionPane.YES_NO_OPTION);
+            if (result != JOptionPane.YES_OPTION) {
+                return;
+            }
+        }
+
+        handler.executeReportGeneration(reportType, format, outputFile);
+        dispose();
     }
 }

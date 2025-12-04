@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="staff_report"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20">
+
+    <!-- ТОЛЬКО ваши пользовательские параметры -->
+    <parameter name="REPORT_TITLE" class="java.lang.String"/>
+    <parameter name="COMPANY_NAME" class="java.lang.String"/>
+    <parameter name="GENERATED_BY" class="java.lang.String"/>
+    <parameter name="GENERATION_DATE" class="java.util.Date"/>
+
+    <field name="passport_number" class="java.lang.String"/>
+    <field name="first_name" class="java.lang.String"/>
+    <field name="last_name" class="java.lang.String"/>
+    <field name="position" class="java.lang.String"/>
+    <field name="phone_number" class="java.lang.String"/>
+    <field name="email" class="java.lang.String"/>
+    <field name="hire_date" class="java.lang.String"/>
+    <field name="salary" class="java.lang.Double"/>
+    <field name="department" class="java.lang.String"/>
+    <field name="status" class="java.lang.String"/>
+
+    <variable name="TOTAL_SALARY" class="java.lang.Double" calculation="Sum">
+        <variableExpression><![CDATA[$F{salary}]]></variableExpression>
+    </variable>
+
+    <variable name="EMPLOYEE_COUNT" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[$F{passport_number}]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="120">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="120" backcolor="#2C3E50"/>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="0" y="20" width="555" height="30" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="22" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ОТЧЕТ ПО СОТРУДНИКАМ]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="0" y="55" width="555" height="20" forecolor="#ECF0F1"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="14" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="0" y="80" width="555" height="15" forecolor="#BDC3C7"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Сгенерировано: " + new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="40">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="40" backcolor="#34495E"/>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="0" y="10" width="80" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Паспорт]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="90" y="10" width="70" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Имя]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="170" y="10" width="80" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Фамилия]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="260" y="10" width="80" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Должность]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="350" y="10" width="100" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Отдел]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="460" y="10" width="95" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Зарплата]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="30">
+            <textField>
+                <reportElement x="0" y="5" width="80" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{passport_number}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="90" y="5" width="70" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{first_name}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="170" y="5" width="80" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="260" y="5" width="80" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{position}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="350" y="5" width="100" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{department}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="460" y="5" width="95" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["₽" + $F{salary}]]></textFieldExpression>
+            </textField>
+
+            <line>
+                <reportElement x="0" y="28" width="555" height="1" forecolor="#E5E7E9"/>
+            </line>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="80">
+            <staticText>
+                <reportElement x="200" y="20" width="150" height="20"/>
+                <textElement textAlignment="Right">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Количество сотрудников:]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="350" y="20" width="50" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{EMPLOYEE_COUNT}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="350" y="40" width="100" height="20"/>
+                <textElement textAlignment="Right">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Общая сумма зарплат:]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="460" y="40" width="95" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["₽" + $V{TOTAL_SALARY}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="0" y="60" width="555" height="15"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="8" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Сгенерировано пользователем: " + ($P{GENERATED_BY} != null ? $P{GENERATED_BY} : "Администратор")]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

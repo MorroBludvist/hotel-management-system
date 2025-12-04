@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="rooms_report"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20">
+
+    <parameter name="REPORT_TITLE" class="java.lang.String"/>
+    <parameter name="COMPANY_NAME" class="java.lang.String"/>
+    <parameter name="GENERATED_BY" class="java.lang.String"/>
+    <parameter name="GENERATION_DATE" class="java.util.Date"/>
+
+    <field name="room_number" class="java.lang.Integer"/>
+    <field name="room_type" class="java.lang.String"/>
+    <field name="status" class="java.lang.String"/>
+
+    <variable name="TOTAL_ROOMS" class="java.lang.Integer" calculation="Count">
+        <variableExpression><![CDATA[$F{room_number}]]></variableExpression>
+    </variable>
+
+    <variable name="FREE_ROOMS" class="java.lang.Integer" calculation="Sum">
+        <variableExpression><![CDATA["free".equals($F{status}) ? 1 : 0]]></variableExpression>
+    </variable>
+
+    <variable name="OCCUPIED_ROOMS" class="java.lang.Integer" calculation="Sum">
+        <variableExpression><![CDATA["occupied".equals($F{status}) ? 1 : 0]]></variableExpression>
+    </variable>
+
+    <title>
+        <band height="120">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="120" backcolor="#1A5276"/>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="0" y="20" width="555" height="30" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="22" isBold="true"/>
+                </textElement>
+                <text><![CDATA[СПРАВОЧНИК НОМЕРОВ]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="0" y="55" width="555" height="20" forecolor="#D6EAF8"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="14"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{COMPANY_NAME}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="0" y="80" width="555" height="15" forecolor="#85C1E9"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Актуально на " + new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm").format($P{GENERATION_DATE})]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="40">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="40" backcolor="#2E86C1"/>
+            </rectangle>
+
+            <staticText>
+                <reportElement x="0" y="10" width="185" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[НОМЕР]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="185" y="10" width="185" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ТИП НОМЕРА]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="370" y="10" width="185" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[СТАТУС]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="35">
+            <textField>
+                <reportElement x="0" y="8" width="185" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["№ " + $F{room_number}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="185" y="8" width="185" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{room_type}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement x="370" y="8" width="185" height="20"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["free".equals($F{status}) ? "СВОБОДЕН" : "ЗАНЯТ"]]></textFieldExpression>
+            </textField>
+
+            <line>
+                <reportElement x="0" y="34" width="555" height="1" forecolor="#E5E7E9"/>
+            </line>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="180">
+            <staticText>
+                <reportElement x="0" y="15" width="555" height="25"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="16" isBold="true"/>
+                </textElement>
+                <text><![CDATA[СТАТИСТИКА ЗАГРУЗКИ НОМЕРОВ]]></text>
+            </staticText>
+
+            <!-- Добавляем цветные прямоугольники для карточек статистики -->
+            <rectangle radius="8">
+                <reportElement x="50" y="50" width="150" height="80" backcolor="#2ECC71"/>
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#27AE60"/>
+                </graphicElement>
+            </rectangle>
+
+            <rectangle radius="8">
+                <reportElement x="225" y="50" width="150" height="80" backcolor="#E74C3C"/>
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#C0392B"/>
+                </graphicElement>
+            </rectangle>
+
+            <rectangle radius="8">
+                <reportElement x="400" y="50" width="150" height="80" backcolor="#3498DB"/>
+                <graphicElement>
+                    <pen lineWidth="0.5" lineColor="#2980B9"/>
+                </graphicElement>
+            </rectangle>
+
+            <!-- СВОБОДНО -->
+            <staticText>
+                <reportElement x="50" y="60" width="150" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[СВОБОДНО]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="50" y="80" width="150" height="40" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="24" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{FREE_ROOMS}]]></textFieldExpression>
+            </textField>
+
+            <!-- ЗАНЯТО -->
+            <staticText>
+                <reportElement x="225" y="60" width="150" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ЗАНЯТО]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="225" y="80" width="150" height="40" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="24" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{OCCUPIED_ROOMS}]]></textFieldExpression>
+            </textField>
+
+            <!-- ВСЕГО -->
+            <staticText>
+                <reportElement x="400" y="60" width="150" height="20" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ВСЕГО]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="400" y="80" width="150" height="40" forecolor="#FFFFFF"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="24" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$V{TOTAL_ROOMS}]]></textFieldExpression>
+            </textField>
+
+            <!-- Нижняя подпись -->
+            <textField>
+                <reportElement x="0" y="150" width="555" height="15"/>
+                <textElement textAlignment="Center">
+                    <font fontName="DejaVu Sans" size="9" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Отчет сгенерирован: " + new java.util.Date() + " | Пользователь: " + $P{GENERATED_BY}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

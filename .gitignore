@@ -5,7 +5,6 @@
 *.class
 out/
 logs/
-test/
 target/
 # Database
 *.db
@@ -16,3 +15,5 @@ run_simple.bat
 *.bat
 libs/
 staff_data/
+reports/*.html
+reports/*.pdf

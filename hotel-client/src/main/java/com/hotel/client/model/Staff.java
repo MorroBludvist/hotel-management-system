@@ -78,6 +78,9 @@ public class Staff {
     public String getDepartment() { return department; }
     public void setDepartment(String department) { this.department = department; }
 
+    //TODO: fix
+    public String getStatus() { return "active"; }
+
     @Override
     public String toString() {
         return "Staff{" +

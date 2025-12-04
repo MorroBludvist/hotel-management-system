@@ -185,7 +185,7 @@ public class AddStaffForm extends BaseAddForm {
     protected void setupListeners() {
         saveButton.addActionListener(e -> {
             if (validateForm()) {
-                saveDataXML();
+                saveData();
             }
         });
 

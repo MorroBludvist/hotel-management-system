@@ -167,6 +167,11 @@ public class ApiService {
      * Чтение тела ошибки из HTTP response
      */
     private String readErrorResponse(HttpURLConnection connection) {
+        if (connection == null) {
+            logger.warn("Connection is null in readErrorResponse");
+            return "No error details available";
+        }
+
         try {
             InputStream errorStream = connection.getErrorStream();
             if (errorStream != null) {
