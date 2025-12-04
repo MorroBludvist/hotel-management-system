@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN">
+<Configuration status="WARN" shutdownHook="disable">
+
     <Properties>
-        <!--Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property-->
-        <Property name="LOG_PATTERN">[%t] %-5level %logger{36} - %msg%n</Property>
+        <!-- Паттерн для консоли (короткий) -->
+        <Property name="CONSOLE_PATTERN">%d{HH:mm:ss} [%t] %-5level %logger{20} - %msg%n</Property>
+
+        <!-- Паттерн для файла (полный) -->
+        <Property name="FILE_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+
+        <!-- Путь к логам -->
+        <Property name="LOG_DIR">logs</Property>
+
+        <!-- Имя лог-файла -->
+        <Property name="LOG_FILE_NAME">hotel-client</Property>
     </Properties>
 
+    <!-- ======================== АППЕНДЕРЫ ======================== -->
     <Appenders>
-        <!-- Консольный вывод -->
+
+        <!-- 1. КОНСОЛЬ -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <PatternLayout pattern="${CONSOLE_PATTERN}"/>
         </Console>
 
-        <!-- Файловый вывод -->
-        <File name="FileAppender" fileName="logs/hotel-client.log">
-            <PatternLayout pattern="${LOG_PATTERN}"/>
-        </File>
     </Appenders>
 
     <Loggers>
-        <!-- Наш логгер -->
-        <Logger name="com.hotel.client" level="DEBUG" additivity="false">
+        <Logger name="com.hotel.client" level="INFO" additivity="false">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="FileAppender"/>
         </Logger>
 
-        <!-- Корневой логгер -->
-        <Root level="INFO">
+        <!-- КОРНЕВОЙ ЛОГГЕР -->
+        <Root level="ERROR">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
         </Root>
+
     </Loggers>
+
 </Configuration>

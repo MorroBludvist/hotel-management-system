@@ -27,50 +27,60 @@
     </repositories>
 
     <dependencies>
+        <!-- Log4j2 (только один раз!) -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jcl</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.20.0</version> <!-- Проверьте актуальную версию -->
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
 
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-inline</artifactId>
             <version>4.11.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Log4j 2 Core (реализация) -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version> <!-- Должна совпадать с версией log4j-api -->
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>2.0.9</version>
+            <scope>test</scope>
         </dependency>
+
         <!-- JasperReports как system scope -->
         <dependency>
             <groupId>com.jasperreports.local</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.20.0</version>
+            <version>${jasperreports.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/jasperreports-6.20.0.jar</systemPath>
         </dependency>
-
         <dependency>
             <groupId>com.jasperreports.local</groupId>
             <artifactId>jasperreports-functions</artifactId>
-            <version>6.20.0</version>
+            <version>${jasperreports.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/jasperreports-functions-6.20.0.jar</systemPath>
         </dependency>
-
         <dependency>
             <groupId>com.jasperreports.local</groupId>
             <artifactId>jasperreports-fonts</artifactId>
-            <version>6.20.0</version>
+            <version>${jasperreports.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/jasperreports-fonts-6.20.0.jar</systemPath>
         </dependency>
-
         <dependency>
             <groupId>com.lowagie.local</groupId>
             <artifactId>itext</artifactId>
@@ -79,67 +89,36 @@
             <systemPath>${project.basedir}/lib/itext-2.1.7.jar</systemPath>
         </dependency>
 
-        <!-- Остальные зависимости из Maven Central -->
+        <!-- Commons dependencies -->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>4.4</version>
         </dependency>
-
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
             <version>3.2.2</version>
         </dependency>
-
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>2.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <!-- Логирование и JSON остаются из Maven -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.20.0</version>
-        </dependency>
-
+        <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.19.2</version>
+            <version>${jackson.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.20.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version>
-        </dependency>
-
+        <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -153,6 +132,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.9.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Mockito -->
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>4.11.0</version>
@@ -164,13 +151,5 @@
             <version>4.11.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-params</artifactId>
-            <version>5.9.2</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
-
 </project>
