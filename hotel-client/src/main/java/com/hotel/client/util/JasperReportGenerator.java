@@ -229,7 +229,7 @@ public class JasperReportGenerator {
     private Map<String, Object> prepareReportParameters(String title) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("REPORT_TITLE", title);
-        parameters.put("COMPANY_NAME", "Отель 'Престиж'");
+        parameters.put("COMPANY_NAME", "Отель 'Какой то там отель'");
         parameters.put("GENERATED_BY", System.getProperty("user.name"));
         parameters.put("GENERATION_DATE", new Date());
         return parameters;

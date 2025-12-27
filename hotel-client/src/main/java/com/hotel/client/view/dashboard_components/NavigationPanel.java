@@ -56,12 +56,6 @@ public class NavigationPanel extends JPanel {
         // Операции
         add(Box.createVerticalStrut(20));
         add(createSectionLabel("Операции"));
-        add(Box.createVerticalStrut(8));
-        add(createNavButton("Выселить клиента", new Color(231, 76, 60),
-                e -> actionHandler.checkOutClient()));
-        add(Box.createVerticalStrut(5));
-        add(createNavButton("Уволить сотрудника", new Color(192, 57, 43),
-                e -> actionHandler.dismissStaff()));
         add(Box.createVerticalStrut(5));
         add(createNavButton("Сгенерировать отчет", new Color(155, 89, 182),
                 e -> actionHandler.generateReport()));
@@ -71,22 +65,6 @@ public class NavigationPanel extends JPanel {
         add(Box.createVerticalStrut(5));
         add(createNavButton("История бронирований", new Color(142, 68, 173),
                 e -> actionHandler.showBookingHistory()));
-
-        // Очистка данных
-        add(Box.createVerticalStrut(20));
-        add(createSectionLabel("Очистка данных"));
-        add(Box.createVerticalStrut(8));
-        add(createNavButton("Очистить клиентов", new Color(149, 165, 166),
-                e -> actionHandler.clearClientsData()));
-        add(Box.createVerticalStrut(5));
-        add(createNavButton("Очистить сотрудников", new Color(149, 165, 166),
-                e -> actionHandler.clearStaffData()));
-        add(Box.createVerticalStrut(5));
-        add(createNavButton("Очистить номера", new Color(149, 165, 166),
-                e -> actionHandler.clearRoomsData()));
-        add(Box.createVerticalStrut(5));
-        add(createNavButton("Очистить всю БД", new Color(149, 165, 166),
-                e -> actionHandler.clearAllData()));
 
         add(Box.createVerticalGlue());
     }

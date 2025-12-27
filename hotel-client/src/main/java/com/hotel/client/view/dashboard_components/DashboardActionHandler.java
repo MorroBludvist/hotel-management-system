@@ -2,6 +2,7 @@ package com.hotel.client.view.dashboard_components;
 
 import com.hotel.client.service.*;
 import com.hotel.client.util.JasperReportGenerator;
+import com.hotel.client.util.ParallelReportExecutor;
 import com.hotel.client.view.*;
 import com.hotel.client.config.AppStateManager;
 import com.hotel.client.model.Client;
@@ -34,6 +35,7 @@ public class DashboardActionHandler {
     private final StaffService staffService;
     private final AppStateManager appStateManager;
     private final JasperReportGenerator reportGenerator;
+    private final ParallelReportExecutor parallelExecutor;
 
     public DashboardActionHandler(HotelAdminDashboard dashboard,
                                   ClientService clientService,
@@ -45,6 +47,7 @@ public class DashboardActionHandler {
         this.staffService = staffService;
         this.appStateManager = AppStateManager.getInstance();
         this.reportGenerator = new JasperReportGenerator();
+        this.parallelExecutor = new ParallelReportExecutor(staffService, roomService);
     }
 
     /**
@@ -333,11 +336,19 @@ public class DashboardActionHandler {
      */
     public void executeReportGeneration(String reportType, String format, File outputFile) {
         try {
-            switch (reportType) {
-                case "Отчет по сотрудникам" -> generateStaffReport(format, outputFile);
-                case "Отчет по номерам" -> generateRoomsReport(format, outputFile);
-                case "Сводный отчет по отелю" -> generateSummaryReport(format, outputFile);
-                default -> throw new IllegalArgumentException("Неизвестный тип отчета: " + reportType);
+            // Для предпросмотра используем старую логику
+            if ("Предпросмотр".equals(format)) {
+                logger.info("Использование синхронной генерации для предпросмотра");
+                switch (reportType) {
+                    case "Отчет по сотрудникам" -> generateStaffReport(format, outputFile);
+                    case "Отчет по номерам" -> generateRoomsReport(format, outputFile);
+                    case "Сводный отчет по отелю" -> generateSummaryReport(format, outputFile);
+                    default -> throw new IllegalArgumentException("Неизвестный тип отчета: " + reportType);
+                }
+            } else {
+                // Для создания файлов используем многопоточную генерацию
+                logger.info("Запуск многопоточной генерации отчета");
+                parallelExecutor.generateReportInParallel(reportType, format, outputFile);
             }
         } catch (Exception e) {
             logger.error("❌ Ошибка генерации отчета: {}", e.getMessage());
@@ -504,6 +515,150 @@ public class DashboardActionHandler {
     }
 
     /**
+     * Удалить клиента по паспорту
+     */
+    public void deleteClient() {
+        String passport = JOptionPane.showInputDialog(dashboard,
+                "Введите паспорт клиента для удаления (10 цифр):",
+                "Удаление клиента",
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (passport != null && !passport.trim().isEmpty()) {
+            // Валидация паспорта
+            if (!passport.matches("\\d{10}")) {
+                JOptionPane.showMessageDialog(dashboard,
+                        "❌ Неверный формат паспорта!\n" +
+                                "Паспорт должен содержать ровно 10 цифр.",
+                        "Ошибка валидации",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Подтверждение удаления
+            int confirm = JOptionPane.showConfirmDialog(dashboard,
+                    "Вы уверены, что хотите удалить клиента с паспортом: " + passport + "?\n" +
+                            "Это действие нельзя отменить!",
+                    "Подтверждение удаления",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    boolean success = clientService.deleteClient(passport);
+
+                    if (success) {
+                        JOptionPane.showMessageDialog(dashboard,
+                                "✅ Клиент с паспортом " + passport + " успешно удален!\n" +
+                                        "Все связанные данные (бронирования, номера) обновлены.",
+                                "Успех",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        // Обновляем виджеты
+                        dashboard.refreshAllWidgets();
+                    } else {
+                        JOptionPane.showMessageDialog(dashboard,
+                                "❌ Не удалось удалить клиента.\n" +
+                                        "Возможные причины:\n" +
+                                        "• Клиент с таким паспортом не найден\n" +
+                                        "• У клиента есть активные бронирования\n" +
+                                        "• Ошибка соединения с сервером",
+                                "Ошибка удаления",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(dashboard,
+                            "❌ Ошибка при удалении клиента: " + e.getMessage(),
+                            "Ошибка",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    /**
+     * Удалить сотрудника по паспорту
+     */
+    public void deleteStaff() {
+        String passport = JOptionPane.showInputDialog(dashboard,
+                "Введите паспорт сотрудника для удаления (10 цифр):",
+                "Увольнение сотрудника",
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (passport != null && !passport.trim().isEmpty()) {
+            // Валидация паспорта
+            if (!passport.matches("\\d{10}")) {
+                JOptionPane.showMessageDialog(dashboard,
+                        "❌ Неверный формат паспорта!\n" +
+                                "Паспорт должен содержать ровно 10 цифр.",
+                        "Ошибка валидации",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Подтверждение увольнения
+            int confirm = JOptionPane.showConfirmDialog(dashboard,
+                    "Вы уверены, что хотите уволить сотрудника с паспортом: " + passport + "?\n" +
+                            "Это действие нельзя отменить!",
+                    "Подтверждение увольнения",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE);
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    // Сначала найдем сотрудника для отображения информации
+                    Staff staff = findStaffByPassport(passport);
+                    String staffInfo = "";
+                    if (staff != null) {
+                        staffInfo = "\nСотрудник: " + staff.getFirstName() + " " +
+                                staff.getLastName() + " (" + staff.getPosition() + ")";
+                    }
+
+                    boolean success = staffService.deleteStaff(passport);
+
+                    if (success) {
+                        JOptionPane.showMessageDialog(dashboard,
+                                "✅ Сотрудник с паспортом " + passport + " успешно уволен!" + staffInfo,
+                                "Успех",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        // Обновляем виджеты (если есть виджеты со статистикой персонала)
+                        dashboard.refreshAllWidgets();
+                    } else {
+                        JOptionPane.showMessageDialog(dashboard,
+                                "❌ Не удалось уволить сотрудника.\n" +
+                                        "Возможные причины:\n" +
+                                        "• Сотрудник с таким паспортом не найден\n" +
+                                        "• Ошибка соединения с сервером",
+                                "Ошибка увольнения",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(dashboard,
+                            "❌ Ошибка при увольнении сотрудника: " + e.getMessage(),
+                            "Ошибка",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }
+
+    /**
+     * Вспомогательный метод для поиска сотрудника по паспорту
+     */
+    private Staff findStaffByPassport(String passport) {
+        try {
+            List<Staff> allStaff = staffService.getAllStaff();
+            return allStaff.stream()
+                    .filter(s -> passport.equals(s.getPassportNumber()))
+                    .findFirst()
+                    .orElse(null);
+        } catch (Exception e) {
+            logger.error("Ошибка поиска сотрудника: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Открытие файла в системном просмотрщике
      */
     private void openFile(File file) {
@@ -539,6 +694,10 @@ class ReportGenerationDialog extends JDialog {
     private JButton browseButton;
     private JButton generateButton;
     private JButton cancelButton;
+    private JProgressBar progressBar;
+    private JLabel statusLabel;
+    private JPanel progressPanel;
+    private JLabel progressLabel;
 
     public ReportGenerationDialog(Frame parent, DashboardActionHandler handler) {
         super(parent, "Генерация отчета", true);
@@ -546,16 +705,20 @@ class ReportGenerationDialog extends JDialog {
         initializeComponents();
         setupLayout();
         setupListeners();
+        pack();
+        setLocationRelativeTo(parent);
     }
 
     private void initializeComponents() {
         // Типы отчетов
         String[] reportTypes = {"Отчет по сотрудникам", "Отчет по номерам", "Сводный отчет по отелю"};
         reportTypeCombo = new JComboBox<>(reportTypes);
+        reportTypeCombo.setPreferredSize(new Dimension(200, 30));
 
         // Форматы
         String[] formats = {"PDF", "HTML", "Предпросмотр"};
         formatCombo = new JComboBox<>(formats);
+        formatCombo.setPreferredSize(new Dimension(150, 30));
 
         // Поле для пути файла
         filePathField = new JTextField(30);
@@ -563,15 +726,40 @@ class ReportGenerationDialog extends JDialog {
 
         // Кнопки
         browseButton = new JButton("Обзор...");
-        generateButton = new JButton("Сгенерировать");
+        browseButton.setPreferredSize(new Dimension(100, 30));
+
+        generateButton = new JButton("Сгенерировать отчет");
         generateButton.setBackground(new Color(46, 204, 113));
         generateButton.setForeground(Color.WHITE);
         generateButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        generateButton.setPreferredSize(new Dimension(150, 35));
 
         cancelButton = new JButton("Отмена");
         cancelButton.setBackground(new Color(231, 76, 60));
         cancelButton.setForeground(Color.WHITE);
         cancelButton.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        cancelButton.setPreferredSize(new Dimension(100, 35));
+
+        // Компоненты для отображения прогресса
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setVisible(false);
+        progressBar.setStringPainted(true);
+        progressBar.setForeground(new Color(52, 152, 219));
+
+        statusLabel = new JLabel(" ");
+        statusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        statusLabel.setForeground(new Color(52, 73, 94));
+
+        progressLabel = new JLabel("Ход выполнения:");
+        progressLabel.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        progressLabel.setVisible(false);
+
+        progressPanel = new JPanel();
+        progressPanel.setLayout(new BoxLayout(progressPanel, BoxLayout.Y_AXIS));
+        progressPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        progressPanel.setBackground(new Color(240, 240, 240));
+        progressPanel.setVisible(false);
 
         // Обновляем путь файла при изменении выбора
         reportTypeCombo.addActionListener(e -> updateFilePath());
@@ -580,56 +768,97 @@ class ReportGenerationDialog extends JDialog {
 
     private void setupLayout() {
         setLayout(new BorderLayout(10, 10));
-        setSize(500, 250);
-        setLocationRelativeTo(getParent());
+        setSize(600, 350);
+        setMinimumSize(new Dimension(600, 350));
+        setResizable(false);
+        getContentPane().setBackground(Color.WHITE);
 
-        // Панель содержимого
-        JPanel contentPanel = new JPanel(new GridBagLayout());
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        // Заголовок
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(new Color(52, 73, 94));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        headerPanel.setLayout(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Генерация отчета");
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+        // Основная панель с параметрами
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
+        mainPanel.setBackground(Color.WHITE);
 
         // Тип отчета
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        contentPanel.add(new JLabel("Тип отчета:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.weightx = 1.0;
-        contentPanel.add(reportTypeCombo, gbc);
+        JPanel typePanel = createLabeledPanel("Тип отчета:", reportTypeCombo);
+        mainPanel.add(typePanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
         // Формат отчета
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        contentPanel.add(new JLabel("Формат:"), gbc);
-
-        gbc.gridx = 1;
-        contentPanel.add(formatCombo, gbc);
+        JPanel formatPanel = createLabeledPanel("Формат отчета:", formatCombo);
+        mainPanel.add(formatPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
 
         // Сохранить в
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        contentPanel.add(new JLabel("Сохранить в:"), gbc);
+        JPanel savePanel = new JPanel(new BorderLayout(10, 0));
+        savePanel.setBackground(Color.WHITE);
 
-        gbc.gridx = 1;
-        contentPanel.add(filePathField, gbc);
+        JLabel saveLabel = new JLabel("Сохранить в:");
+        saveLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        saveLabel.setPreferredSize(new Dimension(100, 25));
 
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-        gbc.fill = GridBagConstraints.NONE;
-        contentPanel.add(browseButton, gbc);
+        JPanel filePanel = new JPanel(new BorderLayout(5, 0));
+        filePanel.setBackground(Color.WHITE);
+        filePanel.add(filePathField, BorderLayout.CENTER);
+        filePanel.add(browseButton, BorderLayout.EAST);
 
-        // Кнопки
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        savePanel.add(saveLabel, BorderLayout.WEST);
+        savePanel.add(filePanel, BorderLayout.CENTER);
+
+        mainPanel.add(savePanel);
+
+        // Панель прогресса
+        progressPanel.removeAll();
+        progressPanel.add(progressLabel);
+        progressPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        progressPanel.add(progressBar);
+        progressPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        progressPanel.add(statusLabel);
+
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        mainPanel.add(progressPanel);
+
+        // Панель кнопок
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 15));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
+
         buttonPanel.add(cancelButton);
         buttonPanel.add(generateButton);
 
-        add(contentPanel, BorderLayout.CENTER);
+        add(headerPanel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Инициализируем путь файла
         updateFilePath();
+    }
+
+    private JPanel createLabeledPanel(String labelText, JComponent component) {
+        JPanel panel = new JPanel(new BorderLayout(10, 0));
+        panel.setBackground(Color.WHITE);
+
+        JLabel label = new JLabel(labelText);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        label.setPreferredSize(new Dimension(100, 25));
+
+        panel.add(label, BorderLayout.WEST);
+        panel.add(component, BorderLayout.CENTER);
+
+        return panel;
     }
 
     private void setupListeners() {
@@ -643,6 +872,9 @@ class ReportGenerationDialog extends JDialog {
                 KeyStroke.getKeyStroke("ESCAPE"),
                 JComponent.WHEN_IN_FOCUSED_WINDOW
         );
+
+        // Закрытие по крестику
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     private void updateFilePath() {
@@ -653,11 +885,13 @@ class ReportGenerationDialog extends JDialog {
             filePathField.setText("(предпросмотр в окне программы)");
             filePathField.setEnabled(false);
             browseButton.setEnabled(false);
+            filePathField.setBackground(new Color(240, 240, 240));
         } else {
             String fileName = handler.generateDefaultFileName(reportType, format);
             filePathField.setText("reports/" + fileName);
             filePathField.setEnabled(true);
             browseButton.setEnabled(true);
+            filePathField.setBackground(Color.WHITE);
         }
     }
 
@@ -706,7 +940,7 @@ class ReportGenerationDialog extends JDialog {
         }
 
         String filePath = filePathField.getText();
-        if (filePath.isEmpty()) {
+        if (filePath.isEmpty() || filePath.equals("reports/")) {
             JOptionPane.showMessageDialog(this,
                     "Пожалуйста, выберите место для сохранения файла",
                     "Ошибка",
@@ -733,7 +967,122 @@ class ReportGenerationDialog extends JDialog {
             }
         }
 
-        handler.executeReportGeneration(reportType, format, outputFile);
-        dispose();
+        // Показываем прогресс-бар и блокируем кнопки
+        showProgressUI(true);
+        updateProgress("Подготовка к генерации...", 0);
+
+        // Запускаем в отдельном потоке чтобы не блокировать UI
+        SwingWorker<Boolean, String> worker = new SwingWorker<Boolean, String>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                publish("[ПОЛЬЗОВАТЕЛЬ] Запуск генерации отчета...");
+                Thread.sleep(500);
+
+                publish("[ПОТОКИ] Инициализация многопоточной системы...");
+                Thread.sleep(300);
+
+                try {
+                    handler.executeReportGeneration(reportType, format, outputFile);
+                    publish("[ПОТОКИ] Все потоки успешно завершены");
+                    return true;
+                } catch (Exception e) {
+                    publish("[ОШИБКА] " + e.getMessage());
+                    return false;
+                }
+            }
+
+            @Override
+            protected void process(List<String> chunks) {
+                for (String message : chunks) {
+                    if (message.startsWith("[ПОТОКИ]")) {
+                        updateProgress(message.substring(8), 33);
+                    } else if (message.startsWith("[ПОЛЬЗОВАТЕЛЬ]")) {
+                        statusLabel.setText(message.substring(15));
+                    } else if (message.startsWith("[ОШИБКА]")) {
+                        updateProgress(message.substring(8), 0);
+                    }
+                }
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    boolean success = get();
+                    if (success) {
+                        updateProgress("Отчет успешно создан!", 100);
+                        statusLabel.setForeground(new Color(39, 174, 96));
+                        statusLabel.setText("Файл сохранен: " + outputFile.getName());
+
+                        // Автоматическое закрытие через 3 секунды
+                        Timer timer = new Timer(3000, e -> dispose());
+                        timer.setRepeats(false);
+                        timer.start();
+
+                        // УДАЛЕН ВЕСЬ БЛОК SwingUtilities.invokeLater с JOptionPane
+                        // ParallelReportExecutor сам покажет диалог открытия файла
+                    } else {
+                        updateProgress("Ошибка генерации отчета", 0);
+                        statusLabel.setForeground(new Color(231, 76, 60));
+                        showProgressUI(false);
+                        generateButton.setEnabled(true);
+                        cancelButton.setEnabled(true);
+                    }
+                } catch (Exception e) {
+                    updateProgress("Ошибка: " + e.getMessage(), 0);
+                    statusLabel.setForeground(new Color(231, 76, 60));
+                    showProgressUI(false);
+                    generateButton.setEnabled(true);
+                    cancelButton.setEnabled(true);
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
+    private void showProgressUI(boolean show) {
+        progressPanel.setVisible(show);
+        progressBar.setVisible(show);
+        progressLabel.setVisible(show);
+        statusLabel.setVisible(show);
+
+        reportTypeCombo.setEnabled(!show);
+        formatCombo.setEnabled(!show);
+        browseButton.setEnabled(!show);
+        filePathField.setEnabled(!show);
+        generateButton.setEnabled(!show);
+        cancelButton.setEnabled(!show);
+
+        if (show) {
+            progressBar.setValue(0);
+            statusLabel.setText("Инициализация...");
+            statusLabel.setForeground(new Color(52, 73, 94));
+        }
+    }
+
+    private void updateProgress(String message, int progress) {
+        SwingUtilities.invokeLater(() -> {
+            if (progress >= 0 && progress <= 100) {
+                progressBar.setValue(progress);
+            }
+
+            if (message != null && !message.isEmpty()) {
+                // Создаем финальную копию переменной для использования в лямбде
+                final String displayMessage;
+                if (message.length() > 60) {
+                    displayMessage = message.substring(0, 57) + "...";
+                } else {
+                    displayMessage = message;
+                }
+                statusLabel.setText(displayMessage);
+            }
+        });
+    }
+
+    @Override
+    public void dispose() {
+        // Сброс состояния перед закрытием
+        showProgressUI(false);
+        super.dispose();
     }
 }

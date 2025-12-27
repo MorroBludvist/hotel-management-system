@@ -9,6 +9,10 @@ import org.springframework.stereotype.Component;
 public class SqlQueries {
 
     //ROOM QUERIES
+    public static final String STAFF_DELETE_BY_PASSPORT =
+            "DELETE FROM staff WHERE passport_number = ?";
+    public static final String STAFF_SELECT_BY_PASSPORT =
+            "SELECT * FROM staff WHERE passport_number = ?";
     public static final String ROOM_SELECT_ALL = "SELECT * FROM rooms ORDER BY room_number";
 
     public static final String ROOM_SELECT_FREE = "SELECT * FROM rooms WHERE status = 'free' ORDER BY room_number";

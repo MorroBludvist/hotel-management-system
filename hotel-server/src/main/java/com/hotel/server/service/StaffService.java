@@ -21,11 +21,51 @@ public class StaffService {
     }
 
     public List<Staff> getAllStaff() {
-        return jdbcTemplate.query(SqlQueries.STAFF_SELECT_ALL, staffRowMapper());
+        logger.info("📋 Получение списка всех сотрудников");
+        try {
+            List<Staff> staffList = jdbcTemplate.query(SqlQueries.STAFF_SELECT_ALL, staffRowMapper());
+            logger.info("✅ Получено {} сотрудников", staffList.size());
+            return staffList;
+        } catch (Exception e) {
+            logger.error("❌ Ошибка получения сотрудников: {}", e.getMessage());
+            throw new RuntimeException("Ошибка получения сотрудников", e);
+        }
+    }
+
+    public Staff getStaffByPassport(String passportNumber) {
+        logger.info("🔍 Поиск сотрудника по паспорту: {}", passportNumber);
+        try {
+            List<Staff> staffList = jdbcTemplate.query(
+                    SqlQueries.STAFF_SELECT_BY_PASSPORT,
+                    staffRowMapper(),
+                    passportNumber
+            );
+
+            if (!staffList.isEmpty()) {
+                Staff staff = staffList.get(0);
+                logger.info("✅ Найден сотрудник: {} {}", staff.getFirstName(), staff.getLastName());
+                return staff;
+            } else {
+                logger.warn("⚠️ Сотрудник с паспортом {} не найден", passportNumber);
+                return null;
+            }
+        } catch (Exception e) {
+            logger.error("❌ Ошибка поиска сотрудника: {}", e.getMessage());
+            return null;
+        }
     }
 
     public boolean addStaff(Staff staff) {
+        logger.info("👤 Добавление сотрудника: {} {} (паспорт: {})",
+                staff.getFirstName(), staff.getLastName(), staff.getPassportNumber());
         try {
+            // Проверяем, существует ли уже сотрудник с таким паспортом
+            Staff existingStaff = getStaffByPassport(staff.getPassportNumber());
+            if (existingStaff != null) {
+                logger.warn("⚠️ Сотрудник с паспортом {} уже существует", staff.getPassportNumber());
+                return false;
+            }
+
             int result = jdbcTemplate.update(SqlQueries.STAFF_INSERT,
                     staff.getPassportNumber(),
                     staff.getFirstName(),
@@ -37,9 +77,56 @@ public class StaffService {
                     staff.getSalary(),
                     staff.getDepartment()
             );
-            return result > 0;
+
+            boolean success = result > 0;
+            if (success) {
+                logger.info("✅ Сотрудник успешно добавлен в БД");
+            } else {
+                logger.warn("⚠️ Не удалось добавить сотрудника в БД");
+            }
+            return success;
+
         } catch (Exception e) {
-            System.err.println("Ошибка добавления сотрудника: " + e.getMessage());
+            logger.error("❌ Ошибка добавления сотрудника: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteStaff(String passportNumber) {
+        logger.info("🗑️ Удаление сотрудника по паспорту: {}", passportNumber);
+        try {
+            // Сначала проверяем существует ли сотрудник
+            Staff staff = getStaffByPassport(passportNumber);
+            if (staff == null) {
+                logger.warn("⚠️ Не удалось удалить: сотрудник не найден");
+                return false;
+            }
+
+            // Удаляем сотрудника
+            int result = jdbcTemplate.update(SqlQueries.STAFF_DELETE_BY_PASSPORT, passportNumber);
+            boolean success = result > 0;
+
+            if (success) {
+                logger.info("✅ Сотрудник удален: {} {}", staff.getFirstName(), staff.getLastName());
+            } else {
+                logger.warn("⚠️ Не удалось удалить сотрудника из БД");
+            }
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка удаления сотрудника: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean clearAll() {
+        logger.info("🔄 Очистка всего персонала");
+        try {
+            int deletedStaff = jdbcTemplate.update(SqlQueries.STAFF_DELETE_ALL);
+            logger.info("✅ Удалено сотрудников: {}", deletedStaff);
+            return true;
+        } catch (Exception e) {
+            logger.error("❌ Ошибка очистки персонала: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -58,17 +145,5 @@ public class StaffService {
             staff.setDepartment(rs.getString("department"));
             return staff;
         };
-    }
-
-    public boolean clearAll() {
-        logger.info("🗑️ Очистка всего персонала");
-        try {
-            int deletedStaff = jdbcTemplate.update(SqlQueries.STAFF_DELETE_ALL);
-            logger.info("✅ Удалено сотрудников: {}", deletedStaff);
-            return true;
-        } catch (Exception e) {
-            logger.error("❌ Ошибка очистки персонала: {}", e.getMessage(), e);
-            return false;
-        }
     }
 }

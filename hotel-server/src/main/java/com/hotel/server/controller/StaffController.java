@@ -89,4 +89,41 @@ public class StaffController {
             );
         }
     }
+
+    /**
+     * Удалить сотрудника по паспорту
+     */
+    @DeleteMapping("/{passportNumber}")
+    public ResponseEntity<Map<String, Object>> deleteStaff(@PathVariable String passportNumber) {
+        try {
+            logger.info("🗑️ Запрос на удаление сотрудника с паспортом: {}", passportNumber);
+
+            // Ищем сотрудника
+            Staff staff = staffService.getStaffByPassport(passportNumber);
+            if (staff == null) {
+                logger.warn("⚠️ Сотрудник с паспортом {} не найден", passportNumber);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        Map.of("success", false, "message", "Сотрудник не найден")
+                );
+            }
+
+            // Удаляем сотрудника
+            boolean success = staffService.deleteStaff(passportNumber);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", success);
+            response.put("message", success ?
+                    "Сотрудник успешно удален" :
+                    "Ошибка удаления сотрудника");
+
+            logger.info("✅ Результат удаления сотрудника {}: {}", passportNumber, success);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка удаления сотрудника {}: {}", passportNumber, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    Map.of("success", false, "error", e.getMessage())
+            );
+        }
+    }
 }

@@ -72,8 +72,8 @@ public class StaffListForm extends BaseTableForm {
             refreshButton.setEnabled(false);
 
             //TODO: вернуть позже
-            //List<Staff> staffList = staffService.getAllStaff();
-            List<Staff> staffList = loadStaffFromXml();
+            List<Staff> staffList = staffService.getAllStaff();
+            //List<Staff> staffList = loadStaffFromXml();
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setRowCount(0);
 

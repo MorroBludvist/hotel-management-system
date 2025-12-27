@@ -40,9 +40,9 @@ public class QuickActionsWidget extends BaseWidget {
         addStaffButton.addActionListener(e ->
                 dashboard.getActionHandler().showAddStaffForm());
         checkOutButton.addActionListener(e ->
-                dashboard.getActionHandler().checkOutClient());
+                dashboard.getActionHandler().deleteClient());
         dismissStaffButton.addActionListener(e ->
-                dashboard.getActionHandler().dismissStaff());
+                dashboard.getActionHandler().deleteStaff());
 
         add(checkinButton);
         add(addStaffButton);

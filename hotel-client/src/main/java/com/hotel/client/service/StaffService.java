@@ -106,4 +106,26 @@ public class StaffService {
             return false;
         }
     }
+
+    /**
+     * Удалить сотрудника по паспорту
+     */
+    public boolean deleteStaff(String passportNumber) {
+        logger.info("🗑️ Удаление сотрудника с паспортом: {}", passportNumber);
+        try {
+            String response = apiService.executeRequest("/staff/" + passportNumber, "DELETE", null);
+            boolean success = response != null && response.contains("\"success\":true");
+
+            if (success) {
+                logger.info("✅ Сотрудник с паспортом {} успешно удален", passportNumber);
+            } else {
+                logger.warn("⚠️ Не удалось удалить сотрудника. Ответ сервера: {}", response);
+            }
+            return success;
+
+        } catch (Exception e) {
+            logger.error("❌ Ошибка удаления сотрудника {}: {}", passportNumber, e.getMessage(), e);
+            return false;
+        }
+    }
 }
